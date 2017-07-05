@@ -17,6 +17,13 @@ class ViewController: UIViewController, MGLMapViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        if !isKeyPresentInUserDefaults(key: "loadBefore")
+        {
+            UserDefaults.standard.set(true,forKey: "loadBefore")
+            UserDefaults.standard.set("2016",forKey: "year")
+            UserDefaults.standard.set(500,forKey:"radius")
+            print("saved")
+        }
         
         mapView.delegate = self
         let point = MGLPointAnnotation()
@@ -44,6 +51,23 @@ class ViewController: UIViewController, MGLMapViewDelegate {
         
         // Show the navigation bar on other view controllers
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
+    
+    func isKeyPresentInUserDefaults(key: String) -> Bool {
+        return UserDefaults.standard.object(forKey: key) != nil
+    }
+    
+    //Mapbox
+    
+    func mapView(mapView: MGLMapView, annotationCanShowCallout annotation: MGLAnnotation) -> Bool {
+        // Always try to show a callout when an annotation is tapped.
+        return true
+    }
+    
+    // Or, if you’re using Swift 3 in Xcode 8.0, be sure to add an underscore before the method parameters:
+    func mapView(_ mapView: MGLMapView, annotationCanShowCallout annotation: MGLAnnotation) -> Bool {
+        // Always try to show a callout when an annotation is tapped.
+        return true
     }
 
     

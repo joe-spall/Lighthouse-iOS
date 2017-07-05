@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		455C7396DF2D4F69F4CE6349 /* Pods_Lighthouse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F05B7C8FB2068F255322578C /* Pods_Lighthouse.framework */; };
 		574C65E9B195193AC13FF595 /* Pods_LighthouseTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82413221DEFBBBC7B188EBE2 /* Pods_LighthouseTests.framework */; };
+		CF1578D21F07D7D7002E085C /* PreferenceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1578D11F07D7D7002E085C /* PreferenceViewController.swift */; };
 		CFDC591C1F072F5500EDF01F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDC591B1F072F5500EDF01F /* AppDelegate.swift */; };
 		CFDC591E1F072F5500EDF01F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDC591D1F072F5500EDF01F /* ViewController.swift */; };
 		CFDC59211F072F5500EDF01F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFDC591F1F072F5500EDF01F /* Main.storyboard */; };
@@ -45,6 +46,7 @@
 		A8E7F28D4B4584B5E604D539 /* Pods-Lighthouse.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Lighthouse.release.xcconfig"; path = "Pods/Target Support Files/Pods-Lighthouse/Pods-Lighthouse.release.xcconfig"; sourceTree = "<group>"; };
 		BB6F0A2BA139C9BCE028F886 /* Pods-Lighthouse.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Lighthouse.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Lighthouse/Pods-Lighthouse.debug.xcconfig"; sourceTree = "<group>"; };
 		BF7B5CAA01BDADE270C956AA /* Pods-LighthouseTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LighthouseTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LighthouseTests/Pods-LighthouseTests.debug.xcconfig"; sourceTree = "<group>"; };
+		CF1578D11F07D7D7002E085C /* PreferenceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferenceViewController.swift; sourceTree = "<group>"; };
 		CFDC59181F072F5500EDF01F /* Lighthouse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lighthouse.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CFDC591B1F072F5500EDF01F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CFDC591D1F072F5500EDF01F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -139,6 +141,7 @@
 		CFDC591A1F072F5500EDF01F /* Lighthouse */ = {
 			isa = PBXGroup;
 			children = (
+				CF1578D11F07D7D7002E085C /* PreferenceViewController.swift */,
 				CFDC591B1F072F5500EDF01F /* AppDelegate.swift */,
 				CFDC591D1F072F5500EDF01F /* ViewController.swift */,
 				CFDC591F1F072F5500EDF01F /* Main.storyboard */,
@@ -452,6 +455,7 @@
 				CFDC59241F072F5500EDF01F /* Lighthouse.xcdatamodeld in Sources */,
 				CFDC591E1F072F5500EDF01F /* ViewController.swift in Sources */,
 				CFDC591C1F072F5500EDF01F /* AppDelegate.swift in Sources */,
+				CF1578D21F07D7D7002E085C /* PreferenceViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -704,6 +708,7 @@
 				CFDC59451F072F5500EDF01F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		CFDC59461F072F5500EDF01F /* Build configuration list for PBXNativeTarget "LighthouseTests" */ = {
 			isa = XCConfigurationList;
@@ -712,6 +717,7 @@
 				CFDC59481F072F5500EDF01F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		CFDC59491F072F5500EDF01F /* Build configuration list for PBXNativeTarget "LighthouseUITests" */ = {
 			isa = XCConfigurationList;
@@ -720,6 +726,7 @@
 				CFDC594B1F072F5500EDF01F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
