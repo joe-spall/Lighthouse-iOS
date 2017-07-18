@@ -5,6 +5,8 @@ target 'Lighthouse' do
   pod 'Alamofire', '~> 4.5.0'
   pod 'MBProgressHUD', '~> 1.0'
   pod 'Mapbox-iOS-SDK', '~> 3.6'
+  pod 'SwiftyJSON', '~> 3.1.4'
+  pod 'SWXMLHash', '~>4.0.0'
   # Pods for Lighthouse
 
   target 'LighthouseTests' do

@@ -16,6 +16,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        if !isKeyPresentInUserDefaults(key: "loadBefore")
+        {
+            initalizeUserDefaults()
+        }
         // Override point for customization after application launch.
         return true
     }
@@ -87,6 +91,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
             }
         }
+    }
+    
+    func isKeyPresentInUserDefaults(key: String) -> Bool {
+        return UserDefaults.standard.object(forKey: key) != nil
+    }
+    
+    func initalizeUserDefaults(){
+        UserDefaults.standard.set("feet",forKey:"units")
+        UserDefaults.standard.set(true,forKey: "loadBefore")
+        UserDefaults.standard.set("2015",forKey: "year")
+        UserDefaults.standard.set(500,forKey:"radius")
+        UserDefaults.standard.set("MM/DD/YYYY",forKey:"format")
     }
 
 }

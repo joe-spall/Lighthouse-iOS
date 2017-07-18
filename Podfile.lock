@@ -2,17 +2,23 @@ PODS:
   - Alamofire (4.5.0)
   - Mapbox-iOS-SDK (3.6.0)
   - MBProgressHUD (1.0.0)
+  - SwiftyJSON (3.1.4)
+  - SWXMLHash (4.0.0)
 
 DEPENDENCIES:
   - Alamofire (~> 4.5.0)
   - Mapbox-iOS-SDK (~> 3.6)
   - MBProgressHUD (~> 1.0)
+  - SwiftyJSON (~> 3.1.4)
+  - SWXMLHash (~> 4.0.0)
 
 SPEC CHECKSUMS:
   Alamofire: f28cdffd29de33a7bfa022cbd63ae95a27fae140
   Mapbox-iOS-SDK: c911b1875a00f12bb74253b763ac483425bd4225
   MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
+  SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
+  SWXMLHash: 6bbc0bf72975a18ceda469fb7d6a886a26d81694
 
-PODFILE CHECKSUM: 7a69c32bed7a59639aa936b9b8e31422823cebf3
+PODFILE CHECKSUM: 083f3acea55e1af8d31f0dfe0e14b1c90726fe8f
 
 COCOAPODS: 1.2.1

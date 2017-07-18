@@ -10,6 +10,13 @@
 		455C7396DF2D4F69F4CE6349 /* Pods_Lighthouse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F05B7C8FB2068F255322578C /* Pods_Lighthouse.framework */; };
 		574C65E9B195193AC13FF595 /* Pods_LighthouseTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82413221DEFBBBC7B188EBE2 /* Pods_LighthouseTests.framework */; };
 		CF1578D21F07D7D7002E085C /* PreferenceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1578D11F07D7D7002E085C /* PreferenceViewController.swift */; };
+		CF1A9A551F0D5FBB00EF3E7E /* Crime.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1A9A541F0D5FBB00EF3E7E /* Crime.swift */; };
+		CF757B9A1F0ECED200357AD6 /* AttributionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF757B991F0ECED200357AD6 /* AttributionViewController.swift */; };
+		CF757B9C1F0ED20E00357AD6 /* attribution_storage.xml in Resources */ = {isa = PBXBuildFile; fileRef = CF757B9B1F0ED20E00357AD6 /* attribution_storage.xml */; };
+		CF9258CE1F17D5E000116A35 /* crime_weight_storage.xml in Resources */ = {isa = PBXBuildFile; fileRef = CF9258CD1F17D5E000116A35 /* crime_weight_storage.xml */; };
+		CFA047871F16A8730090E049 /* CrimeCountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA047861F16A8730090E049 /* CrimeCountView.swift */; };
+		CFA0478B1F16ACEC0090E049 /* CrimeCountView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFA0478A1F16ACEC0090E049 /* CrimeCountView.xib */; };
+		CFAB8C921F0FC3970019B580 /* Attribution.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAB8C911F0FC3970019B580 /* Attribution.swift */; };
 		CFDC591C1F072F5500EDF01F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDC591B1F072F5500EDF01F /* AppDelegate.swift */; };
 		CFDC591E1F072F5500EDF01F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDC591D1F072F5500EDF01F /* ViewController.swift */; };
 		CFDC59211F072F5500EDF01F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFDC591F1F072F5500EDF01F /* Main.storyboard */; };
@@ -47,6 +54,13 @@
 		BB6F0A2BA139C9BCE028F886 /* Pods-Lighthouse.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Lighthouse.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Lighthouse/Pods-Lighthouse.debug.xcconfig"; sourceTree = "<group>"; };
 		BF7B5CAA01BDADE270C956AA /* Pods-LighthouseTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LighthouseTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LighthouseTests/Pods-LighthouseTests.debug.xcconfig"; sourceTree = "<group>"; };
 		CF1578D11F07D7D7002E085C /* PreferenceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferenceViewController.swift; sourceTree = "<group>"; };
+		CF1A9A541F0D5FBB00EF3E7E /* Crime.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Crime.swift; sourceTree = "<group>"; };
+		CF757B991F0ECED200357AD6 /* AttributionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttributionViewController.swift; sourceTree = "<group>"; };
+		CF757B9B1F0ED20E00357AD6 /* attribution_storage.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = attribution_storage.xml; sourceTree = "<group>"; };
+		CF9258CD1F17D5E000116A35 /* crime_weight_storage.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = crime_weight_storage.xml; sourceTree = "<group>"; };
+		CFA047861F16A8730090E049 /* CrimeCountView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrimeCountView.swift; sourceTree = "<group>"; };
+		CFA0478A1F16ACEC0090E049 /* CrimeCountView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CrimeCountView.xib; sourceTree = "<group>"; };
+		CFAB8C911F0FC3970019B580 /* Attribution.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Attribution.swift; sourceTree = "<group>"; };
 		CFDC59181F072F5500EDF01F /* Lighthouse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lighthouse.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CFDC591B1F072F5500EDF01F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CFDC591D1F072F5500EDF01F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -116,6 +130,16 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		CF97DE311F1CFABF0001E9D7 /* Attribution */ = {
+			isa = PBXGroup;
+			children = (
+				CF757B9B1F0ED20E00357AD6 /* attribution_storage.xml */,
+				CF757B991F0ECED200357AD6 /* AttributionViewController.swift */,
+				CFAB8C911F0FC3970019B580 /* Attribution.swift */,
+			);
+			name = Attribution;
+			sourceTree = "<group>";
+		};
 		CFDC590F1F072F5500EDF01F = {
 			isa = PBXGroup;
 			children = (
@@ -141,10 +165,15 @@
 		CFDC591A1F072F5500EDF01F /* Lighthouse */ = {
 			isa = PBXGroup;
 			children = (
+				CF97DE311F1CFABF0001E9D7 /* Attribution */,
 				CF1578D11F07D7D7002E085C /* PreferenceViewController.swift */,
+				CF9258CD1F17D5E000116A35 /* crime_weight_storage.xml */,
 				CFDC591B1F072F5500EDF01F /* AppDelegate.swift */,
+				CFA047861F16A8730090E049 /* CrimeCountView.swift */,
+				CF1A9A541F0D5FBB00EF3E7E /* Crime.swift */,
 				CFDC591D1F072F5500EDF01F /* ViewController.swift */,
 				CFDC591F1F072F5500EDF01F /* Main.storyboard */,
+				CFA0478A1F16ACEC0090E049 /* CrimeCountView.xib */,
 				CFDC59251F072F5500EDF01F /* Assets.xcassets */,
 				CFDC59271F072F5500EDF01F /* LaunchScreen.storyboard */,
 				CFDC592A1F072F5500EDF01F /* Info.plist */,
@@ -248,6 +277,7 @@
 				TargetAttributes = {
 					CFDC59171F072F5500EDF01F = {
 						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = 348DCFFU26;
 						ProvisioningStyle = Automatic;
 					};
 					CFDC592E1F072F5500EDF01F = {
@@ -287,9 +317,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CFA0478B1F16ACEC0090E049 /* CrimeCountView.xib in Resources */,
 				CFDC59291F072F5500EDF01F /* LaunchScreen.storyboard in Resources */,
+				CF9258CE1F17D5E000116A35 /* crime_weight_storage.xml in Resources */,
 				CFDC59261F072F5500EDF01F /* Assets.xcassets in Resources */,
 				CFDC59211F072F5500EDF01F /* Main.storyboard in Resources */,
+				CF757B9C1F0ED20E00357AD6 /* attribution_storage.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -452,6 +485,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CF757B9A1F0ECED200357AD6 /* AttributionViewController.swift in Sources */,
+				CF1A9A551F0D5FBB00EF3E7E /* Crime.swift in Sources */,
+				CFAB8C921F0FC3970019B580 /* Attribution.swift in Sources */,
+				CFA047871F16A8730090E049 /* CrimeCountView.swift in Sources */,
 				CFDC59241F072F5500EDF01F /* Lighthouse.xcdatamodeld in Sources */,
 				CFDC591E1F072F5500EDF01F /* ViewController.swift in Sources */,
 				CFDC591C1F072F5500EDF01F /* AppDelegate.swift in Sources */,
@@ -610,6 +647,7 @@
 			baseConfigurationReference = BB6F0A2BA139C9BCE028F886 /* Pods-Lighthouse.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 348DCFFU26;
 				INFOPLIST_FILE = Lighthouse/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = lighthouse.Lighthouse;
@@ -623,6 +661,7 @@
 			baseConfigurationReference = A8E7F28D4B4584B5E604D539 /* Pods-Lighthouse.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 348DCFFU26;
 				INFOPLIST_FILE = Lighthouse/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = lighthouse.Lighthouse;

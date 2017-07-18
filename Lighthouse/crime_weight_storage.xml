@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<danger>
+	<crime type="HOMICIDE">
+        <uname>
+            Homicide
+        </uname>
+		<weight>
+			1
+		</weight>
+	</crime>
+	<crime type="AGG ASSAULT">
+        <uname>
+        	Aggrevated Assault
+        </uname>
+        <weight>
+        	1
+        </weight>
+	</crime>
+	<crime type="RAPE">
+		<uname>
+			Rape
+		</uname>
+		<weight>
+			1
+		</weight>
+	</crime>
+	<crime type="ROBBERY-PEDESTRIAN">
+		<uname>
+			Pedestrian Robbery
+		</uname>
+		<weight>
+			1
+		</weight>
+	</crime>
+	<crime type="ROBBERY-RESIDENCE">
+		<uname>
+			Residential Robbery
+		</uname>
+		<weight>
+			1
+		</weight>
+	</crime>
+	<crime type="BURGLARY-RESIDENCE">
+		<uname>
+			Residential Burglary
+		</uname>
+		<weight>
+			0.5
+		</weight>
+	</crime>
+	<crime type="LARCENY-NON VEHICLE">
+		<uname>
+			Non-vehicular Larceny
+		</uname>
+		<weight>
+			0.5
+		</weight>
+	</crime>
+	<crime type="AUTO THEFT">
+		<uname>
+			Auto Theft
+		</uname>
+		<weight>
+			0.25
+		</weight>
+	</crime>
+	<crime type="ROBBERY-COMMERICAL">
+		<uname>
+			Commerical Robbery
+		</uname>
+		<weight>
+			0.25
+		</weight>
+	</crime>
+	<crime type="BURGLARY-NONRES">
+		<uname>
+			Non-residential Burglary
+		</uname>
+		<weight>
+			0.25
+		</weight>
+	</crime>
+	<crime type="LARCENY-FROM VEHICLE">
+		<uname>
+			Larceny from a Vehicle
+		</uname>
+		<weight>
+			0.25
+		</weight>
+	</crime>
+</danger>
