@@ -140,6 +140,15 @@
 			name = Attribution;
 			sourceTree = "<group>";
 		};
+		CF9DFC091F20013400E39276 /* Preference */ = {
+			isa = PBXGroup;
+			children = (
+				CF1578D11F07D7D7002E085C /* PreferenceViewController.swift */,
+				CF97DE311F1CFABF0001E9D7 /* Attribution */,
+			);
+			name = Preference;
+			sourceTree = "<group>";
+		};
 		CFDC590F1F072F5500EDF01F = {
 			isa = PBXGroup;
 			children = (
@@ -165,8 +174,7 @@
 		CFDC591A1F072F5500EDF01F /* Lighthouse */ = {
 			isa = PBXGroup;
 			children = (
-				CF97DE311F1CFABF0001E9D7 /* Attribution */,
-				CF1578D11F07D7D7002E085C /* PreferenceViewController.swift */,
+				CF9DFC091F20013400E39276 /* Preference */,
 				CF9258CD1F17D5E000116A35 /* crime_weight_storage.xml */,
 				CFDC591B1F072F5500EDF01F /* AppDelegate.swift */,
 				CFA047861F16A8730090E049 /* CrimeCountView.swift */,

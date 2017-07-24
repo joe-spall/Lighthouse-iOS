@@ -64,7 +64,7 @@
 			0.25
 		</weight>
 	</crime>
-	<crime type="ROBBERY-COMMERICAL">
+	<crime type="ROBBERY-COMMERCIAL">
 		<uname>
 			Commerical Robbery
 		</uname>
