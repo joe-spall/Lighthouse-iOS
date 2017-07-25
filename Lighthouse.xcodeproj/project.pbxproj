@@ -174,16 +174,15 @@
 		CFDC591A1F072F5500EDF01F /* Lighthouse */ = {
 			isa = PBXGroup;
 			children = (
+				CFFECE681F2799B900121BD6 /* CrimeCount */,
 				CF9DFC091F20013400E39276 /* Preference */,
 				CF9258CD1F17D5E000116A35 /* crime_weight_storage.xml */,
 				CFDC591B1F072F5500EDF01F /* AppDelegate.swift */,
-				CFA047861F16A8730090E049 /* CrimeCountView.swift */,
 				CF1A9A541F0D5FBB00EF3E7E /* Crime.swift */,
 				CFDC591D1F072F5500EDF01F /* ViewController.swift */,
 				CFDC591F1F072F5500EDF01F /* Main.storyboard */,
-				CFA0478A1F16ACEC0090E049 /* CrimeCountView.xib */,
-				CFDC59251F072F5500EDF01F /* Assets.xcassets */,
 				CFDC59271F072F5500EDF01F /* LaunchScreen.storyboard */,
+				CFDC59251F072F5500EDF01F /* Assets.xcassets */,
 				CFDC592A1F072F5500EDF01F /* Info.plist */,
 				CFDC59221F072F5500EDF01F /* Lighthouse.xcdatamodeld */,
 			);
@@ -206,6 +205,15 @@
 				CFDC59401F072F5500EDF01F /* Info.plist */,
 			);
 			path = LighthouseUITests;
+			sourceTree = "<group>";
+		};
+		CFFECE681F2799B900121BD6 /* CrimeCount */ = {
+			isa = PBXGroup;
+			children = (
+				CFA047861F16A8730090E049 /* CrimeCountView.swift */,
+				CFA0478A1F16ACEC0090E049 /* CrimeCountView.xib */,
+			);
+			name = CrimeCount;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

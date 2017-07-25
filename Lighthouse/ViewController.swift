@@ -22,6 +22,8 @@ class ViewController: UIViewController, MGLMapViewDelegate {
     
     let crimePullURL = "https://www.app-lighthouse.com/app/crimepullcirc.php"
     let MONTH_DIFF_WEIGHT:Double = 100
+    let SAFETY_LEVELS:[String] = ["Safe","Low", "Moderate", "High", "Very High", "Dangerous"]
+    let SAFETY_VALUES:[Double] = [0.0,3.0,6.0,10.0,20.0,60.0]
     var storedCrimes:[Crime] = []
     var storedPins:[MGLPointAnnotation] = []
     var currentCrimeEntryString:String = ""
@@ -35,7 +37,6 @@ class ViewController: UIViewController, MGLMapViewDelegate {
         crimeCount.layer.cornerRadius = 10
         icon = UIImage(named:"crime_icon")
         mapView.delegate = self
-        
         
     }
 
@@ -63,17 +64,19 @@ class ViewController: UIViewController, MGLMapViewDelegate {
     //Mapbox
     
     func mapViewDidFinishLoadingMap(_ mapView: MGLMapView) {
-        mapView.setUserTrackingMode(MGLUserTrackingMode(rawValue: 1)!, animated: true)
         if CLLocationManager.locationServicesEnabled() {
             //TODO handle errors
             switch(CLLocationManager.authorizationStatus()) {
-            case .notDetermined, .restricted, .denied:
-                createErrorAlert(description: "Location not accessible")
-            case .authorizedAlways, .authorizedWhenInUse:
-                showLoadingHUD()
-               // drawSearchCircle()
-                pullCrimes()
-                hideLoadingHUD()
+                case .notDetermined, .restricted, .denied:
+                    createErrorAlert(description: "Location not accessible")
+                case .authorizedAlways, .authorizedWhenInUse:
+                    mapView.setZoomLevel(17, animated: false)
+                    mapView.setCenter((mapView.userLocation?.coordinate)!, animated: true)
+                
+                    showLoadingHUD()
+                    drawSearchCircle()
+                    pullCrimes()
+                    hideLoadingHUD()
                 
             }
         } else {
@@ -88,6 +91,7 @@ class ViewController: UIViewController, MGLMapViewDelegate {
     
     func addCrimesToMap(crimeArray:[Crime]){
         guard let style = mapView.style else { return }
+        
         var collection:[MGLPointFeature] = []
         for crime in crimeArray{
             let temp = MGLPointFeature()
@@ -139,23 +143,39 @@ class ViewController: UIViewController, MGLMapViewDelegate {
         numbersLayer.predicate = NSPredicate(format: "%K == YES", argumentArray: ["cluster"])
         style.addLayer(numbersLayer)
         
-        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTap(_:))))
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = NumberFormatter.Style.decimal
+        crimeCount.setCrimeNumberLabel(number: numberFormatter.string(from:NSNumber(value: collection.count))!)
+        
+        
+        let singleTap = UITapGestureRecognizer(target: self, action: #selector(handleSingleTap(_:)))
+        singleTap.numberOfTapsRequired = 1
+        view.addGestureRecognizer(singleTap)
+
+        
+        
         
     }
     
-    func handleTap(_ tap: UITapGestureRecognizer) {
+    func handleSingleTap(_ tap: UITapGestureRecognizer) {
         if tap.state == .ended {
             let point = tap.location(in: tap.view)
             let width = icon.size.width
             let rect = CGRect(x: point.x - width / 2, y: point.y - width / 2, width: width, height: width)
-            
             let clusters = mapView.visibleFeatures(in: rect, styleLayerIdentifiers: ["clusteredCrimes"])
             let crimes = mapView.visibleFeatures(in: rect, styleLayerIdentifiers: ["crime"])
             
             if clusters.count > 0 {
                 showPopup(false, animated: true)
                 let cluster = clusters.first!
-                mapView.setCenter(cluster.coordinate, zoomLevel: (mapView.zoomLevel + 1), animated: true)
+                if(clusters.count == 1 && mapView.zoomLevel > 18){
+                    mapView.setCenter(cluster.coordinate, zoomLevel: mapView.zoomLevel, animated: true)
+                    print("List cluster")
+                }
+                else{
+                    mapView.setCenter(cluster.coordinate, zoomLevel: (mapView.zoomLevel + 1), animated: true)
+                }
+                
             } else if crimes.count > 0 {
                 let crime = crimes.first!
                 
@@ -186,6 +206,8 @@ class ViewController: UIViewController, MGLMapViewDelegate {
             }
         }
     }
+    
+
     
     func showPopup(_ shouldShow: Bool, animated: Bool) {
         let alpha: CGFloat = (shouldShow ? 1 : 0)
@@ -330,6 +352,7 @@ class ViewController: UIViewController, MGLMapViewDelegate {
     }
     
     func calculateDanger(crimes:[Crime]){
+        
         let currentCrimeEntryXML:XMLIndexer = checkCrimeEntryXML()
         var dangerNumber:Double = 0
         let dateFormatHandle:DateFormatter = DateFormatter()
@@ -351,32 +374,32 @@ class ViewController: UIViewController, MGLMapViewDelegate {
                 
             }
         }
-        
-        if(dangerNumber <= 3){
-            currentDangerLevel = "Safe"
-        }
-        else if(dangerNumber > 3 && dangerNumber <= 10){
-            currentDangerLevel = "Dangerous"
-        }
-        else if(dangerNumber > 10){
-            currentDangerLevel = "Very Dangerous"
+        for i in 0...SAFETY_VALUES.count-1{
+            if(dangerNumber >= SAFETY_VALUES[i] && dangerNumber < SAFETY_VALUES[i+1]){
+                currentDangerLevel = SAFETY_LEVELS[i]
+                break
+            }
         }
         
         if(currentDangerLevel != ""){
             crimeCount.setCrimeLevelLabel(level: currentDangerLevel)
         }
+        else{
+            crimeCount.setCrimeLevelLabel(level: SAFETY_LEVELS[SAFETY_LEVELS.count-1])
+        }
         
     }
+    
     
     //MBProgressHUD
     
     private func showLoadingHUD() {
-        let hud = MBProgressHUD.showAdded(to: mapView, animated: true)
+        let hud = MBProgressHUD.showAdded(to: self.view, animated: true)
         hud.label.text = "Loading..."
     }
     
     private func hideLoadingHUD() {
-        MBProgressHUD.hide(for: mapView, animated: true)
+        MBProgressHUD.hide(for: self.view, animated: true)
     }
     
     //Error Handling

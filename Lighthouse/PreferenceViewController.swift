@@ -20,7 +20,7 @@ class PreferenceViewController: UITableViewController, UIPickerViewDelegate, UIP
     @IBOutlet weak var formatPicker: UIPickerView!
     
     //Radius Variables
-    let distanceArray = [50,100,150,200,250,500,1000,1320,2640,3960,5280]
+    let distanceArray = [25,50,100,150,200,250,500]
     private var radiusCellExpanded: Bool = false
     @IBOutlet weak var radiusLabel: UILabel!
     @IBOutlet weak var radiusSlider: UISlider!
@@ -234,6 +234,8 @@ class PreferenceViewController: UITableViewController, UIPickerViewDelegate, UIP
     
     func initalizeRadius(){
         let savedRadius = UserDefaults.standard.integer(forKey:"radius")
+        radiusSlider.maximumValue = Float(distanceArray.count-1)
+        radiusSlider.minimumValue = 0
         radiusSlider.value = Float(distanceArray.index(of: savedRadius)!)
         setRadiusLabel(dist: savedRadius)
     }
@@ -249,21 +251,11 @@ class PreferenceViewController: UITableViewController, UIPickerViewDelegate, UIP
     
     func setRadiusLabel(dist: Int){
         if (UserDefaults.standard.string(forKey:"units") == "feet"){
-            if(dist > 1000){
-                radiusLabel.text = String(format: "%.02f",Float(dist)/5280) + " miles"
-            }
-            else{
-                radiusLabel.text = String(dist) + " feet"
-            }
+            radiusLabel.text = String(dist) + " ft"
         }
         else{
-            let metersFromFeet = round(Double(dist)*0.3048)
-            if(metersFromFeet > 1000){
-                radiusLabel.text = String(format: "%.02f",Float(metersFromFeet)/1000) + " kilometers"
-            }
-            else{
-                radiusLabel.text = String(metersFromFeet) + " meters"
-            }
+            let metersFromFeet:Int = Int(Double(dist)*0.3048)
+            radiusLabel.text = String(metersFromFeet) + " m"
         }
     }
     

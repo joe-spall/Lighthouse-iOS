@@ -101,7 +101,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UserDefaults.standard.set("feet",forKey:"units")
         UserDefaults.standard.set(true,forKey: "loadBefore")
         UserDefaults.standard.set("2015",forKey: "year")
-        UserDefaults.standard.set(500,forKey:"radius")
+        UserDefaults.standard.set(100,forKey:"radius")
         UserDefaults.standard.set("MM/DD/YYYY",forKey:"format")
     }
 

@@ -70,5 +70,13 @@ import UIKit
     func setCrimeLevelLabel(level:String){
         crimeLevelLabel.text = level
     }
+    
+    func getCrimeNumberLabel() -> String?{
+        return crimeNumberLabel.text
+    }
+    
+    func getCrimeLevelLabel() -> String?{
+        return crimeLevelLabel.text
+    }
 
 }
