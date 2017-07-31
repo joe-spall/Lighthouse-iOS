@@ -13,11 +13,14 @@ class PreferenceViewController: UITableViewController, UIPickerViewDelegate, UIP
     //Units Variables
     @IBOutlet weak var unitsSegment: UISegmentedControl!
     
+    //Number Format Variables
+    @IBOutlet weak var numFormatSegment: UISegmentedControl!
+    
     //Date Format Variables
-    let formatArray = ["MM/DD/YYYY","DD/MM/YYYY","YYYY/MM/DD"]
-    private var formatCellExpanded:Bool = false
-    @IBOutlet weak var formatLabel: UILabel!
-    @IBOutlet weak var formatPicker: UIPickerView!
+    let dateFormatArray = ["MM/DD/YYYY","DD/MM/YYYY","YYYY/MM/DD"]
+    private var dateFormatCellExpanded:Bool = false
+    @IBOutlet weak var dateFormatLabel: UILabel!
+    @IBOutlet weak var dateFormatPicker: UIPickerView!
     
     //Radius Variables
     let distanceArray = [25,50,100,150,200,250,500]
@@ -35,7 +38,8 @@ class PreferenceViewController: UITableViewController, UIPickerViewDelegate, UIP
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         initalizeUnits()
-        initalizeFormat()
+        initalizeNumberFormat()
+        initalizeDateFormat()
         initalizeRadius()
         initalizeYear()
         
@@ -49,7 +53,7 @@ class PreferenceViewController: UITableViewController, UIPickerViewDelegate, UIP
     
     //Units segment
     func initalizeUnits(){
-        let savedUnits = UserDefaults.standard.string(forKey: "units")
+        let savedUnits:String = UserDefaults.standard.string(forKey: "units")!
         if(savedUnits == "feet"){
             unitsSegment.selectedSegmentIndex = 0
         }
@@ -58,16 +62,37 @@ class PreferenceViewController: UITableViewController, UIPickerViewDelegate, UIP
         }
     }
     
-    @IBAction func segmentedControlAction(sender: AnyObject) {
+    @IBAction func unitSegmentedControlAction(sender: AnyObject) {
         if(unitsSegment.selectedSegmentIndex == 0){
             UserDefaults.standard.set("feet", forKey:"units")
-            
         }
         else if(unitsSegment.selectedSegmentIndex == 1){
             UserDefaults.standard.set("meters", forKey:"units")
         }
         initalizeRadius()
     }
+    
+    //Number Format Segment
+    
+    func initalizeNumberFormat(){
+        let savedNumberFormat:String = UserDefaults.standard.string(forKey: "num_format")!
+        if(savedNumberFormat == "1,000.00"){
+            numFormatSegment.selectedSegmentIndex = 0
+        }
+        else{
+            numFormatSegment.selectedSegmentIndex = 1
+        }
+    }
+    
+    @IBAction func numberSegmentedControlAction(sender: AnyObject) {
+        if(numFormatSegment.selectedSegmentIndex == 0){
+            UserDefaults.standard.set("1,000.00", forKey:"num_format")
+        }
+        else if(numFormatSegment.selectedSegmentIndex == 1){
+            UserDefaults.standard.set("1.000,00", forKey:"num_format")
+        }
+    }
+
     
     //Year picker
     func initalizeYear(){
@@ -96,8 +121,8 @@ class PreferenceViewController: UITableViewController, UIPickerViewDelegate, UIP
                 radiusCellExpanded = false
             }
             
-            if formatCellExpanded{
-                formatCellExpanded = false
+            if dateFormatCellExpanded{
+               dateFormatCellExpanded = false
             }
             
             tableView.beginUpdates()
@@ -114,18 +139,18 @@ class PreferenceViewController: UITableViewController, UIPickerViewDelegate, UIP
                 yearCellExpanded = false
             }
             
-            if formatCellExpanded{
-                formatCellExpanded = false
+            if dateFormatCellExpanded{
+                dateFormatCellExpanded = false
             }
             
             tableView.beginUpdates()
             tableView.endUpdates()
         }
         else if indexPath.row == 1 && indexPath.section == 0{
-            if formatCellExpanded{
-                formatCellExpanded = false
+            if dateFormatCellExpanded{
+                dateFormatCellExpanded = false
             } else {
-                formatCellExpanded = true
+                dateFormatCellExpanded = true
             }
             
             if yearCellExpanded{
@@ -151,7 +176,7 @@ class PreferenceViewController: UITableViewController, UIPickerViewDelegate, UIP
         }
         
         if indexPath.row == 1 && indexPath.section == 0 {
-            if formatCellExpanded {
+            if dateFormatCellExpanded {
                 return 250
             } else {
                 return 50
@@ -184,8 +209,8 @@ class PreferenceViewController: UITableViewController, UIPickerViewDelegate, UIP
         if(pickerView == yearPicker){
             returnCount = yearArray.count
         }
-        else if(pickerView == formatPicker){
-            returnCount = formatArray.count
+        else if(pickerView == dateFormatPicker){
+            returnCount = dateFormatArray.count
         }
         return returnCount
         
@@ -202,8 +227,8 @@ class PreferenceViewController: UITableViewController, UIPickerViewDelegate, UIP
                 returnData = yearArray[row]
             }
         }
-        else if(pickerView == formatPicker){
-            returnData = formatArray[row]
+        else if(pickerView == dateFormatPicker){
+            returnData = dateFormatArray[row]
         }
         return returnData
     }
@@ -222,10 +247,10 @@ class PreferenceViewController: UITableViewController, UIPickerViewDelegate, UIP
             }
             UserDefaults.standard.set(yearSelection,forKey: "year")
         }
-        else if(pickerView == formatPicker){
-            let formatSelection = formatArray[row]
-            formatLabel.text = formatSelection
-            UserDefaults.standard.set(formatSelection,forKey: "format")
+        else if(pickerView == dateFormatPicker){
+            let dateFormatSelection = dateFormatArray[row]
+            dateFormatLabel.text = dateFormatSelection
+            UserDefaults.standard.set(dateFormatSelection,forKey: "date_format")
         }
         
     }
@@ -259,17 +284,16 @@ class PreferenceViewController: UITableViewController, UIPickerViewDelegate, UIP
         }
     }
     
-    //Format Picker
+    //Date Format Picker
     
-    func initalizeFormat(){
-        self.formatPicker.delegate = self
-        self.formatPicker.dataSource = self
+    func initalizeDateFormat(){
+        self.dateFormatPicker.delegate = self
+        self.dateFormatPicker.dataSource = self
         tableView.tableFooterView = UIView()
-        let savedFormat = UserDefaults.standard.string(forKey: "format")
-        formatLabel.text = savedFormat
-        formatPicker.selectRow(formatArray.index(of: savedFormat!)!, inComponent: 0, animated: true)
+        let savedDateFormat = UserDefaults.standard.string(forKey: "date_format")
+        dateFormatLabel.text = savedDateFormat
+        dateFormatPicker.selectRow(dateFormatArray.index(of: savedDateFormat!)!, inComponent: 0, animated: true)
     }
-    
     
     
 }

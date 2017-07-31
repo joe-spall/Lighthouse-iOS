@@ -29,15 +29,13 @@ class ViewController: UIViewController, MGLMapViewDelegate {
     var currentCrimeEntryString:String = ""
     var currentDangerLevel:String = ""
     var icon: UIImage!
-    var popup: UILabel?
+    var crimeInfoTotal: UIStackView?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         crimeCount.layer.cornerRadius = 10
         icon = UIImage(named:"crime_icon")
         mapView.delegate = self
-        
     }
 
     override func didReceiveMemoryWarning() {
@@ -70,12 +68,12 @@ class ViewController: UIViewController, MGLMapViewDelegate {
                 case .notDetermined, .restricted, .denied:
                     createErrorAlert(description: "Location not accessible")
                 case .authorizedAlways, .authorizedWhenInUse:
-                    mapView.setZoomLevel(17, animated: false)
-                    mapView.setCenter((mapView.userLocation?.coordinate)!, animated: true)
-                
                     showLoadingHUD()
-                    drawSearchCircle()
-                    pullCrimes()
+                    let currentUserLocation = (mapView.userLocation?.coordinate)!
+                    mapView.setZoomLevel(17, animated: false)
+                    mapView.setCenter(currentUserLocation, animated: true)
+                    drawSearchCircle(userLocation:currentUserLocation)
+                    pullCrimes(userLocation:currentUserLocation)
                     hideLoadingHUD()
                 
             }
@@ -144,18 +142,25 @@ class ViewController: UIViewController, MGLMapViewDelegate {
         style.addLayer(numbersLayer)
         
         let numberFormatter = NumberFormatter()
-        numberFormatter.numberStyle = NumberFormatter.Style.decimal
-        crimeCount.setCrimeNumberLabel(number: numberFormatter.string(from:NSNumber(value: collection.count))!)
+        let savedNumberFormat = UserDefaults.standard.string(forKey: "num_format")
+        if(savedNumberFormat == "1,000.00"){
+            numberFormatter.decimalSeparator = "."
+            numberFormatter.groupingSeparator = ","
+        }
+        else{
+            numberFormatter.decimalSeparator = ","
+            numberFormatter.groupingSeparator = "."
+        }
         
+        crimeCount.setCrimeNumberLabel(number: numberFormatter.string(from:NSNumber(value: collection.count))!)
         
         let singleTap = UITapGestureRecognizer(target: self, action: #selector(handleSingleTap(_:)))
         singleTap.numberOfTapsRequired = 1
         view.addGestureRecognizer(singleTap)
-
-        
-        
         
     }
+    
+
     
     func handleSingleTap(_ tap: UITapGestureRecognizer) {
         if tap.state == .ended {
@@ -164,13 +169,58 @@ class ViewController: UIViewController, MGLMapViewDelegate {
             let rect = CGRect(x: point.x - width / 2, y: point.y - width / 2, width: width, height: width)
             let clusters = mapView.visibleFeatures(in: rect, styleLayerIdentifiers: ["clusteredCrimes"])
             let crimes = mapView.visibleFeatures(in: rect, styleLayerIdentifiers: ["crime"])
+    
             
             if clusters.count > 0 {
                 showPopup(false, animated: true)
                 let cluster = clusters.first!
                 if(clusters.count == 1 && mapView.zoomLevel > 18){
-                    mapView.setCenter(cluster.coordinate, zoomLevel: mapView.zoomLevel, animated: true)
-                    print("List cluster")
+                    let clusterLocation = cluster.coordinate
+                    mapView.setCenter(clusterLocation, zoomLevel: mapView.zoomLevel, direction: mapView.direction, animated: true,completionHandler:{() -> Void in
+                        let clusterCenterScreenPoint = self.mapView.convert(clusterLocation, toPointTo: self.mapView)
+                        let clusterSWScreenPoint = CGPoint(x: (clusterCenterScreenPoint.x - self.icon.size.width), y:(clusterCenterScreenPoint.y + self.icon.size.width))
+                        let clusterNEScreenPoint = CGPoint(x: (clusterCenterScreenPoint.x + self.icon.size.width), y:(clusterCenterScreenPoint.y - self.icon.size.width))
+                        let clusterSWMapPoint = self.mapView.convert(clusterSWScreenPoint, toCoordinateFrom: self.mapView)
+                        let clusterNEMapPoint = self.mapView.convert(clusterNEScreenPoint, toCoordinateFrom: self.mapView)
+                        
+                        let clusterBounds = MGLCoordinateBoundsMake(clusterSWMapPoint, clusterNEMapPoint)
+                        var neededCrimes:[Crime] = []
+                        for crimeEntry in self.storedCrimes{
+                            let crimeEntryLocation = crimeEntry.location
+                            if(MGLCoordinateInCoordinateBounds(crimeEntryLocation, clusterBounds)){
+                                neededCrimes.append(crimeEntry)
+                            }
+                            
+                        }
+                        
+                        if(neededCrimes.count > 0){
+                            var infoViewCollection:[UIView] = []
+                            
+                            for individualCrime in neededCrimes{
+                                let singleCrimeInfoView:CrimeInfoView = CrimeInfoView()
+                                let formattedDate:String = self.formatDate(inputDate: individualCrime.date)
+                                let formattedName:String = self.formatName(inputType: individualCrime.typeCrime)
+                                singleCrimeInfoView.setCrimeTypeLabel(type: formattedName)
+                                singleCrimeInfoView.setCrimeDateLabel(date: formattedDate)
+                                infoViewCollection.append(singleCrimeInfoView)
+                            }
+                            self.crimeInfoTotal = UIStackView(arrangedSubviews: infoViewCollection)
+                            self.crimeInfoTotal?.axis = UILayoutConstraintAxis.vertical
+                            self.crimeInfoTotal?.distribution  = UIStackViewDistribution.fillEqually
+                            self.crimeInfoTotal?.alignment = UIStackViewAlignment.center
+                            self.crimeInfoTotal?.spacing = 3.0
+                            self.crimeInfoTotal?.frame = CGRect(x: clusterCenterScreenPoint.x - (CGFloat(227)/2), y: clusterCenterScreenPoint.y - CGFloat((neededCrimes.count + 1) * 66), width: CGFloat(227), height: CGFloat(66*neededCrimes.count))
+                            self.mapView.addSubview(self.crimeInfoTotal!)
+                        }
+                            
+                        
+                    });
+                    
+                    
+                    
+                    
+
+                   
                 }
                 else{
                     mapView.setCenter(cluster.coordinate, zoomLevel: (mapView.zoomLevel + 1), animated: true)
@@ -178,26 +228,29 @@ class ViewController: UIViewController, MGLMapViewDelegate {
                 
             } else if crimes.count > 0 {
                 let crime = crimes.first!
-                
-                if popup == nil {
-                    popup = UILabel(frame: CGRect(x: 0, y: 0, width: 100, height: 40))
-                    popup!.backgroundColor = UIColor.white.withAlphaComponent(0.9)
-                    popup!.layer.cornerRadius = 4
-                    popup!.layer.masksToBounds = true
-                    popup!.textAlignment = .center
-                    popup!.lineBreakMode = .byTruncatingTail
-                    popup!.font = UIFont.systemFont(ofSize: 16)
-                    popup!.textColor = UIColor.black
-                    popup!.alpha = 0
-                    view.addSubview(popup!)
+                var crimeLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 100, height: 40))
+
+                if crimeInfoTotal == nil {
+                    crimeInfoTotal = UIStackView(frame: CGRect(x: 0, y: 0, width: 100, height: 40))
+                    crimeLabel.backgroundColor = UIColor.white.withAlphaComponent(0.9)
+                    crimeLabel.layer.cornerRadius = 4
+                    crimeLabel.layer.masksToBounds = true
+                    crimeLabel.textAlignment = .center
+                    crimeLabel.lineBreakMode = .byTruncatingTail
+                    crimeLabel.font = UIFont.systemFont(ofSize: 16)
+                    crimeLabel.textColor = UIColor.black
+                    crimeLabel.alpha = 0
+                    crimeInfoTotal?.addArrangedSubview(crimeLabel)
+                    
                 }
-                popup!.text = (crime.attribute(forKey: "typeCrime")! as! String)
-                let size = (popup!.text! as NSString).size(attributes: [NSFontAttributeName: popup!.font])
-                popup!.bounds = CGRect(x: 0, y: 0, width: size.width, height: size.height).insetBy(dx: -10, dy: -10)
+                crimeLabel.text = (crime.attribute(forKey: "typeCrime")! as! String)
+                let size = (crimeLabel.text! as NSString).size(attributes: [NSFontAttributeName: crimeLabel.font])
+                crimeLabel.bounds = CGRect(x: 0, y: 0, width: size.width, height: size.height).insetBy(dx: -10, dy: -10)
                 let point = mapView.convert(crime.coordinate, toPointTo: mapView)
-                popup!.center = CGPoint(x: point.x, y: point.y - 50)
+                crimeInfoTotal!.center = CGPoint(x: point.x, y: point.y - 50)
+                view.addSubview(crimeInfoTotal!)
                 
-                if popup!.alpha < 1 {
+                if crimeInfoTotal!.alpha < 1 {
                     showPopup(true, animated: true)
                 }
                 
@@ -207,16 +260,18 @@ class ViewController: UIViewController, MGLMapViewDelegate {
         }
     }
     
-
-    
     func showPopup(_ shouldShow: Bool, animated: Bool) {
         let alpha: CGFloat = (shouldShow ? 1 : 0)
         if animated {
-            UIView.animate(withDuration: 0.25) { [unowned self] in
-                self.popup?.alpha = alpha
-            }
+            UIView.animate(withDuration: 0.25,animations: { [unowned self] in
+                self.crimeInfoTotal?.alpha = alpha
+            }, completion: { (finished: Bool) in
+                if(!shouldShow){
+                    self.crimeInfoTotal = nil
+                }
+            })
         } else {
-            popup?.alpha = alpha
+            crimeInfoTotal?.alpha = alpha
         }
     }
     
@@ -224,14 +279,13 @@ class ViewController: UIViewController, MGLMapViewDelegate {
         showPopup(false, animated: false)
     }
 
-    func drawSearchCircle() {
-        let coordinate:CLLocationCoordinate2D = (mapView.userLocation?.coordinate)!
+    func drawSearchCircle(userLocation:CLLocationCoordinate2D) {
         let withMeterRadius = Double(UserDefaults.standard.integer(forKey: "radius"))*0.3048
         let degreesBetweenPoints = 8.0
         let numberOfPoints = floor(360.0 / degreesBetweenPoints)
         let distRadians: Double = withMeterRadius / 6371000.0
-        let centerLatRadians: Double = coordinate.latitude * Double.pi / 180
-        let centerLonRadians: Double = coordinate.longitude * Double.pi / 180
+        let centerLatRadians: Double = userLocation.latitude * Double.pi / 180
+        let centerLonRadians: Double = userLocation.longitude * Double.pi / 180
         var coordinates = [CLLocationCoordinate2D]()
         
         for index in 0 ..< Int(numberOfPoints) {
@@ -263,19 +317,16 @@ class ViewController: UIViewController, MGLMapViewDelegate {
     
     //Alamofire
     
-    func pullCrimes(){
-        let userLocationObject = mapView?.userLocation
-        let currentLat = ((userLocationObject?.coordinate.latitude)!*1000000).rounded()/1000000
-        let currentLong = ((userLocationObject?.coordinate.longitude)!*1000000).rounded()/1000000
-        var radius = Double(UserDefaults.standard.integer(forKey:"radius"))
-        radius /= 364000
+    func pullCrimes(userLocation: CLLocationCoordinate2D){
+        let currentLat:Double = ((userLocation.latitude)*1000000).rounded()/1000000
+        let currentLong:Double = ((userLocation.longitude)*1000000).rounded()/1000000
+        let radius = Double(UserDefaults.standard.integer(forKey:"radius"))/364000
         let year = UserDefaults.standard.string(forKey:"year")!
-        let param = [
+        let param:[String:Any] = [
             "curlatitude": currentLat,
             "curlongitude": currentLong,
             "radius": radius,
-            "year": year
-            ] as [String : Any]
+            "year": year]
         Alamofire.request(crimePullURL, method: .post, parameters: param).response{ response in
             let error = response.error?.localizedDescription
             if(error == nil) {
@@ -313,8 +364,8 @@ class ViewController: UIViewController, MGLMapViewDelegate {
 
     }
     
-    func setDate(inputDate:String) -> String{
-        let dateFormat = UserDefaults.standard.string(forKey:"format")
+    func formatDate(inputDate:String) -> String{
+        let dateFormat = UserDefaults.standard.string(forKey:"date_format")
         var returnDate:String = ""
         let dateArray = inputDate.components(separatedBy: "-")
         let year:String = dateArray[0]
@@ -334,6 +385,23 @@ class ViewController: UIViewController, MGLMapViewDelegate {
         return returnDate
     }
     
+    func formatName(inputType:String) -> String{
+        let crimeEntryXML:XMLIndexer = checkCrimeEntryXML()
+        var outCrime:String = inputType
+        do{
+            let readCrime = try crimeEntryXML["danger"]["crime"].withAttribute("type", inputType)["uname"].element?.text
+            outCrime = (readCrime?.trimmingCharacters(in: .whitespacesAndNewlines))!
+        }
+        catch{
+            print(error)
+            
+        }
+        return outCrime
+        
+    }
+    
+    
+    
     func checkCrimeEntryXML() -> XMLIndexer{
         if(currentCrimeEntryString == ""){
             if let path = Bundle.main.path(forResource: "crime_weight_storage", ofType: "xml") {
@@ -347,7 +415,6 @@ class ViewController: UIViewController, MGLMapViewDelegate {
                 }
             }
         }
-
         return SWXMLHash.parse(currentCrimeEntryString)
     }
     
