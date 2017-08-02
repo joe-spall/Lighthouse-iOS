@@ -1,0 +1,818 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		455C7396DF2D4F69F4CE6349 /* Pods_Lighthouse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F05B7C8FB2068F255322578C /* Pods_Lighthouse.framework */; };
+		574C65E9B195193AC13FF595 /* Pods_LighthouseTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82413221DEFBBBC7B188EBE2 /* Pods_LighthouseTests.framework */; };
+		CF1578D21F07D7D7002E085C /* PreferenceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1578D11F07D7D7002E085C /* PreferenceViewController.swift */; };
+		CF1A9A551F0D5FBB00EF3E7E /* Crime.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1A9A541F0D5FBB00EF3E7E /* Crime.swift */; };
+		CF3E146D1F2F68E500C3F04C /* CrimeInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3E146C1F2F68E500C3F04C /* CrimeInfoView.swift */; };
+		CF757B9A1F0ECED200357AD6 /* AttributionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF757B991F0ECED200357AD6 /* AttributionViewController.swift */; };
+		CF757B9C1F0ED20E00357AD6 /* attribution_storage.xml in Resources */ = {isa = PBXBuildFile; fileRef = CF757B9B1F0ED20E00357AD6 /* attribution_storage.xml */; };
+		CF9258CE1F17D5E000116A35 /* crime_weight_storage.xml in Resources */ = {isa = PBXBuildFile; fileRef = CF9258CD1F17D5E000116A35 /* crime_weight_storage.xml */; };
+		CFA047871F16A8730090E049 /* CrimeCountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA047861F16A8730090E049 /* CrimeCountView.swift */; };
+		CFA0478B1F16ACEC0090E049 /* CrimeCountView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFA0478A1F16ACEC0090E049 /* CrimeCountView.xib */; };
+		CFAB8C921F0FC3970019B580 /* Attribution.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAB8C911F0FC3970019B580 /* Attribution.swift */; };
+		CFB941DC1F2F6B110064EC44 /* CrimeInfoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFB941DB1F2F6B110064EC44 /* CrimeInfoView.xib */; };
+		CFDC591C1F072F5500EDF01F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDC591B1F072F5500EDF01F /* AppDelegate.swift */; };
+		CFDC591E1F072F5500EDF01F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDC591D1F072F5500EDF01F /* ViewController.swift */; };
+		CFDC59211F072F5500EDF01F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFDC591F1F072F5500EDF01F /* Main.storyboard */; };
+		CFDC59241F072F5500EDF01F /* Lighthouse.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CFDC59221F072F5500EDF01F /* Lighthouse.xcdatamodeld */; };
+		CFDC59261F072F5500EDF01F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CFDC59251F072F5500EDF01F /* Assets.xcassets */; };
+		CFDC59291F072F5500EDF01F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFDC59271F072F5500EDF01F /* LaunchScreen.storyboard */; };
+		CFDC59341F072F5500EDF01F /* LighthouseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDC59331F072F5500EDF01F /* LighthouseTests.swift */; };
+		CFDC593F1F072F5500EDF01F /* LighthouseUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDC593E1F072F5500EDF01F /* LighthouseUITests.swift */; };
+		D069E82539CA276BA5F01C29 /* Pods_LighthouseUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9746BC938C3CF5FA192CE71A /* Pods_LighthouseUITests.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		CFDC59301F072F5500EDF01F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CFDC59101F072F5500EDF01F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CFDC59171F072F5500EDF01F;
+			remoteInfo = Lighthouse;
+		};
+		CFDC593B1F072F5500EDF01F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CFDC59101F072F5500EDF01F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CFDC59171F072F5500EDF01F;
+			remoteInfo = Lighthouse;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		554FF322B460DFCEF0B4ABD0 /* Pods-LighthouseUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LighthouseUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LighthouseUITests/Pods-LighthouseUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		82413221DEFBBBC7B188EBE2 /* Pods_LighthouseTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LighthouseTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		95CF20EEF1C38A8D140B37FC /* Pods-LighthouseTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LighthouseTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-LighthouseTests/Pods-LighthouseTests.release.xcconfig"; sourceTree = "<group>"; };
+		9746BC938C3CF5FA192CE71A /* Pods_LighthouseUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LighthouseUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A8E7F28D4B4584B5E604D539 /* Pods-Lighthouse.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Lighthouse.release.xcconfig"; path = "Pods/Target Support Files/Pods-Lighthouse/Pods-Lighthouse.release.xcconfig"; sourceTree = "<group>"; };
+		BB6F0A2BA139C9BCE028F886 /* Pods-Lighthouse.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Lighthouse.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Lighthouse/Pods-Lighthouse.debug.xcconfig"; sourceTree = "<group>"; };
+		BF7B5CAA01BDADE270C956AA /* Pods-LighthouseTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LighthouseTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LighthouseTests/Pods-LighthouseTests.debug.xcconfig"; sourceTree = "<group>"; };
+		CF1578D11F07D7D7002E085C /* PreferenceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferenceViewController.swift; sourceTree = "<group>"; };
+		CF1A9A541F0D5FBB00EF3E7E /* Crime.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Crime.swift; sourceTree = "<group>"; };
+		CF3E146C1F2F68E500C3F04C /* CrimeInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrimeInfoView.swift; sourceTree = "<group>"; };
+		CF757B991F0ECED200357AD6 /* AttributionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttributionViewController.swift; sourceTree = "<group>"; };
+		CF757B9B1F0ED20E00357AD6 /* attribution_storage.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = attribution_storage.xml; sourceTree = "<group>"; };
+		CF9258CD1F17D5E000116A35 /* crime_weight_storage.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = crime_weight_storage.xml; sourceTree = "<group>"; };
+		CFA047861F16A8730090E049 /* CrimeCountView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrimeCountView.swift; sourceTree = "<group>"; };
+		CFA0478A1F16ACEC0090E049 /* CrimeCountView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CrimeCountView.xib; sourceTree = "<group>"; };
+		CFAB8C911F0FC3970019B580 /* Attribution.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Attribution.swift; sourceTree = "<group>"; };
+		CFB941DB1F2F6B110064EC44 /* CrimeInfoView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CrimeInfoView.xib; sourceTree = "<group>"; };
+		CFDC59181F072F5500EDF01F /* Lighthouse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lighthouse.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CFDC591B1F072F5500EDF01F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		CFDC591D1F072F5500EDF01F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		CFDC59201F072F5500EDF01F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		CFDC59231F072F5500EDF01F /* Lighthouse.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Lighthouse.xcdatamodel; sourceTree = "<group>"; };
+		CFDC59251F072F5500EDF01F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		CFDC59281F072F5500EDF01F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		CFDC592A1F072F5500EDF01F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CFDC592F1F072F5500EDF01F /* LighthouseTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LighthouseTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		CFDC59331F072F5500EDF01F /* LighthouseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LighthouseTests.swift; sourceTree = "<group>"; };
+		CFDC59351F072F5500EDF01F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CFDC593A1F072F5500EDF01F /* LighthouseUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LighthouseUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		CFDC593E1F072F5500EDF01F /* LighthouseUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LighthouseUITests.swift; sourceTree = "<group>"; };
+		CFDC59401F072F5500EDF01F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D2F3F43A155F6F20CFF269AA /* Pods-LighthouseUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LighthouseUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-LighthouseUITests/Pods-LighthouseUITests.release.xcconfig"; sourceTree = "<group>"; };
+		F05B7C8FB2068F255322578C /* Pods_Lighthouse.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Lighthouse.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		CFDC59151F072F5500EDF01F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				455C7396DF2D4F69F4CE6349 /* Pods_Lighthouse.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CFDC592C1F072F5500EDF01F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				574C65E9B195193AC13FF595 /* Pods_LighthouseTests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CFDC59371F072F5500EDF01F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D069E82539CA276BA5F01C29 /* Pods_LighthouseUITests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0B7AD79CDC6DF43EAF3BBC53 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				BB6F0A2BA139C9BCE028F886 /* Pods-Lighthouse.debug.xcconfig */,
+				A8E7F28D4B4584B5E604D539 /* Pods-Lighthouse.release.xcconfig */,
+				BF7B5CAA01BDADE270C956AA /* Pods-LighthouseTests.debug.xcconfig */,
+				95CF20EEF1C38A8D140B37FC /* Pods-LighthouseTests.release.xcconfig */,
+				554FF322B460DFCEF0B4ABD0 /* Pods-LighthouseUITests.debug.xcconfig */,
+				D2F3F43A155F6F20CFF269AA /* Pods-LighthouseUITests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		902147E8598056C2770F1E8F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F05B7C8FB2068F255322578C /* Pods_Lighthouse.framework */,
+				82413221DEFBBBC7B188EBE2 /* Pods_LighthouseTests.framework */,
+				9746BC938C3CF5FA192CE71A /* Pods_LighthouseUITests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		CF97DE311F1CFABF0001E9D7 /* Attribution */ = {
+			isa = PBXGroup;
+			children = (
+				CF757B9B1F0ED20E00357AD6 /* attribution_storage.xml */,
+				CF757B991F0ECED200357AD6 /* AttributionViewController.swift */,
+				CFAB8C911F0FC3970019B580 /* Attribution.swift */,
+			);
+			name = Attribution;
+			sourceTree = "<group>";
+		};
+		CF9DFC091F20013400E39276 /* Preference */ = {
+			isa = PBXGroup;
+			children = (
+				CF1578D11F07D7D7002E085C /* PreferenceViewController.swift */,
+				CF97DE311F1CFABF0001E9D7 /* Attribution */,
+			);
+			name = Preference;
+			sourceTree = "<group>";
+		};
+		CFB941DA1F2F6AD30064EC44 /* CrimeInfo */ = {
+			isa = PBXGroup;
+			children = (
+				CF3E146C1F2F68E500C3F04C /* CrimeInfoView.swift */,
+				CFB941DB1F2F6B110064EC44 /* CrimeInfoView.xib */,
+			);
+			name = CrimeInfo;
+			sourceTree = "<group>";
+		};
+		CFDC590F1F072F5500EDF01F = {
+			isa = PBXGroup;
+			children = (
+				CFDC591A1F072F5500EDF01F /* Lighthouse */,
+				CFDC59321F072F5500EDF01F /* LighthouseTests */,
+				CFDC593D1F072F5500EDF01F /* LighthouseUITests */,
+				CFDC59191F072F5500EDF01F /* Products */,
+				0B7AD79CDC6DF43EAF3BBC53 /* Pods */,
+				902147E8598056C2770F1E8F /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		CFDC59191F072F5500EDF01F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CFDC59181F072F5500EDF01F /* Lighthouse.app */,
+				CFDC592F1F072F5500EDF01F /* LighthouseTests.xctest */,
+				CFDC593A1F072F5500EDF01F /* LighthouseUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		CFDC591A1F072F5500EDF01F /* Lighthouse */ = {
+			isa = PBXGroup;
+			children = (
+				CFB941DA1F2F6AD30064EC44 /* CrimeInfo */,
+				CFFECE681F2799B900121BD6 /* CrimeCount */,
+				CF9DFC091F20013400E39276 /* Preference */,
+				CF9258CD1F17D5E000116A35 /* crime_weight_storage.xml */,
+				CFDC591B1F072F5500EDF01F /* AppDelegate.swift */,
+				CF1A9A541F0D5FBB00EF3E7E /* Crime.swift */,
+				CFDC591D1F072F5500EDF01F /* ViewController.swift */,
+				CFDC591F1F072F5500EDF01F /* Main.storyboard */,
+				CFDC59271F072F5500EDF01F /* LaunchScreen.storyboard */,
+				CFDC59251F072F5500EDF01F /* Assets.xcassets */,
+				CFDC592A1F072F5500EDF01F /* Info.plist */,
+				CFDC59221F072F5500EDF01F /* Lighthouse.xcdatamodeld */,
+			);
+			path = Lighthouse;
+			sourceTree = "<group>";
+		};
+		CFDC59321F072F5500EDF01F /* LighthouseTests */ = {
+			isa = PBXGroup;
+			children = (
+				CFDC59331F072F5500EDF01F /* LighthouseTests.swift */,
+				CFDC59351F072F5500EDF01F /* Info.plist */,
+			);
+			path = LighthouseTests;
+			sourceTree = "<group>";
+		};
+		CFDC593D1F072F5500EDF01F /* LighthouseUITests */ = {
+			isa = PBXGroup;
+			children = (
+				CFDC593E1F072F5500EDF01F /* LighthouseUITests.swift */,
+				CFDC59401F072F5500EDF01F /* Info.plist */,
+			);
+			path = LighthouseUITests;
+			sourceTree = "<group>";
+		};
+		CFFECE681F2799B900121BD6 /* CrimeCount */ = {
+			isa = PBXGroup;
+			children = (
+				CFA047861F16A8730090E049 /* CrimeCountView.swift */,
+				CFA0478A1F16ACEC0090E049 /* CrimeCountView.xib */,
+			);
+			name = CrimeCount;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		CFDC59171F072F5500EDF01F /* Lighthouse */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CFDC59431F072F5500EDF01F /* Build configuration list for PBXNativeTarget "Lighthouse" */;
+			buildPhases = (
+				F94B30C74C0A852797F59FE5 /* [CP] Check Pods Manifest.lock */,
+				CFDC59141F072F5500EDF01F /* Sources */,
+				CFDC59151F072F5500EDF01F /* Frameworks */,
+				CFDC59161F072F5500EDF01F /* Resources */,
+				61F347910DA3F45F0A554BB5 /* [CP] Embed Pods Frameworks */,
+				A509D3C3480F096892A5BB79 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Lighthouse;
+			productName = Lighthouse;
+			productReference = CFDC59181F072F5500EDF01F /* Lighthouse.app */;
+			productType = "com.apple.product-type.application";
+		};
+		CFDC592E1F072F5500EDF01F /* LighthouseTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CFDC59461F072F5500EDF01F /* Build configuration list for PBXNativeTarget "LighthouseTests" */;
+			buildPhases = (
+				81C04F8EF10563AA932E2F91 /* [CP] Check Pods Manifest.lock */,
+				CFDC592B1F072F5500EDF01F /* Sources */,
+				CFDC592C1F072F5500EDF01F /* Frameworks */,
+				CFDC592D1F072F5500EDF01F /* Resources */,
+				F599BFFB0557A91B61C8BD5E /* [CP] Embed Pods Frameworks */,
+				388F0316FDDC0BA70985A1FE /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				CFDC59311F072F5500EDF01F /* PBXTargetDependency */,
+			);
+			name = LighthouseTests;
+			productName = LighthouseTests;
+			productReference = CFDC592F1F072F5500EDF01F /* LighthouseTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		CFDC59391F072F5500EDF01F /* LighthouseUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CFDC59491F072F5500EDF01F /* Build configuration list for PBXNativeTarget "LighthouseUITests" */;
+			buildPhases = (
+				1D22874FC124A1AD25E19FFD /* [CP] Check Pods Manifest.lock */,
+				CFDC59361F072F5500EDF01F /* Sources */,
+				CFDC59371F072F5500EDF01F /* Frameworks */,
+				CFDC59381F072F5500EDF01F /* Resources */,
+				E88C7449137D68970E531A3C /* [CP] Embed Pods Frameworks */,
+				C5A5F7C63C9138B5C5776536 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				CFDC593C1F072F5500EDF01F /* PBXTargetDependency */,
+			);
+			name = LighthouseUITests;
+			productName = LighthouseUITests;
+			productReference = CFDC593A1F072F5500EDF01F /* LighthouseUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		CFDC59101F072F5500EDF01F /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0830;
+				LastUpgradeCheck = 0830;
+				ORGANIZATIONNAME = Lighthouse;
+				TargetAttributes = {
+					CFDC59171F072F5500EDF01F = {
+						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = 348DCFFU26;
+						ProvisioningStyle = Automatic;
+					};
+					CFDC592E1F072F5500EDF01F = {
+						CreatedOnToolsVersion = 8.3.3;
+						ProvisioningStyle = Automatic;
+						TestTargetID = CFDC59171F072F5500EDF01F;
+					};
+					CFDC59391F072F5500EDF01F = {
+						CreatedOnToolsVersion = 8.3.3;
+						ProvisioningStyle = Automatic;
+						TestTargetID = CFDC59171F072F5500EDF01F;
+					};
+				};
+			};
+			buildConfigurationList = CFDC59131F072F5500EDF01F /* Build configuration list for PBXProject "Lighthouse" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = CFDC590F1F072F5500EDF01F;
+			productRefGroup = CFDC59191F072F5500EDF01F /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				CFDC59171F072F5500EDF01F /* Lighthouse */,
+				CFDC592E1F072F5500EDF01F /* LighthouseTests */,
+				CFDC59391F072F5500EDF01F /* LighthouseUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		CFDC59161F072F5500EDF01F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CFA0478B1F16ACEC0090E049 /* CrimeCountView.xib in Resources */,
+				CFDC59291F072F5500EDF01F /* LaunchScreen.storyboard in Resources */,
+				CFB941DC1F2F6B110064EC44 /* CrimeInfoView.xib in Resources */,
+				CF9258CE1F17D5E000116A35 /* crime_weight_storage.xml in Resources */,
+				CFDC59261F072F5500EDF01F /* Assets.xcassets in Resources */,
+				CFDC59211F072F5500EDF01F /* Main.storyboard in Resources */,
+				CF757B9C1F0ED20E00357AD6 /* attribution_storage.xml in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CFDC592D1F072F5500EDF01F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CFDC59381F072F5500EDF01F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		1D22874FC124A1AD25E19FFD /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		388F0316FDDC0BA70985A1FE /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LighthouseTests/Pods-LighthouseTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		61F347910DA3F45F0A554BB5 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Lighthouse/Pods-Lighthouse-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		81C04F8EF10563AA932E2F91 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		A509D3C3480F096892A5BB79 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Lighthouse/Pods-Lighthouse-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C5A5F7C63C9138B5C5776536 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LighthouseUITests/Pods-LighthouseUITests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E88C7449137D68970E531A3C /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LighthouseUITests/Pods-LighthouseUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F599BFFB0557A91B61C8BD5E /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LighthouseTests/Pods-LighthouseTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F94B30C74C0A852797F59FE5 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		CFDC59141F072F5500EDF01F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CF757B9A1F0ECED200357AD6 /* AttributionViewController.swift in Sources */,
+				CF1A9A551F0D5FBB00EF3E7E /* Crime.swift in Sources */,
+				CFAB8C921F0FC3970019B580 /* Attribution.swift in Sources */,
+				CFA047871F16A8730090E049 /* CrimeCountView.swift in Sources */,
+				CFDC59241F072F5500EDF01F /* Lighthouse.xcdatamodeld in Sources */,
+				CFDC591E1F072F5500EDF01F /* ViewController.swift in Sources */,
+				CFDC591C1F072F5500EDF01F /* AppDelegate.swift in Sources */,
+				CF1578D21F07D7D7002E085C /* PreferenceViewController.swift in Sources */,
+				CF3E146D1F2F68E500C3F04C /* CrimeInfoView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CFDC592B1F072F5500EDF01F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CFDC59341F072F5500EDF01F /* LighthouseTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CFDC59361F072F5500EDF01F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CFDC593F1F072F5500EDF01F /* LighthouseUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		CFDC59311F072F5500EDF01F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CFDC59171F072F5500EDF01F /* Lighthouse */;
+			targetProxy = CFDC59301F072F5500EDF01F /* PBXContainerItemProxy */;
+		};
+		CFDC593C1F072F5500EDF01F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CFDC59171F072F5500EDF01F /* Lighthouse */;
+			targetProxy = CFDC593B1F072F5500EDF01F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		CFDC591F1F072F5500EDF01F /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CFDC59201F072F5500EDF01F /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		CFDC59271F072F5500EDF01F /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CFDC59281F072F5500EDF01F /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		CFDC59411F072F5500EDF01F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		CFDC59421F072F5500EDF01F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		CFDC59441F072F5500EDF01F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BB6F0A2BA139C9BCE028F886 /* Pods-Lighthouse.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 348DCFFU26;
+				INFOPLIST_FILE = Lighthouse/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = lighthouse.Lighthouse;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		CFDC59451F072F5500EDF01F /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A8E7F28D4B4584B5E604D539 /* Pods-Lighthouse.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 348DCFFU26;
+				INFOPLIST_FILE = Lighthouse/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = lighthouse.Lighthouse;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+		CFDC59471F072F5500EDF01F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BF7B5CAA01BDADE270C956AA /* Pods-LighthouseTests.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = LighthouseTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = lighthouse.LighthouseTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Lighthouse.app/Lighthouse";
+			};
+			name = Debug;
+		};
+		CFDC59481F072F5500EDF01F /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 95CF20EEF1C38A8D140B37FC /* Pods-LighthouseTests.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = LighthouseTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = lighthouse.LighthouseTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Lighthouse.app/Lighthouse";
+			};
+			name = Release;
+		};
+		CFDC594A1F072F5500EDF01F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 554FF322B460DFCEF0B4ABD0 /* Pods-LighthouseUITests.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				INFOPLIST_FILE = LighthouseUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = lighthouse.LighthouseUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_TARGET_NAME = Lighthouse;
+			};
+			name = Debug;
+		};
+		CFDC594B1F072F5500EDF01F /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D2F3F43A155F6F20CFF269AA /* Pods-LighthouseUITests.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				INFOPLIST_FILE = LighthouseUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = lighthouse.LighthouseUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_TARGET_NAME = Lighthouse;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		CFDC59131F072F5500EDF01F /* Build configuration list for PBXProject "Lighthouse" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CFDC59411F072F5500EDF01F /* Debug */,
+				CFDC59421F072F5500EDF01F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CFDC59431F072F5500EDF01F /* Build configuration list for PBXNativeTarget "Lighthouse" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CFDC59441F072F5500EDF01F /* Debug */,
+				CFDC59451F072F5500EDF01F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CFDC59461F072F5500EDF01F /* Build configuration list for PBXNativeTarget "LighthouseTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CFDC59471F072F5500EDF01F /* Debug */,
+				CFDC59481F072F5500EDF01F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CFDC59491F072F5500EDF01F /* Build configuration list for PBXNativeTarget "LighthouseUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CFDC594A1F072F5500EDF01F /* Debug */,
+				CFDC594B1F072F5500EDF01F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		CFDC59221F072F5500EDF01F /* Lighthouse.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				CFDC59231F072F5500EDF01F /* Lighthouse.xcdatamodel */,
+			);
+			currentVersion = CFDC59231F072F5500EDF01F /* Lighthouse.xcdatamodel */;
+			path = Lighthouse.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = CFDC59101F072F5500EDF01F /* Project object */;
+}
