@@ -176,7 +176,8 @@ class ViewController: UIViewController, MGLMapViewDelegate {
                 let cluster = clusters.first!
                 if(clusters.count == 1 && mapView.zoomLevel > 18){
                     let clusterLocation = cluster.coordinate
-                    mapView.setCenter(clusterLocation, zoomLevel: mapView.zoomLevel, direction: mapView.direction, animated: true,completionHandler:{() -> Void in
+                    let mapCenter = mapView.centerCoordinate
+                    if(mapCenter.latitude == clusterLocation.latitude && mapCenter.longitude == clusterLocation.longitude){
                         let clusterCenterScreenPoint = self.mapView.convert(clusterLocation, toPointTo: self.mapView)
                         let clusterSWScreenPoint = CGPoint(x: (clusterCenterScreenPoint.x - self.icon.size.width), y:(clusterCenterScreenPoint.y + self.icon.size.width))
                         let clusterNEScreenPoint = CGPoint(x: (clusterCenterScreenPoint.x + self.icon.size.width), y:(clusterCenterScreenPoint.y - self.icon.size.width))
@@ -184,75 +185,129 @@ class ViewController: UIViewController, MGLMapViewDelegate {
                         let clusterNEMapPoint = self.mapView.convert(clusterNEScreenPoint, toCoordinateFrom: self.mapView)
                         
                         let clusterBounds = MGLCoordinateBoundsMake(clusterSWMapPoint, clusterNEMapPoint)
-                        var neededCrimes:[Crime] = []
+                        var infoViewCollection:[UIView] = []
                         for crimeEntry in self.storedCrimes{
                             let crimeEntryLocation = crimeEntry.location
                             if(MGLCoordinateInCoordinateBounds(crimeEntryLocation, clusterBounds)){
-                                neededCrimes.append(crimeEntry)
-                            }
-                            
-                        }
-                        
-                        if(neededCrimes.count > 0){
-                            var infoViewCollection:[UIView] = []
-                            
-                            for individualCrime in neededCrimes{
                                 let singleCrimeInfoView:CrimeInfoView = CrimeInfoView()
-                                let formattedDate:String = self.formatDate(inputDate: individualCrime.date)
-                                let formattedName:String = self.formatName(inputType: individualCrime.typeCrime)
+                                let formattedDate:String = self.formatDate(inputDate: crimeEntry.date)
+                                let formattedName:String = self.formatName(inputType: crimeEntry.typeCrime)
                                 singleCrimeInfoView.setCrimeTypeLabel(type: formattedName)
                                 singleCrimeInfoView.setCrimeDateLabel(date: formattedDate)
                                 infoViewCollection.append(singleCrimeInfoView)
                             }
+                        }
+                        
+                        if(infoViewCollection.count > 0){
                             self.crimeInfoTotal = UIStackView(arrangedSubviews: infoViewCollection)
+                            self.crimeInfoTotal?.tag = 100
                             self.crimeInfoTotal?.axis = UILayoutConstraintAxis.vertical
                             self.crimeInfoTotal?.distribution  = UIStackViewDistribution.fillEqually
                             self.crimeInfoTotal?.alignment = UIStackViewAlignment.center
                             self.crimeInfoTotal?.spacing = 3.0
-                            self.crimeInfoTotal?.frame = CGRect(x: clusterCenterScreenPoint.x - (CGFloat(227)/2), y: clusterCenterScreenPoint.y - CGFloat((neededCrimes.count + 1) * 66), width: CGFloat(227), height: CGFloat(66*neededCrimes.count))
+                            self.crimeInfoTotal?.frame = CGRect(x: clusterCenterScreenPoint.x - (CGFloat(227)/2), y: clusterCenterScreenPoint.y - CGFloat((infoViewCollection.count + 1) * 66), width: CGFloat(227), height: CGFloat(66*infoViewCollection.count))
                             self.mapView.addSubview(self.crimeInfoTotal!)
+                            self.showPopup(true, animated: true)
                         }
+                    }
+                    else{
+                        mapView.setCenter(clusterLocation, zoomLevel: mapView.zoomLevel, direction: mapView.direction, animated: true,completionHandler:{() -> Void in
+                            let clusterCenterScreenPoint = self.mapView.convert(clusterLocation, toPointTo: self.mapView)
+                            let clusterSWScreenPoint = CGPoint(x: (clusterCenterScreenPoint.x - self.icon.size.width), y:(clusterCenterScreenPoint.y + self.icon.size.width))
+                            let clusterNEScreenPoint = CGPoint(x: (clusterCenterScreenPoint.x + self.icon.size.width), y:(clusterCenterScreenPoint.y - self.icon.size.width))
+                            let clusterSWMapPoint = self.mapView.convert(clusterSWScreenPoint, toCoordinateFrom: self.mapView)
+                            let clusterNEMapPoint = self.mapView.convert(clusterNEScreenPoint, toCoordinateFrom: self.mapView)
                             
-                        
-                    });
-                    
-                    
-                    
-                    
-
-                   
+                            let clusterBounds = MGLCoordinateBoundsMake(clusterSWMapPoint, clusterNEMapPoint)
+                            var infoViewCollection:[UIView] = []
+                            for crimeEntry in self.storedCrimes{
+                                let crimeEntryLocation = crimeEntry.location
+                                if(MGLCoordinateInCoordinateBounds(crimeEntryLocation, clusterBounds)){
+                                    let singleCrimeInfoView:CrimeInfoView = CrimeInfoView()
+                                    let formattedDate:String = self.formatDate(inputDate: crimeEntry.date)
+                                    let formattedName:String = self.formatName(inputType: crimeEntry.typeCrime)
+                                    singleCrimeInfoView.setCrimeTypeLabel(type: formattedName)
+                                    singleCrimeInfoView.setCrimeDateLabel(date: formattedDate)
+                                    infoViewCollection.append(singleCrimeInfoView)
+                                }
+                            }
+                            
+                            if(infoViewCollection.count > 0){
+                                self.crimeInfoTotal = UIStackView(arrangedSubviews: infoViewCollection)
+                                self.crimeInfoTotal?.tag = 100
+                                self.crimeInfoTotal?.axis = UILayoutConstraintAxis.vertical
+                                self.crimeInfoTotal?.distribution  = UIStackViewDistribution.fillEqually
+                                self.crimeInfoTotal?.alignment = UIStackViewAlignment.center
+                                self.crimeInfoTotal?.spacing = 3.0
+                                self.crimeInfoTotal?.frame = CGRect(x: clusterCenterScreenPoint.x - (CGFloat(227)/2), y: clusterCenterScreenPoint.y - CGFloat((infoViewCollection.count + 1) * 66), width: CGFloat(227), height: CGFloat(66*infoViewCollection.count))
+                                self.mapView.addSubview(self.crimeInfoTotal!)
+                                self.showPopup(true, animated: true)
+                            }
+                            
+                        });
+                    }
                 }
                 else{
                     mapView.setCenter(cluster.coordinate, zoomLevel: (mapView.zoomLevel + 1), animated: true)
                 }
                 
             } else if crimes.count > 0 {
+                
                 let crime = crimes.first!
-                var crimeLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 100, height: 40))
-
-                if crimeInfoTotal == nil {
-                    crimeInfoTotal = UIStackView(frame: CGRect(x: 0, y: 0, width: 100, height: 40))
-                    crimeLabel.backgroundColor = UIColor.white.withAlphaComponent(0.9)
-                    crimeLabel.layer.cornerRadius = 4
-                    crimeLabel.layer.masksToBounds = true
-                    crimeLabel.textAlignment = .center
-                    crimeLabel.lineBreakMode = .byTruncatingTail
-                    crimeLabel.font = UIFont.systemFont(ofSize: 16)
-                    crimeLabel.textColor = UIColor.black
-                    crimeLabel.alpha = 0
-                    crimeInfoTotal?.addArrangedSubview(crimeLabel)
+                let crimeCord = crime.coordinate
+                let mapCenter = mapView.centerCoordinate
+                
+                if(mapCenter.latitude == crimeCord.latitude && mapCenter.longitude == crimeCord.longitude){
+                    let singleCrimeInfoView:CrimeInfoView = CrimeInfoView()
+                    let formattedDate:String = self.formatDate(inputDate: crime.attribute(forKey: "date") as! String)
+                    let formattedName:String = self.formatName(inputType: crime.attribute(forKey: "typeCrime") as! String)
+                    singleCrimeInfoView.setCrimeTypeLabel(type: formattedName)
+                    singleCrimeInfoView.setCrimeDateLabel(date: formattedDate)
+                    let infoViewCollection:[UIView] = [singleCrimeInfoView]
+                    
+                    self.crimeInfoTotal = UIStackView(arrangedSubviews: infoViewCollection)
+                    self.crimeInfoTotal?.tag = 100
+                    self.crimeInfoTotal?.axis = UILayoutConstraintAxis.vertical
+                    self.crimeInfoTotal?.distribution  = UIStackViewDistribution.fillEqually
+                    self.crimeInfoTotal?.alignment = UIStackViewAlignment.center
+                    self.crimeInfoTotal?.spacing = 3.0
+                    self.crimeInfoTotal?.alpha = 0
+                    
+                    let crimePoint = self.mapView.convert(crimeCord, toPointTo: self.mapView)
+                    self.crimeInfoTotal?.frame = CGRect(x: crimePoint.x - (CGFloat(227)/2), y: crimePoint.y - CGFloat((infoViewCollection.count + 1) * 66), width: CGFloat(227), height: CGFloat(66*infoViewCollection.count))
+                    
+                    self.view.addSubview(self.crimeInfoTotal!)
+                    self.showPopup(true, animated: true)
                     
                 }
-                crimeLabel.text = (crime.attribute(forKey: "typeCrime")! as! String)
-                let size = (crimeLabel.text! as NSString).size(attributes: [NSFontAttributeName: crimeLabel.font])
-                crimeLabel.bounds = CGRect(x: 0, y: 0, width: size.width, height: size.height).insetBy(dx: -10, dy: -10)
-                let point = mapView.convert(crime.coordinate, toPointTo: mapView)
-                crimeInfoTotal!.center = CGPoint(x: point.x, y: point.y - 50)
-                view.addSubview(crimeInfoTotal!)
-                
-                if crimeInfoTotal!.alpha < 1 {
-                    showPopup(true, animated: true)
+                else{
+                    mapView.setCenter(crimeCord, zoomLevel: mapView.zoomLevel, direction: mapView.direction, animated: true,completionHandler:{() -> Void in
+                        
+                        let singleCrimeInfoView:CrimeInfoView = CrimeInfoView()
+                        let formattedDate:String = self.formatDate(inputDate: crime.attribute(forKey: "date") as! String)
+                        let formattedName:String = self.formatName(inputType: crime.attribute(forKey: "typeCrime") as! String)
+                        singleCrimeInfoView.setCrimeTypeLabel(type: formattedName)
+                        singleCrimeInfoView.setCrimeDateLabel(date: formattedDate)
+                        let infoViewCollection:[UIView] = [singleCrimeInfoView]
+                        
+                        self.crimeInfoTotal = UIStackView(arrangedSubviews: infoViewCollection)
+                        self.crimeInfoTotal?.tag = 100
+                        self.crimeInfoTotal?.axis = UILayoutConstraintAxis.vertical
+                        self.crimeInfoTotal?.distribution  = UIStackViewDistribution.fillEqually
+                        self.crimeInfoTotal?.alignment = UIStackViewAlignment.center
+                        self.crimeInfoTotal?.spacing = 3.0
+                        self.crimeInfoTotal?.alpha = 0
+                        
+                        let crimePoint = self.mapView.convert(crimeCord, toPointTo: self.mapView)
+                        self.crimeInfoTotal?.frame = CGRect(x: crimePoint.x - (CGFloat(227)/2), y: crimePoint.y - CGFloat((infoViewCollection.count + 1) * 66), width: CGFloat(227), height: CGFloat(66*infoViewCollection.count))
+                        
+                        self.view.addSubview(self.crimeInfoTotal!)
+                        self.showPopup(true, animated: true)
+                    })
+                    
                 }
+                
+                
                 
             } else {
                 showPopup(false, animated: true)
@@ -267,11 +322,20 @@ class ViewController: UIViewController, MGLMapViewDelegate {
                 self.crimeInfoTotal?.alpha = alpha
             }, completion: { (finished: Bool) in
                 if(!shouldShow){
+                    if let viewWithTag = self.view.viewWithTag(100) {
+                        viewWithTag.removeFromSuperview()
+                    }
                     self.crimeInfoTotal = nil
                 }
             })
         } else {
             crimeInfoTotal?.alpha = alpha
+            if(!shouldShow){
+                if let viewWithTag = self.view.viewWithTag(100) {
+                    viewWithTag.removeFromSuperview()
+                }
+                self.crimeInfoTotal = nil
+            }
         }
     }
     
