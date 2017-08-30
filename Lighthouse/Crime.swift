@@ -17,6 +17,10 @@ struct Crime{
     let location:CLLocationCoordinate2D
 }
 
+func calculateThreatScore(userLocation: CLLocationCoordinate2D){
+    
+    
+}
 
 enum SerializationError: Error {
     case missing(String)

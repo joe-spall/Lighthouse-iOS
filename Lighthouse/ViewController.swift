@@ -29,7 +29,7 @@ class ViewController: UIViewController, MGLMapViewDelegate {
     var currentCrimeEntryString:String = ""
     var currentDangerLevel:String = ""
     var icon: UIImage!
-    var crimeInfoTotal: UIStackView?
+    var crimeInfoTotal: UIScrollView?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -185,7 +185,7 @@ class ViewController: UIViewController, MGLMapViewDelegate {
                         let clusterNEMapPoint = self.mapView.convert(clusterNEScreenPoint, toCoordinateFrom: self.mapView)
                         
                         let clusterBounds = MGLCoordinateBoundsMake(clusterSWMapPoint, clusterNEMapPoint)
-                        var infoViewCollection:[UIView] = []
+                        var infoViewCollection:[CrimeInfoView] = []
                         for crimeEntry in self.storedCrimes{
                             let crimeEntryLocation = crimeEntry.location
                             if(MGLCoordinateInCoordinateBounds(crimeEntryLocation, clusterBounds)){
@@ -199,15 +199,11 @@ class ViewController: UIViewController, MGLMapViewDelegate {
                         }
                         
                         if(infoViewCollection.count > 0){
-                            self.crimeInfoTotal = UIStackView(arrangedSubviews: infoViewCollection)
-                            self.crimeInfoTotal?.tag = 100
-                            self.crimeInfoTotal?.axis = UILayoutConstraintAxis.vertical
-                            self.crimeInfoTotal?.distribution  = UIStackViewDistribution.fillEqually
-                            self.crimeInfoTotal?.alignment = UIStackViewAlignment.center
-                            self.crimeInfoTotal?.spacing = 3.0
-                            self.crimeInfoTotal?.frame = CGRect(x: clusterCenterScreenPoint.x - (CGFloat(227)/2), y: clusterCenterScreenPoint.y - CGFloat((infoViewCollection.count + 1) * 66), width: CGFloat(227), height: CGFloat(66*infoViewCollection.count))
-                            self.mapView.addSubview(self.crimeInfoTotal!)
-                            self.showPopup(true, animated: true)
+                            
+                            crimeInfoTotal = makeCrimeInfoView(viewCollection: infoViewCollection, crimeX: clusterCenterScreenPoint.x, crimeY: clusterCenterScreenPoint.y)
+                            mapView.addSubview(crimeInfoTotal!)
+                            
+                            //self.showPopup(true, animated: true)
                         }
                     }
                     else{
@@ -219,7 +215,7 @@ class ViewController: UIViewController, MGLMapViewDelegate {
                             let clusterNEMapPoint = self.mapView.convert(clusterNEScreenPoint, toCoordinateFrom: self.mapView)
                             
                             let clusterBounds = MGLCoordinateBoundsMake(clusterSWMapPoint, clusterNEMapPoint)
-                            var infoViewCollection:[UIView] = []
+                            var infoViewCollection:[CrimeInfoView] = []
                             for crimeEntry in self.storedCrimes{
                                 let crimeEntryLocation = crimeEntry.location
                                 if(MGLCoordinateInCoordinateBounds(crimeEntryLocation, clusterBounds)){
@@ -233,15 +229,10 @@ class ViewController: UIViewController, MGLMapViewDelegate {
                             }
                             
                             if(infoViewCollection.count > 0){
-                                self.crimeInfoTotal = UIStackView(arrangedSubviews: infoViewCollection)
-                                self.crimeInfoTotal?.tag = 100
-                                self.crimeInfoTotal?.axis = UILayoutConstraintAxis.vertical
-                                self.crimeInfoTotal?.distribution  = UIStackViewDistribution.fillEqually
-                                self.crimeInfoTotal?.alignment = UIStackViewAlignment.center
-                                self.crimeInfoTotal?.spacing = 3.0
-                                self.crimeInfoTotal?.frame = CGRect(x: clusterCenterScreenPoint.x - (CGFloat(227)/2), y: clusterCenterScreenPoint.y - CGFloat((infoViewCollection.count + 1) * 66), width: CGFloat(227), height: CGFloat(66*infoViewCollection.count))
+                                self.crimeInfoTotal = self.makeCrimeInfoView(viewCollection: infoViewCollection, crimeX: clusterCenterScreenPoint.x, crimeY: clusterCenterScreenPoint.y)
                                 self.mapView.addSubview(self.crimeInfoTotal!)
-                                self.showPopup(true, animated: true)
+
+                                //self.showPopup(true, animated: true)
                             }
                             
                         });
@@ -259,25 +250,16 @@ class ViewController: UIViewController, MGLMapViewDelegate {
                 
                 if(mapCenter.latitude == crimeCord.latitude && mapCenter.longitude == crimeCord.longitude){
                     let singleCrimeInfoView:CrimeInfoView = CrimeInfoView()
-                    let formattedDate:String = self.formatDate(inputDate: crime.attribute(forKey: "date") as! String)
-                    let formattedName:String = self.formatName(inputType: crime.attribute(forKey: "typeCrime") as! String)
+                    let formattedDate:String = formatDate(inputDate: crime.attribute(forKey: "date") as! String)
+                    let formattedName:String = formatName(inputType: crime.attribute(forKey: "typeCrime") as! String)
                     singleCrimeInfoView.setCrimeTypeLabel(type: formattedName)
                     singleCrimeInfoView.setCrimeDateLabel(date: formattedDate)
-                    let infoViewCollection:[UIView] = [singleCrimeInfoView]
+                    let infoViewCollection:[CrimeInfoView] = [singleCrimeInfoView]
+                    let crimePoint = mapView.convert(crimeCord, toPointTo: mapView)
                     
-                    self.crimeInfoTotal = UIStackView(arrangedSubviews: infoViewCollection)
-                    self.crimeInfoTotal?.tag = 100
-                    self.crimeInfoTotal?.axis = UILayoutConstraintAxis.vertical
-                    self.crimeInfoTotal?.distribution  = UIStackViewDistribution.fillEqually
-                    self.crimeInfoTotal?.alignment = UIStackViewAlignment.center
-                    self.crimeInfoTotal?.spacing = 3.0
-                    self.crimeInfoTotal?.alpha = 0
-                    
-                    let crimePoint = self.mapView.convert(crimeCord, toPointTo: self.mapView)
-                    self.crimeInfoTotal?.frame = CGRect(x: crimePoint.x - (CGFloat(227)/2), y: crimePoint.y - CGFloat((infoViewCollection.count + 1) * 66), width: CGFloat(227), height: CGFloat(66*infoViewCollection.count))
-                    
-                    self.view.addSubview(self.crimeInfoTotal!)
-                    self.showPopup(true, animated: true)
+                    crimeInfoTotal = makeCrimeInfoView(viewCollection: infoViewCollection, crimeX: crimePoint.x, crimeY: crimePoint.y)
+                    mapView.addSubview(crimeInfoTotal!)
+                    //self.showPopup(true, animated: true)
                     
                 }
                 else{
@@ -288,21 +270,12 @@ class ViewController: UIViewController, MGLMapViewDelegate {
                         let formattedName:String = self.formatName(inputType: crime.attribute(forKey: "typeCrime") as! String)
                         singleCrimeInfoView.setCrimeTypeLabel(type: formattedName)
                         singleCrimeInfoView.setCrimeDateLabel(date: formattedDate)
-                        let infoViewCollection:[UIView] = [singleCrimeInfoView]
-                        
-                        self.crimeInfoTotal = UIStackView(arrangedSubviews: infoViewCollection)
-                        self.crimeInfoTotal?.tag = 100
-                        self.crimeInfoTotal?.axis = UILayoutConstraintAxis.vertical
-                        self.crimeInfoTotal?.distribution  = UIStackViewDistribution.fillEqually
-                        self.crimeInfoTotal?.alignment = UIStackViewAlignment.center
-                        self.crimeInfoTotal?.spacing = 3.0
-                        self.crimeInfoTotal?.alpha = 0
-                        
+                        let infoViewCollection:[CrimeInfoView] = [singleCrimeInfoView]
                         let crimePoint = self.mapView.convert(crimeCord, toPointTo: self.mapView)
-                        self.crimeInfoTotal?.frame = CGRect(x: crimePoint.x - (CGFloat(227)/2), y: crimePoint.y - CGFloat((infoViewCollection.count + 1) * 66), width: CGFloat(227), height: CGFloat(66*infoViewCollection.count))
                         
-                        self.view.addSubview(self.crimeInfoTotal!)
-                        self.showPopup(true, animated: true)
+                        self.crimeInfoTotal = self.makeCrimeInfoView(viewCollection: infoViewCollection, crimeX: crimePoint.x, crimeY: crimePoint.y)
+                        self.mapView.addSubview(self.crimeInfoTotal!)
+                        //self.showPopup(true, animated: true)
                     })
                     
                 }
@@ -313,6 +286,50 @@ class ViewController: UIViewController, MGLMapViewDelegate {
                 showPopup(false, animated: true)
             }
         }
+    }
+    
+    func makeCrimeInfoView(viewCollection: [CrimeInfoView],crimeX:CGFloat,crimeY:CGFloat) -> UIScrollView{
+        var maxWidth:CGFloat = 0.0
+        var maxHeight:CGFloat = 0.0
+        for singleView in viewCollection{
+            if maxWidth < singleView.frame.width{
+                maxWidth = singleView.frame.width
+            }
+            
+            if maxHeight < singleView.frame.height{
+                maxHeight = singleView.frame.height
+            }
+        }
+        if maxWidth == 0{
+            maxWidth = 227
+        }
+        
+        if maxHeight == 0{
+            maxHeight = 66
+        }
+        let stackView = UIStackView(arrangedSubviews: viewCollection)
+        stackView.axis = UILayoutConstraintAxis.vertical
+        stackView.distribution  = UIStackViewDistribution.fillEqually
+        stackView.alignment = UIStackViewAlignment.center
+        stackView.spacing = 3.0
+        stackView.frame = CGRect(x: 0, y: 0, width: maxWidth, height: maxHeight*CGFloat(viewCollection.count))
+ 
+        var scrollView = UIScrollView()
+        
+        if(viewCollection.count > 3){
+            scrollView = UIScrollView(frame: CGRect(x: crimeX - (maxWidth/2), y: crimeY - (CGFloat(4)*maxHeight), width: maxWidth, height: maxHeight*CGFloat(3)-(maxHeight/3)))
+        }
+        else{
+            scrollView = UIScrollView(frame: CGRect(x: crimeX - (maxWidth/2), y: crimeY - (CGFloat(viewCollection.count+1) * maxHeight), width: maxWidth, height: CGFloat(viewCollection.count)*maxHeight))
+        }
+        scrollView.layer.borderWidth = 1
+        scrollView.layer.borderColor = UIColor(red:0/255.0, green:0/255.0, blue:0/255.0, alpha: 1.0).cgColor
+        scrollView.layer.cornerRadius = 10
+        scrollView.contentSize = stackView.bounds.size
+        scrollView.backgroundColor = UIColor(red:1, green:1, blue:1, alpha: 0.5)
+        scrollView.addSubview(stackView)
+        scrollView.tag = 100
+        return scrollView
     }
     
     func showPopup(_ shouldShow: Bool, animated: Bool) {

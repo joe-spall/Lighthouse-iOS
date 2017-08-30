@@ -12,7 +12,6 @@ import UIKit
     
     // Our custom view from the XIB file
     var view: UIView!
-    
 
     @IBOutlet weak var crimeNumberLabel: UILabel!
     @IBOutlet weak var crimeLevelLabel: UILabel!

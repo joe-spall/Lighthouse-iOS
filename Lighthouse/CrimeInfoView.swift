@@ -37,11 +37,10 @@ import UIKit
     }
     
     func xibSetup() {
-        view = loadViewFromNib()
+        view = loadViewFromNib() 
         
         // use bounds not frame or it'll be offset
         view.frame = bounds
-        
         // Make the view stretch with containing view
         view.autoresizingMask = [UIViewAutoresizing.flexibleWidth, UIViewAutoresizing.flexibleHeight]
         
