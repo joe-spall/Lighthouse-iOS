@@ -102,7 +102,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UserDefaults.standard.set(true,forKey: "loadBefore")
         UserDefaults.standard.set("2015",forKey: "year")
         UserDefaults.standard.set(100,forKey:"radius")
-        UserDefaults.standard.set("MM/DD/YYYY",forKey:"date_format")
+        UserDefaults.standard.set("MM/dd/yyyy",forKey:"date_format")
         UserDefaults.standard.set("1,000.00",forKey:"num_format")
     }
 

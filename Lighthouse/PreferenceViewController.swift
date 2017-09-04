@@ -17,7 +17,7 @@ class PreferenceViewController: UITableViewController, UIPickerViewDelegate, UIP
     @IBOutlet weak var numFormatSegment: UISegmentedControl!
     
     //Date Format Variables
-    let dateFormatArray = ["MM/DD/YYYY","DD/MM/YYYY","YYYY/MM/DD"]
+    let dateFormatArray = ["MM/dd/yyyy","dd/MM/yyyy","yyyy/MM/dd"]
     private var dateFormatCellExpanded:Bool = false
     @IBOutlet weak var dateFormatLabel: UILabel!
     @IBOutlet weak var dateFormatPicker: UIPickerView!

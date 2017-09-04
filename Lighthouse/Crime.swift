@@ -10,17 +10,45 @@ import Foundation
 import CoreLocation
 import SwiftyJSON
 
+
+let FBI_WEIGHT:Double = 0.3
+let TARGET_WEIGHT:Double = 0.3
+let TIME_SINCE_WEIGHT:Double = 0.2
+let TIME_SINCE_CONST:Double = -40
+let DISTANCE_WEIGHT:Double = 0.1
+let DISTANCE_CONST:Double = -1000
+let TIME_OF_DAY_WEIGHT:Double = 0.1
+let TIME_OF_DAY_CONST:Double = -2*pow(5,2)
+
 struct Crime{
     let id:String
-    let date:String
+    let date:Date
     let typeCrime:String
     let location:CLLocationCoordinate2D
+    
+    func calculateSingleThreatScore(userLocation:CLLocationCoordinate2D, currentDate:Date, fbiValue:Double, targetValue:Double) -> Double{
+        let fbiTotal:Double = FBI_WEIGHT*fbiValue
+        let targetTotal:Double = TARGET_WEIGHT*targetValue
+        let timeSinceTotal:Double = TIME_SINCE_WEIGHT*pow(M_E,(Double(currentDate.timeIntervalSince(self.date))/2629743.83)/TIME_SINCE_CONST)
+        let topOfExponent = pow(2,((Double(currentDate.timeIntervalSince(self.date))/3600000).truncatingRemainder(dividingBy: Double(12))-24))
+        let timeOfDayTotal = TIME_OF_DAY_WEIGHT*pow(M_E,(topOfExponent/TIME_OF_DAY_CONST))
+        var distanceTotal:Double = 0;
+        let distanceFromCrime = CLLocation.distance(from: self.location, to:userLocation)
+        if(distanceFromCrime > 100){
+            distanceTotal = DISTANCE_WEIGHT*pow(M_E,(distanceFromCrime-100)/DISTANCE_CONST)
+        }
+        else{
+            distanceTotal = DISTANCE_WEIGHT
+        }
+        
+        return (fbiTotal+targetTotal+timeSinceTotal+distanceTotal+timeOfDayTotal)
+    }
+
 }
 
-func calculateThreatScore(userLocation: CLLocationCoordinate2D){
-    
-    
-}
+
+
+
 
 enum SerializationError: Error {
     case missing(String)
@@ -34,7 +62,7 @@ extension Crime {
         }
         
         // Extract date
-        guard let date = json["date"].string else {
+        guard let dateString = json["date"].string else {
             throw SerializationError.missing("date")
         }
         
@@ -53,10 +81,22 @@ extension Crime {
             throw SerializationError.missing("lng")
         }
         
+        
         self.id = id
-        self.date = date
+        let dateFormatHandle:DateFormatter = DateFormatter()
+        dateFormatHandle.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        self.date = dateFormatHandle.date(from: dateString)!
         self.typeCrime = typeCrime
         self.location = CLLocationCoordinate2D(latitude: lat, longitude: lng)
         
+    }
+}
+
+extension CLLocation {
+    // In meteres
+    class func distance(from: CLLocationCoordinate2D, to: CLLocationCoordinate2D) -> CLLocationDistance {
+        let from = CLLocation(latitude: from.latitude, longitude: from.longitude)
+        let to = CLLocation(latitude: to.latitude, longitude: to.longitude)
+        return from.distance(from: to)
     }
 }
