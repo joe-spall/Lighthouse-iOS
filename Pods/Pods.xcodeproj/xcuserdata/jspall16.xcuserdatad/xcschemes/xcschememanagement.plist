@@ -14,6 +14,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>MapboxGeocoder.swift.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-Lighthouse.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -42,11 +47,6 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>0B6E5849A1CA5C7C7CDA956059D9D23C</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>2DDC4AD57BD2A6BA5A6EA90B2A009085</key>
 		<dict>
 			<key>primary</key>
@@ -57,12 +57,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>56BF03E2F9F94E87759C9D26FAFF9E86</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>572D1E0280F670DFD4FF3555A9661041</key>
+		<key>6EC4FEAD870209E89CE5304B992849BB</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -72,7 +67,22 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>9254DC3B0CEFD4C9F251D672DA1FACD1</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>B7FF807502E83158052F1B030A43397A</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>DCB8071A70908C2D3F24EB9C13B34AA0</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F3B0D303D1E2FEEE382F99CB69B2053C</key>
 		<dict>
 			<key>primary</key>
 			<true/>

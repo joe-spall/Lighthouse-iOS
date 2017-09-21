@@ -12,6 +12,7 @@ import Mapbox
 import MBProgressHUD
 import SwiftyJSON
 import SWXMLHash
+import MapboxGeocoder
 
 class ViewController: UIViewController, MGLMapViewDelegate {
 
@@ -26,6 +27,7 @@ class ViewController: UIViewController, MGLMapViewDelegate {
     let CLUSTER_RANGES:[Int] = [10, 20, 50, 100, 200]
     let CLUSTER_COLORS:[MGLStyleValue<UIColor>] = [MGLStyleValue(rawValue: UIColor(rgb:0xFEE5D9)),MGLStyleValue(rawValue: UIColor(rgb:0xFCAE91)),MGLStyleValue(rawValue: UIColor(rgb:0xFB6A4A)),MGLStyleValue(rawValue: UIColor(rgb:0xDE2D26)),MGLStyleValue(rawValue: UIColor(rgb:0xA50F15))]
     let CRIME_ICON:UIImage = UIImage(named:"crime_icon")!
+    let geocoder = Geocoder.shared
     
     var storedCrimes:[Crime] = []
     var currentCrimeEntryString:String = ""
@@ -35,6 +37,7 @@ class ViewController: UIViewController, MGLMapViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         //Round edges of crime crime count
+        mapView.styleURL = URL(string: UserDefaults.standard.string(forKey:"map_style")!)
         crimeCount.layer.cornerRadius = 10
         mapView.delegate = self
     }
@@ -46,7 +49,9 @@ class ViewController: UIViewController, MGLMapViewDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        //TODO Only switch if map style is different
+        mapView.styleURL = URL(string: UserDefaults.standard.string(forKey:"map_style")!)
+
         // Hide the navigation bar on this view controller
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
     }
@@ -142,7 +147,7 @@ class ViewController: UIViewController, MGLMapViewDelegate {
         numbersLayer.predicate = NSPredicate(format: "%K == YES", argumentArray: ["cluster"])
         style.addLayer(numbersLayer)
         
-        //TODO possibly move to another function to keep the focus on adding the crimes to the map{
+        //TODO possibly move to another function to keep the focus on adding the crimes to the map
         let numberFormatter = NumberFormatter()
         let savedNumberFormat = UserDefaults.standard.string(forKey: "num_format")
         if(savedNumberFormat == "1,000.00"){
@@ -155,7 +160,7 @@ class ViewController: UIViewController, MGLMapViewDelegate {
         }
         
         crimeCount.setCrimeNumberLabel(number: numberFormatter.string(from:NSNumber(value: collection.count))!)
-        //}
+        //TODO-END
         
         //Action that handles tapping on a single crime or cluster to reveal information
         let singleTap = UITapGestureRecognizer(target: self, action: #selector(handleSingleTap(_:)))
@@ -164,6 +169,7 @@ class ViewController: UIViewController, MGLMapViewDelegate {
         
     }
     
+    //TODO Handle if press on same element
     func handleSingleTap(_ tap: UITapGestureRecognizer) {
         if tap.state == .ended {
             let point = tap.location(in: tap.view)
@@ -255,7 +261,7 @@ class ViewController: UIViewController, MGLMapViewDelegate {
     }
     
     func makeCrimeInfoView(viewCollection: [CrimeInfoView],crimeX:CGFloat,crimeY:CGFloat) -> UIScrollView{
-        //TODO Check the effects of modifying the sizes of the element widths{
+        //TODO Check the effects of modifying the sizes of the element widths
         var maxWidth:CGFloat = 0.0
         var maxHeight:CGFloat = 0.0
         for singleView in viewCollection{
@@ -274,7 +280,7 @@ class ViewController: UIViewController, MGLMapViewDelegate {
         if maxHeight == 0{
             maxHeight = 66
         }
-        //}
+        //TODO-END
         let stackView = UIStackView(arrangedSubviews: viewCollection.reversed())
         stackView.axis = UILayoutConstraintAxis.vertical
         stackView.distribution  = UIStackViewDistribution.fillEqually
@@ -330,14 +336,14 @@ class ViewController: UIViewController, MGLMapViewDelegate {
 
     func drawSearchCircle(userLocation:CLLocationCoordinate2D) {
         let withMeterRadius = Double(UserDefaults.standard.integer(forKey: "radius"))*0.3048
-        let degreesBetweenPoints = 8.0
-        let numberOfPoints = floor(360.0 / degreesBetweenPoints)
+        let degreesBetweenPoints:Double = 8.0
+        let numberOfPoints:Int = 45
         let distRadians: Double = withMeterRadius / 6371000.0
         let centerLatRadians: Double = userLocation.latitude * Double.pi / 180
         let centerLonRadians: Double = userLocation.longitude * Double.pi / 180
         var coordinates = [CLLocationCoordinate2D]()
         
-        for index in 0 ..< Int(numberOfPoints) {
+        for index in 0 ..< numberOfPoints {
             let degrees: Double = Double(index) * Double(degreesBetweenPoints)
             let degreeRadians: Double = degrees * Double.pi / 180
             let pointLatRadians: Double = asin(sin(centerLatRadians) * cos(distRadians) + cos(centerLatRadians) * sin(distRadians) * cos(degreeRadians))
@@ -353,6 +359,7 @@ class ViewController: UIViewController, MGLMapViewDelegate {
         mapView.addAnnotation(polygon)
     }
     
+    //TODO make occur with change in map
     func mapView(_ mapView: MGLMapView, alphaForShapeAnnotation annotation: MGLShape) -> CGFloat {
         return 0.5
     }
@@ -424,7 +431,7 @@ class ViewController: UIViewController, MGLMapViewDelegate {
         let crimeEntryXML:XMLIndexer = checkCrimeEntryXML()
         var outCrime:String = inputType
         do{
-            let readCrime = try crimeEntryXML["danger"]["crime"].withAttribute("type", inputType)["uname"].element?.text
+            let readCrime = try crimeEntryXML["danger"]["crime"].withAttribute("type", inputType)["name"].element?.text
             outCrime = (readCrime?.trimmingCharacters(in: .whitespacesAndNewlines))!
         }
         catch{
@@ -437,7 +444,7 @@ class ViewController: UIViewController, MGLMapViewDelegate {
     
     func checkCrimeEntryXML() -> XMLIndexer{
         if(currentCrimeEntryString == ""){
-            if let path = Bundle.main.path(forResource: "info", ofType: "xml") {
+            if let path = Bundle.main.path(forResource: "crime_info", ofType: "xml") {
                 let url = URL(fileURLWithPath: path)
                 do {
                     currentCrimeEntryString = try String(contentsOf: url, encoding: String.Encoding.utf8)
@@ -459,9 +466,9 @@ class ViewController: UIViewController, MGLMapViewDelegate {
         for crime in crimes{
             let singleCrimeType = crime.typeCrime
             do{
-                let singleTargetScore = try currentCrimeEntryXML["danger"]["crime"].withAttribute("type", singleCrimeType)["target_score"].element?.text.trimmingCharacters(in: .whitespacesAndNewlines)
-                let singleFBIScore = try currentCrimeEntryXML["danger"]["crime"].withAttribute("type", singleCrimeType)["fbi_score"].element?.text.trimmingCharacters(in: .whitespacesAndNewlines)
-                let currentCrimeScore = crime.calculateSingleThreatScore(userLocation: userLoc, currentDate: currentDate, fbiValue: Double(singleFBIScore!)! , targetValue: Double(singleTargetScore!)!)
+                //let singleTargetScore = try currentCrimeEntryXML["danger"]["crime"].withAttribute("type", singleCrimeType)["target_score"].element?.text.trimmingCharacters(in: .whitespacesAndNewlines)
+                //let singleFBIScore = try currentCrimeEntryXML["danger"]["crime"].withAttribute("type", singleCrimeType)["fbi_score"].element?.text.trimmingCharacters(in: .whitespacesAndNewlines)
+                let currentCrimeScore = crime.calculateSingleThreatScore(userLocation: userLoc, currentDate: currentDate)
                 
                 dangerNumber += currentCrimeScore
             }
@@ -483,7 +490,7 @@ class ViewController: UIViewController, MGLMapViewDelegate {
                 print(error)
             }
             
-////////////////Implement crime density
+            //TODO Implement crime density
         }
         
         for i in 0...SAFETY_VALUES.count-2{
@@ -522,7 +529,7 @@ class ViewController: UIViewController, MGLMapViewDelegate {
         self.present(alert, animated: true, completion: nil)
     }
     
-    
+    //TODO Geocoding stufff
     
 
 }

@@ -10,6 +10,8 @@ import UIKit
 
 class PreferenceViewController: UITableViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     
+    //TODO Add arrows for transitioning elements
+    
     //Units Variables
     @IBOutlet weak var unitsSegment: UISegmentedControl!
     
@@ -17,23 +19,34 @@ class PreferenceViewController: UITableViewController, UIPickerViewDelegate, UIP
     @IBOutlet weak var numFormatSegment: UISegmentedControl!
     
     //Date Format Variables
-    let dateFormatArray = ["MM/dd/yyyy","dd/MM/yyyy","yyyy/MM/dd"]
+    let DATE_FORMAT_OPTIONS:[String] = ["MM/dd/yyyy","dd/MM/yyyy","yyyy/MM/dd"]
     private var dateFormatCellExpanded:Bool = false
     @IBOutlet weak var dateFormatLabel: UILabel!
     @IBOutlet weak var dateFormatPicker: UIPickerView!
     
     //Radius Variables
-    let distanceArray = [25,50,100,150,200,250,500]
+    let DISTANCE_OPTIONS:[Int] = [25,50,100,150,200,250,500]
     private var radiusCellExpanded: Bool = false
     @IBOutlet weak var radiusLabel: UILabel!
     @IBOutlet weak var radiusSlider: UISlider!
     
     //Year Variables
-    let yearArray = ["1900","2012","2013","2014","2015","2016","2017"]
+    let YEAR_OPTIONS:[String] = ["1900","2012","2013","2014","2015","2016","2017"]
     private var yearCellExpanded: Bool = false
     @IBOutlet weak var yearLabel: UILabel!
     @IBOutlet weak var yearPicker: UIPickerView!
     
+    //Personal Crime Score Variables
+    let CRIME_SCORE_IDENTIFIERS:[String] = ["AGGRAVATED ASSAULT", "AUTO THEFT", "BURGLARY"]
+    
+    //Map Styles Variables
+    let MAP_STYLE_URL_OPTIONS:[String] = ["mapbox://styles/mapbox/streets-v9", "mapbox://styles/mapbox/satellite-v9"]
+    let MAP_STYLE_NAME_OPTIONS:[String] = ["Street","Satelite"]
+    
+    private var mapStyleCellExpanded:Bool = false
+    @IBOutlet weak var mapStyleLabel: UILabel!
+    @IBOutlet weak var mapStylePicker: UIPickerView!
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -42,8 +55,7 @@ class PreferenceViewController: UITableViewController, UIPickerViewDelegate, UIP
         initalizeDateFormat()
         initalizeRadius()
         initalizeYear()
-        
-        
+        initalizeMapStyle()
     }
     
     override func didReceiveMemoryWarning() {
@@ -106,17 +118,22 @@ class PreferenceViewController: UITableViewController, UIPickerViewDelegate, UIP
         else{
             yearLabel.text = savedYear
         }
-        yearPicker.selectRow(yearArray.index(of: savedYear!)!, inComponent: 0, animated: true)
+        yearPicker.selectRow(YEAR_OPTIONS.index(of: savedYear!)!, inComponent: 0, animated: true)
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.row == 1 && indexPath.section == 1 {
+        //TODO Translate to not hard-coded
+        if indexPath.row == 2 && indexPath.section == 1 {
             if yearCellExpanded {
                 yearCellExpanded = false
             } else {
                 yearCellExpanded = true
             }
 
+            if mapStyleCellExpanded{
+                mapStyleCellExpanded = false
+            }
+            
             if radiusCellExpanded{
                 radiusCellExpanded = false
             }
@@ -128,13 +145,17 @@ class PreferenceViewController: UITableViewController, UIPickerViewDelegate, UIP
             tableView.beginUpdates()
             tableView.endUpdates()
         }
-        else if indexPath.row == 0 && indexPath.section == 1{
+        else if indexPath.row == 1 && indexPath.section == 1{
             if radiusCellExpanded{
                 radiusCellExpanded = false
             } else {
                 radiusCellExpanded = true
             }
             
+            if mapStyleCellExpanded{
+                mapStyleCellExpanded = false
+            }
+            
             if yearCellExpanded{
                 yearCellExpanded = false
             }
@@ -146,11 +167,15 @@ class PreferenceViewController: UITableViewController, UIPickerViewDelegate, UIP
             tableView.beginUpdates()
             tableView.endUpdates()
         }
-        else if indexPath.row == 1 && indexPath.section == 0{
+        else if indexPath.row == 2 && indexPath.section == 0{
             if dateFormatCellExpanded{
                 dateFormatCellExpanded = false
             } else {
                 dateFormatCellExpanded = true
+            }
+            
+            if mapStyleCellExpanded{
+                mapStyleCellExpanded = false
             }
             
             if yearCellExpanded{
@@ -164,32 +189,57 @@ class PreferenceViewController: UITableViewController, UIPickerViewDelegate, UIP
             tableView.beginUpdates()
             tableView.endUpdates()
         }
+        else if indexPath.row == 3 && indexPath.section == 0{
+            if mapStyleCellExpanded{
+                mapStyleCellExpanded = false
+            } else {
+                mapStyleCellExpanded = true
+            }
+            
+            if yearCellExpanded{
+                yearCellExpanded = false
+            }
+            
+            if radiusCellExpanded{
+                radiusCellExpanded = false
+            }
+            
+            if dateFormatCellExpanded{
+                dateFormatCellExpanded = false
+            }
+            
+            tableView.beginUpdates()
+            tableView.endUpdates()
+            
+        }
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.row == 1 && indexPath.section == 1 {
+        //TODO Translate to not hard-coded
+        if indexPath.row == 2 && indexPath.section == 1 {
             if yearCellExpanded {
                 return 250
-            } else {
-                return 50
             }
         }
         
-        if indexPath.row == 1 && indexPath.section == 0 {
+        if indexPath.row == 2 && indexPath.section == 0 {
             if dateFormatCellExpanded {
                 return 250
-            } else {
-                return 50
             }
         }
         
-        if indexPath.row == 0 && indexPath.section == 1 {
+        if indexPath.row == 1 && indexPath.section == 1 {
             if radiusCellExpanded {
                 return 150
-            } else {
-                return 50
             }
         }
+        
+        if indexPath.row == 3 && indexPath.section == 0{
+            if mapStyleCellExpanded {
+                return 250
+            }
+        }
+        
         return 50
     }
     
@@ -207,10 +257,13 @@ class PreferenceViewController: UITableViewController, UIPickerViewDelegate, UIP
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         var returnCount:Int = 0
         if(pickerView == yearPicker){
-            returnCount = yearArray.count
+            returnCount = YEAR_OPTIONS.count
         }
         else if(pickerView == dateFormatPicker){
-            returnCount = dateFormatArray.count
+            returnCount = DATE_FORMAT_OPTIONS.count
+        }
+        else if(pickerView == mapStylePicker){
+            returnCount = MAP_STYLE_NAME_OPTIONS.count
         }
         return returnCount
         
@@ -224,11 +277,14 @@ class PreferenceViewController: UITableViewController, UIPickerViewDelegate, UIP
                 returnData = "All Years"
             }
             else{
-                returnData = yearArray[row]
+                returnData = YEAR_OPTIONS[row]
             }
         }
         else if(pickerView == dateFormatPicker){
-            returnData = dateFormatArray[row]
+            returnData = DATE_FORMAT_OPTIONS[row]
+        }
+        else if(pickerView == mapStylePicker){
+            returnData = MAP_STYLE_NAME_OPTIONS[row]
         }
         return returnData
     }
@@ -238,7 +294,7 @@ class PreferenceViewController: UITableViewController, UIPickerViewDelegate, UIP
         // This method is triggered whenever the user makes a change to the picker selection.
         // The parameter named row and component represents what was selected.
         if(pickerView == yearPicker){
-            let yearSelection = yearArray[row]
+            let yearSelection = YEAR_OPTIONS[row]
             if(yearSelection == "1900"){
                 yearLabel.text = "All Years"
             }
@@ -248,9 +304,15 @@ class PreferenceViewController: UITableViewController, UIPickerViewDelegate, UIP
             UserDefaults.standard.set(yearSelection,forKey: "year")
         }
         else if(pickerView == dateFormatPicker){
-            let dateFormatSelection = dateFormatArray[row]
+            let dateFormatSelection = DATE_FORMAT_OPTIONS[row]
             dateFormatLabel.text = dateFormatSelection
             UserDefaults.standard.set(dateFormatSelection,forKey: "date_format")
+        }
+        else if(pickerView == mapStylePicker){
+            let mapStyleNameSelection = MAP_STYLE_NAME_OPTIONS[row]
+            let mapStyleURLSelection = MAP_STYLE_URL_OPTIONS[row]
+            mapStyleLabel.text = mapStyleNameSelection
+            UserDefaults.standard.set(mapStyleURLSelection, forKey:"map_style")
         }
         
     }
@@ -259,16 +321,16 @@ class PreferenceViewController: UITableViewController, UIPickerViewDelegate, UIP
     
     func initalizeRadius(){
         let savedRadius = UserDefaults.standard.integer(forKey:"radius")
-        radiusSlider.maximumValue = Float(distanceArray.count-1)
+        radiusSlider.maximumValue = Float(DISTANCE_OPTIONS.count-1)
         radiusSlider.minimumValue = 0
-        radiusSlider.value = Float(distanceArray.index(of: savedRadius)!)
+        radiusSlider.value = Float(DISTANCE_OPTIONS.index(of: savedRadius)!)
         setRadiusLabel(dist: savedRadius)
     }
     
     @IBAction func valueChanged(sender: UISlider) {
         let newIndexGeneral = radiusSlider.value
         let index = Int(round(newIndexGeneral))
-        let newRadius = distanceArray[index]
+        let newRadius = DISTANCE_OPTIONS[index]
         radiusSlider.value = Float(index)
         UserDefaults.standard.set(newRadius,forKey:"radius")
         setRadiusLabel(dist: newRadius)
@@ -292,8 +354,22 @@ class PreferenceViewController: UITableViewController, UIPickerViewDelegate, UIP
         tableView.tableFooterView = UIView()
         let savedDateFormat = UserDefaults.standard.string(forKey: "date_format")
         dateFormatLabel.text = savedDateFormat
-        dateFormatPicker.selectRow(dateFormatArray.index(of: savedDateFormat!)!, inComponent: 0, animated: true)
+        dateFormatPicker.selectRow(DATE_FORMAT_OPTIONS.index(of: savedDateFormat!)!, inComponent: 0, animated: true)
     }
+    
+    //Map Style Picker
+    
+    func initalizeMapStyle(){
+        self.mapStylePicker.delegate = self
+        self.mapStylePicker.dataSource = self
+        tableView.tableFooterView = UIView()
+        let mapStyleIndex:Int = MAP_STYLE_URL_OPTIONS.index(of: UserDefaults.standard.string(forKey: "map_style")!)!
+        let mapStyleFormat = MAP_STYLE_NAME_OPTIONS[mapStyleIndex]
+        mapStyleLabel.text = mapStyleFormat
+        mapStylePicker.selectRow(mapStyleIndex, inComponent: 0, animated: true)
+        
+    }
+    
     
     
 }

@@ -10,9 +10,6 @@ import Foundation
 import CoreLocation
 import SwiftyJSON
 
-
-let FBI_WEIGHT:Double = 0.3
-let TARGET_WEIGHT:Double = 0.3
 let TIME_SINCE_WEIGHT:Double = 0.2
 let TIME_SINCE_CONST:Double = -40
 let DISTANCE_WEIGHT:Double = 0.1
@@ -26,9 +23,9 @@ struct Crime{
     let typeCrime:String
     let location:CLLocationCoordinate2D
     
-    func calculateSingleThreatScore(userLocation:CLLocationCoordinate2D, currentDate:Date, fbiValue:Double, targetValue:Double) -> Double{
-        let fbiTotal:Double = FBI_WEIGHT*fbiValue
-        let targetTotal:Double = TARGET_WEIGHT*targetValue
+    //TODO Rewrite with current system of pulling user entered values
+    func calculateSingleThreatScore(userLocation:CLLocationCoordinate2D, currentDate:Date) -> Double{
+
         let timeSinceTotal:Double = TIME_SINCE_WEIGHT*pow(M_E,(Double(currentDate.timeIntervalSince(self.date))/2629743.83)/TIME_SINCE_CONST)
         let topOfExponent = pow(2,((Double(currentDate.timeIntervalSince(self.date))/3600000).truncatingRemainder(dividingBy: Double(12))-24))
         let timeOfDayTotal = TIME_OF_DAY_WEIGHT*pow(M_E,(topOfExponent/TIME_OF_DAY_CONST))
@@ -41,7 +38,7 @@ struct Crime{
             distanceTotal = DISTANCE_WEIGHT
         }
         
-        return (fbiTotal+targetTotal+timeSinceTotal+distanceTotal+timeOfDayTotal)
+        return (timeSinceTotal+distanceTotal+timeOfDayTotal)
     }
 
 }

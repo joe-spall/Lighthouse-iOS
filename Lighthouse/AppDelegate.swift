@@ -14,12 +14,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
+    let SETTING_KEYS:[String] = ["load_before","units","year","radius","date_format","num_format","map_style"]
+    let DEFAULT_VALUES:[Any] = [true,"feet","2015",100,"MM/dd/yyyy","1,000.00","mapbox://styles/mapbox/streets-v9"]
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        if !isKeyPresentInUserDefaults(key: "loadBefore")
-        {
-            initalizeUserDefaults()
-        }
+        initalizeUserDefaults()
         // Override point for customization after application launch.
         return true
     }
@@ -98,12 +97,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func initalizeUserDefaults(){
-        UserDefaults.standard.set("feet",forKey:"units")
-        UserDefaults.standard.set(true,forKey: "loadBefore")
-        UserDefaults.standard.set("2015",forKey: "year")
-        UserDefaults.standard.set(100,forKey:"radius")
-        UserDefaults.standard.set("MM/dd/yyyy",forKey:"date_format")
-        UserDefaults.standard.set("1,000.00",forKey:"num_format")
+        var count:Int = 0
+        for key in SETTING_KEYS{
+            if !isKeyPresentInUserDefaults(key: key){
+                UserDefaults.standard.set(DEFAULT_VALUES[count],forKey:key)
+            }
+            count += 1
+        }
     }
 
 }

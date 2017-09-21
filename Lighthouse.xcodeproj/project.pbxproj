@@ -14,7 +14,7 @@
 		CF3E146D1F2F68E500C3F04C /* CrimeInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3E146C1F2F68E500C3F04C /* CrimeInfoView.swift */; };
 		CF757B9A1F0ECED200357AD6 /* AttributionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF757B991F0ECED200357AD6 /* AttributionViewController.swift */; };
 		CF757B9C1F0ED20E00357AD6 /* attribution_storage.xml in Resources */ = {isa = PBXBuildFile; fileRef = CF757B9B1F0ED20E00357AD6 /* attribution_storage.xml */; };
-		CF9258CE1F17D5E000116A35 /* info.xml in Resources */ = {isa = PBXBuildFile; fileRef = CF9258CD1F17D5E000116A35 /* info.xml */; };
+		CF9258CE1F17D5E000116A35 /* crime_info.xml in Resources */ = {isa = PBXBuildFile; fileRef = CF9258CD1F17D5E000116A35 /* crime_info.xml */; };
 		CFA047871F16A8730090E049 /* CrimeCountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA047861F16A8730090E049 /* CrimeCountView.swift */; };
 		CFA0478B1F16ACEC0090E049 /* CrimeCountView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFA0478A1F16ACEC0090E049 /* CrimeCountView.xib */; };
 		CFAB8C921F0FC3970019B580 /* Attribution.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAB8C911F0FC3970019B580 /* Attribution.swift */; };
@@ -27,6 +27,9 @@
 		CFDC59291F072F5500EDF01F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFDC59271F072F5500EDF01F /* LaunchScreen.storyboard */; };
 		CFDC59341F072F5500EDF01F /* LighthouseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDC59331F072F5500EDF01F /* LighthouseTests.swift */; };
 		CFDC593F1F072F5500EDF01F /* LighthouseUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDC593E1F072F5500EDF01F /* LighthouseUITests.swift */; };
+		CFEF27061F671DD700110DE2 /* CrimeSlidersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFEF27051F671DD700110DE2 /* CrimeSlidersViewController.swift */; };
+		CFEF27081F671EF100110DE2 /* CrimeSlide.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFEF27071F671EF100110DE2 /* CrimeSlide.swift */; };
+		CFEF270A1F67283800110DE2 /* CrimeSlideTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFEF27091F67283800110DE2 /* CrimeSlideTableViewCell.swift */; };
 		D069E82539CA276BA5F01C29 /* Pods_LighthouseUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9746BC938C3CF5FA192CE71A /* Pods_LighthouseUITests.framework */; };
 /* End PBXBuildFile section */
 
@@ -60,7 +63,7 @@
 		CF3E146C1F2F68E500C3F04C /* CrimeInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrimeInfoView.swift; sourceTree = "<group>"; };
 		CF757B991F0ECED200357AD6 /* AttributionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttributionViewController.swift; sourceTree = "<group>"; };
 		CF757B9B1F0ED20E00357AD6 /* attribution_storage.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = attribution_storage.xml; sourceTree = "<group>"; };
-		CF9258CD1F17D5E000116A35 /* info.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = info.xml; sourceTree = "<group>"; };
+		CF9258CD1F17D5E000116A35 /* crime_info.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = crime_info.xml; sourceTree = "<group>"; };
 		CFA047861F16A8730090E049 /* CrimeCountView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrimeCountView.swift; sourceTree = "<group>"; };
 		CFA0478A1F16ACEC0090E049 /* CrimeCountView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CrimeCountView.xib; sourceTree = "<group>"; };
 		CFAB8C911F0FC3970019B580 /* Attribution.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Attribution.swift; sourceTree = "<group>"; };
@@ -79,6 +82,9 @@
 		CFDC593A1F072F5500EDF01F /* LighthouseUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LighthouseUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CFDC593E1F072F5500EDF01F /* LighthouseUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LighthouseUITests.swift; sourceTree = "<group>"; };
 		CFDC59401F072F5500EDF01F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CFEF27051F671DD700110DE2 /* CrimeSlidersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrimeSlidersViewController.swift; sourceTree = "<group>"; };
+		CFEF27071F671EF100110DE2 /* CrimeSlide.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrimeSlide.swift; sourceTree = "<group>"; };
+		CFEF27091F67283800110DE2 /* CrimeSlideTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrimeSlideTableViewCell.swift; sourceTree = "<group>"; };
 		D2F3F43A155F6F20CFF269AA /* Pods-LighthouseUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LighthouseUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-LighthouseUITests/Pods-LighthouseUITests.release.xcconfig"; sourceTree = "<group>"; };
 		F05B7C8FB2068F255322578C /* Pods_Lighthouse.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Lighthouse.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -137,9 +143,9 @@
 		CF97DE311F1CFABF0001E9D7 /* Attribution */ = {
 			isa = PBXGroup;
 			children = (
-				CF757B9B1F0ED20E00357AD6 /* attribution_storage.xml */,
 				CF757B991F0ECED200357AD6 /* AttributionViewController.swift */,
 				CFAB8C911F0FC3970019B580 /* Attribution.swift */,
+				CF757B9B1F0ED20E00357AD6 /* attribution_storage.xml */,
 			);
 			name = Attribution;
 			sourceTree = "<group>";
@@ -148,6 +154,7 @@
 			isa = PBXGroup;
 			children = (
 				CF1578D11F07D7D7002E085C /* PreferenceViewController.swift */,
+				CFEF27041F671D7C00110DE2 /* CrimeSliders */,
 				CF97DE311F1CFABF0001E9D7 /* Attribution */,
 			);
 			name = Preference;
@@ -190,7 +197,6 @@
 				CFB941DA1F2F6AD30064EC44 /* CrimeInfo */,
 				CFFECE681F2799B900121BD6 /* CrimeCount */,
 				CF9DFC091F20013400E39276 /* Preference */,
-				CF9258CD1F17D5E000116A35 /* info.xml */,
 				CFDC591B1F072F5500EDF01F /* AppDelegate.swift */,
 				CF1A9A541F0D5FBB00EF3E7E /* Crime.swift */,
 				CFDC591D1F072F5500EDF01F /* ViewController.swift */,
@@ -219,6 +225,17 @@
 				CFDC59401F072F5500EDF01F /* Info.plist */,
 			);
 			path = LighthouseUITests;
+			sourceTree = "<group>";
+		};
+		CFEF27041F671D7C00110DE2 /* CrimeSliders */ = {
+			isa = PBXGroup;
+			children = (
+				CFEF27051F671DD700110DE2 /* CrimeSlidersViewController.swift */,
+				CFEF27091F67283800110DE2 /* CrimeSlideTableViewCell.swift */,
+				CFEF27071F671EF100110DE2 /* CrimeSlide.swift */,
+				CF9258CD1F17D5E000116A35 /* crime_info.xml */,
+			);
+			name = CrimeSliders;
 			sourceTree = "<group>";
 		};
 		CFFECE681F2799B900121BD6 /* CrimeCount */ = {
@@ -350,7 +367,7 @@
 				CFA0478B1F16ACEC0090E049 /* CrimeCountView.xib in Resources */,
 				CFDC59291F072F5500EDF01F /* LaunchScreen.storyboard in Resources */,
 				CFB941DC1F2F6B110064EC44 /* CrimeInfoView.xib in Resources */,
-				CF9258CE1F17D5E000116A35 /* info.xml in Resources */,
+				CF9258CE1F17D5E000116A35 /* crime_info.xml in Resources */,
 				CFDC59261F072F5500EDF01F /* Assets.xcassets in Resources */,
 				CFDC59211F072F5500EDF01F /* Main.storyboard in Resources */,
 				CF757B9C1F0ED20E00357AD6 /* attribution_storage.xml in Resources */,
@@ -517,11 +534,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				CF757B9A1F0ECED200357AD6 /* AttributionViewController.swift in Sources */,
+				CFEF27081F671EF100110DE2 /* CrimeSlide.swift in Sources */,
 				CF1A9A551F0D5FBB00EF3E7E /* Crime.swift in Sources */,
 				CFAB8C921F0FC3970019B580 /* Attribution.swift in Sources */,
 				CFA047871F16A8730090E049 /* CrimeCountView.swift in Sources */,
 				CFDC59241F072F5500EDF01F /* Lighthouse.xcdatamodeld in Sources */,
 				CFDC591E1F072F5500EDF01F /* ViewController.swift in Sources */,
+				CFEF27061F671DD700110DE2 /* CrimeSlidersViewController.swift in Sources */,
+				CFEF270A1F67283800110DE2 /* CrimeSlideTableViewCell.swift in Sources */,
 				CFDC591C1F072F5500EDF01F /* AppDelegate.swift in Sources */,
 				CF1578D21F07D7D7002E085C /* PreferenceViewController.swift in Sources */,
 				CF3E146D1F2F68E500C3F04C /* CrimeInfoView.swift in Sources */,
