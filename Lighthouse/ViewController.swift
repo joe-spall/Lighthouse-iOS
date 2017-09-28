@@ -20,14 +20,16 @@ class ViewController: UIViewController, MGLMapViewDelegate {
     @IBOutlet weak var crimeCount: CrimeCountView!
     @IBOutlet var mapView: MGLMapView!
   
-    //Constants
+    // Constants
     let CRIME_PULL_URL:String = "https://www.app-lighthouse.com/app/crimepullcirc.php"
     let SAFETY_LEVELS:[String] = ["Safe","Low", "Moderate", "High", "Very High", "Dangerous"]
     let SAFETY_VALUES:[Double] = [0.0,3.0,6.0,10.0,20.0,60.0]
     let CLUSTER_RANGES:[Int] = [10, 20, 50, 100, 200]
     let CLUSTER_COLORS:[MGLStyleValue<UIColor>] = [MGLStyleValue(rawValue: UIColor(rgb:0xFEE5D9)),MGLStyleValue(rawValue: UIColor(rgb:0xFCAE91)),MGLStyleValue(rawValue: UIColor(rgb:0xFB6A4A)),MGLStyleValue(rawValue: UIColor(rgb:0xDE2D26)),MGLStyleValue(rawValue: UIColor(rgb:0xA50F15))]
     let CRIME_ICON:UIImage = UIImage(named:"crime_icon")!
-    let geocoder = Geocoder.shared
+    
+    var geocoder = Geocoder.shared
+    var geocodingDataTask: URLSessionDataTask?
     
     var storedCrimes:[Crime] = []
     var currentCrimeEntryString:String = ""
@@ -36,8 +38,16 @@ class ViewController: UIViewController, MGLMapViewDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let currentStyleURL = URL(string: UserDefaults.standard.string(forKey:"map_style")!)
+        if(mapView.styleURL.absoluteString != currentStyleURL?.absoluteString)
+        {
+            mapView.styleURL = currentStyleURL
+        }
+        
+        
+        
         //Round edges of crime crime count
-        mapView.styleURL = URL(string: UserDefaults.standard.string(forKey:"map_style")!)
         crimeCount.layer.cornerRadius = 10
         mapView.delegate = self
     }
@@ -49,8 +59,11 @@ class ViewController: UIViewController, MGLMapViewDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        //TODO Only switch if map style is different
-        mapView.styleURL = URL(string: UserDefaults.standard.string(forKey:"map_style")!)
+        let currentStyleURL = URL(string: UserDefaults.standard.string(forKey:"map_style")!)
+        if(mapView.styleURL.absoluteString != currentStyleURL?.absoluteString)
+        {
+            mapView.styleURL = currentStyleURL
+        }
 
         // Hide the navigation bar on this view controller
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
@@ -80,6 +93,7 @@ class ViewController: UIViewController, MGLMapViewDelegate {
                     mapView.setCenter(currentUserLocation, animated: true)
                     drawSearchCircle(userLocation:currentUserLocation)
                     pullCrimes(userLocation:currentUserLocation)
+                    geocodeSearch(typedElement: "100 10th Street", location: CLLocation(latitude:currentUserLocation.latitude,longitude:currentUserLocation.longitude))
                     hideLoadingHUD()
                 
             }
@@ -170,7 +184,7 @@ class ViewController: UIViewController, MGLMapViewDelegate {
     }
     
     //TODO Handle if press on same element
-    func handleSingleTap(_ tap: UITapGestureRecognizer) {
+    @objc func handleSingleTap(_ tap: UITapGestureRecognizer) {
         if tap.state == .ended {
             let point = tap.location(in: tap.view)
             let iconWidth = CRIME_ICON.size.width
@@ -261,7 +275,7 @@ class ViewController: UIViewController, MGLMapViewDelegate {
     }
     
     func makeCrimeInfoView(viewCollection: [CrimeInfoView],crimeX:CGFloat,crimeY:CGFloat) -> UIScrollView{
-        //TODO Check the effects of modifying the sizes of the element widths
+        //TODO Make the weight calculation dynamic
         var maxWidth:CGFloat = 0.0
         var maxHeight:CGFloat = 0.0
         for singleView in viewCollection{
@@ -281,6 +295,8 @@ class ViewController: UIViewController, MGLMapViewDelegate {
             maxHeight = 66
         }
         //TODO-END
+        
+        //TODO Possibly translate into a custom class
         let stackView = UIStackView(arrangedSubviews: viewCollection.reversed())
         stackView.axis = UILayoutConstraintAxis.vertical
         stackView.distribution  = UIStackViewDistribution.fillEqually
@@ -530,6 +546,27 @@ class ViewController: UIViewController, MGLMapViewDelegate {
     }
     
     //TODO Geocoding stufff
+    
+    func geocodeSearch(typedElement:String, location:CLLocation){
+        let options = ForwardGeocodeOptions(query: typedElement)
+        options.allowedISOCountryCodes = ["US"]
+        options.focalLocation = location
+        options.allowedScopes = [.address,.pointOfInterest]
+        let task = geocoder.geocode(options) { (placemarks, attribution, error) in
+            guard let placemark = placemarks?.first else {
+                return
+            }
+            
+            print(placemark.name)
+            
+            print(placemark.qualifiedName)
+            
+            let coordinate = placemark.location.coordinate
+            print("\(coordinate.latitude), \(coordinate.longitude)")
+        }
+        
+        
+    }
     
 
 }

@@ -318,7 +318,7 @@ class PreferenceViewController: UITableViewController, UIPickerViewDelegate, UIP
     }
     
     //Radius Slider
-    
+    //TODO Add numbers for ranges on slider UI
     func initalizeRadius(){
         let savedRadius = UserDefaults.standard.integer(forKey:"radius")
         radiusSlider.maximumValue = Float(DISTANCE_OPTIONS.count-1)

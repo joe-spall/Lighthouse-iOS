@@ -78,7 +78,6 @@ extension Crime {
             throw SerializationError.missing("lng")
         }
         
-        
         self.id = id
         let dateFormatHandle:DateFormatter = DateFormatter()
         dateFormatHandle.dateFormat = "yyyy-MM-dd HH:mm:ss"
