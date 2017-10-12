@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<danger>
+    <crime type="AGGRAVATED ASSAULT">
+        <name>
+            Aggravated Assault
+        </name>
+    </crime>
+    <crime type="AUTO THEFT">
+        <name>
+            Motor Vehicle Theft
+        </name>
+    </crime>
+    <crime type="BURGLARY">
+        <name>
+            Burglary
+        </name>
+    </crime>
+    <crime type="BURGLARY FROM VEHICLE">
+        <name>
+            Burglary from Vehicle
+        </name>
+    </crime>
+	<crime type="HOMICIDE">
+        <name>
+            Homicide
+        </name>
+	</crime>
+    <crime type="LARCENY">
+        <name>
+            Larceny
+        </name>
+    </crime>
+    <crime type="LARCENY FROM VEHICLE">
+        <name>
+            Larceny from a Vehicle
+        </name>
+    </crime>
+	<crime type="RAPE">
+		<name>
+            Rape
+		</name>
+	</crime>
+	<crime type="ROBBERY">
+		<name>
+            Robbery
+		</name>
+	</crime>
+    <crime type="THEFT">
+        <name>
+            Theft
+        </name>
+    </crime>
+</danger>
