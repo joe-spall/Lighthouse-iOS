@@ -49,6 +49,8 @@
 		CFDCD9211F896601006DEDE4 /* CrimeWeightViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDCD9201F896601006DEDE4 /* CrimeWeightViewController.swift */; };
 		CFDCD9231F896652006DEDE4 /* CrimeWeightTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDCD9221F896652006DEDE4 /* CrimeWeightTableViewCell.swift */; };
 		CFDCD9271F8968FC006DEDE4 /* AcknowledgmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDCD9261F8968FC006DEDE4 /* AcknowledgmentViewController.swift */; };
+		CFFFB2FF1F966BAB00A55F20 /* CrimeInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFFFB2FD1F966B9900A55F20 /* CrimeInfoView.swift */; };
+		CFFFB3001F966BAE00A55F20 /* CrimeInfoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFFFB2FE1F966BA300A55F20 /* CrimeInfoView.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -161,6 +163,8 @@
 		CFDCD9241F896785006DEDE4 /* crime_info.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = crime_info.xml; sourceTree = "<group>"; };
 		CFDCD9261F8968FC006DEDE4 /* AcknowledgmentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcknowledgmentViewController.swift; sourceTree = "<group>"; };
 		CFDCD9281F8969D2006DEDE4 /* ack_storage.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = ack_storage.xml; sourceTree = "<group>"; };
+		CFFFB2FD1F966B9900A55F20 /* CrimeInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CrimeInfoView.swift; path = ../../../discont/Lighthouse/CrimeInfoView.swift; sourceTree = "<group>"; };
+		CFFFB2FE1F966BA300A55F20 /* CrimeInfoView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = CrimeInfoView.xib; path = ../../../discont/Lighthouse/CrimeInfoView.xib; sourceTree = "<group>"; };
 		D1EE7D39975F1084A7E653C5 /* Pods-lighthouse-gmaps.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lighthouse-gmaps.release.xcconfig"; path = "Pods/Target Support Files/Pods-lighthouse-gmaps/Pods-lighthouse-gmaps.release.xcconfig"; sourceTree = "<group>"; };
 		E3D0F53BEFB01B21AF1C593E /* Pods-lighthouse-gmapsUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lighthouse-gmapsUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-lighthouse-gmapsUITests/Pods-lighthouse-gmapsUITests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -377,6 +381,7 @@
 		CF9D92951F895BF9000E9224 /* lighthouse-gmaps */ = {
 			isa = PBXGroup;
 			children = (
+				CFFFB2FC1F966B3100A55F20 /* CrimeInfo */,
 				CF2FBB8C1F8976B30010603F /* resources */,
 				CFDCD91C1F89649F006DEDE4 /* settings */,
 				CF9D92961F895BF9000E9224 /* AppDelegate.swift */,
@@ -435,6 +440,15 @@
 				CFDCD9261F8968FC006DEDE4 /* AcknowledgmentViewController.swift */,
 			);
 			path = acknowledgment;
+			sourceTree = "<group>";
+		};
+		CFFFB2FC1F966B3100A55F20 /* CrimeInfo */ = {
+			isa = PBXGroup;
+			children = (
+				CFFFB2FD1F966B9900A55F20 /* CrimeInfoView.swift */,
+				CFFFB2FE1F966BA300A55F20 /* CrimeInfoView.xib */,
+			);
+			path = CrimeInfo;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -555,6 +569,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CF2FBB8E1F897B510010603F /* crime_info.xml in Resources */,
+				CFFFB3001F966BAE00A55F20 /* CrimeInfoView.xib in Resources */,
 				CF9D92A41F895BF9000E9224 /* LaunchScreen.storyboard in Resources */,
 				CF2FBB8D1F897B4E0010603F /* ack_storage.xml in Resources */,
 				CF9D92A11F895BF9000E9224 /* Assets.xcassets in Resources */,
@@ -728,6 +743,7 @@
 				CF33A9621F8C2CF000D9B48E /* GMUPlacemark.m in Sources */,
 				CF33A96E1F8C2CF000D9B48E /* GMUWrappingDictionaryKey.m in Sources */,
 				CF33A9631F8C2CF000D9B48E /* GMUPoint.m in Sources */,
+				CFFFB2FF1F966BAB00A55F20 /* CrimeInfoView.swift in Sources */,
 				CF33A95D1F8C2CF000D9B48E /* GMUKMLParser.m in Sources */,
 				CF9D929F1F895BF9000E9224 /* lighthouse_gmaps.xcdatamodeld in Sources */,
 				CFDCD9211F896601006DEDE4 /* CrimeWeightViewController.swift in Sources */,

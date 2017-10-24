@@ -57,6 +57,18 @@ import UIKit
         return view
     }
     
+    func setAllCrimeInfo(currentCrime:Crime){
+        setCrimeDateLabel(date: formatDate(inputDate: currentCrime.date))
+        setCrimeTypeLabel(type: currentCrime.type)
+    }
+    
+    func formatDate(inputDate:Date) -> String{
+        let dateFormatter = DateFormatter()
+        let dateFormat = UserDefaults.standard.string(forKey:"date_format")
+        dateFormatter.dateFormat = dateFormat
+        return dateFormatter.string(from:inputDate)
+    }
+    
     func setCrimeTypeLabel(type:String){
         crimeTypeLabel.text = type
     }

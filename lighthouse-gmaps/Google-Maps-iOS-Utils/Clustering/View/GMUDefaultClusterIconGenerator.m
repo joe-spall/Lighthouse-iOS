@@ -103,21 +103,24 @@ static NSArray<UIColor *> *kGMUBucketBackgroundColors;
 }
 
 - (UIImage *)iconForSize:(NSUInteger)size {
-  NSUInteger bucketIndex = [self bucketIndexForSize:size];
-  NSString *text;
-
-  // If size is smaller to first bucket size, use the size as is otherwise round it down to the
-  // nearest bucket to limit the number of cluster icons we need to generate.
-  if (size < _buckets[0].unsignedLongValue) {
-    text = [NSString stringWithFormat:@"%ld", (unsigned long)size];
-  } else {
-    text = [NSString stringWithFormat:@"%ld+", _buckets[bucketIndex].unsignedLongValue];
-  }
-  if (_backgroundImages != nil) {
-    UIImage *image = _backgroundImages[bucketIndex];
-    return [self iconForText:text withBaseImage:image];
-  }
-  return [self iconForText:text withBucketIndex:bucketIndex];
+    NSUInteger bucketIndex = [self bucketIndexForSize:size];
+    NSString *text;
+    
+    // If size is smaller to first bucket size, use the size as is otherwise round it down to the
+    // nearest bucket to limit the number of cluster icons we need to generate.
+    if (size < _buckets[0].unsignedLongValue) {
+        text = [NSString stringWithFormat:@"%ld", (unsigned long)size];
+    }
+    
+    else{
+        text = [NSString stringWithFormat:@"%ld", (unsigned long)size];
+    }
+    
+    if (_backgroundImages != nil) {
+        UIImage *image = _backgroundImages[bucketIndex];
+        return [self iconForText:text withBaseImage:image];
+    }
+    return [self iconForText:text withBucketIndex:bucketIndex];
 }
 
 #pragma mark Private
