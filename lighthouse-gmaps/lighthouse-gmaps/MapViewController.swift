@@ -14,49 +14,54 @@ import SwiftyJSON
 
 class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapViewDelegate, GMUClusterRendererDelegate{
 
+    // Mapping
     @IBOutlet var mapView:GMSMapView!
-    
-    let CRIME_PULL_URL:String = "https://www.app-lighthouse.com/app/crimepullcirc.php"
-    
-    private var clusterManager: GMUClusterManager!
-    
     let locationManager = CLLocationManager()
     var lastLocation = CLLocation()
-    let CRIME_ICON:UIImage = UIImage(named:"crime_icon")!
-    var storedCrimes:[Crime] = []
-    var currentCrimeEntryString:String = ""
-    var currentDangerLevel:String = ""
-    var crimeInfoTotal: UIScrollView?
-    var pullCounter = 0
     
-    //Auto Complete
+    // Data Pull
+    let CRIME_PULL_URL:String = "https://www.app-lighthouse.com/app/crimepullcirc.php"
+    var storedCrimes:[Crime] = []
+    
+    // Cluster
+    private var clusterManager: GMUClusterManager!
+    let CRIME_ICON:UIImage = UIImage(named:"crime_icon")!
+    
+    // Popup window
+    var crimeInfoSummary: CrimeInfoSummaryView?
+    fileprivate var locationMarker : GMSMarker? = GMSMarker()
+    
+    // Search
     var resultsViewController: GMSAutocompleteResultsViewController?
     var searchController: UISearchController?
+    
+    
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Mapping
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
         
-        // Set up the cluster manager with default icon generator and renderer.
+        mapView.delegate = self
+        mapView.isIndoorEnabled = false
+        
+        // Cluster
         let iconGenerator = GMUDefaultClusterIconGenerator()
         let algorithm = GMUNonHierarchicalDistanceBasedAlgorithm()
         let renderer = GMUDefaultClusterRenderer(mapView: mapView, clusterIconGenerator: iconGenerator)
         renderer.delegate = self
         clusterManager = GMUClusterManager(map: mapView, algorithm: algorithm, renderer: renderer)
-
-        // Register self to listen to both GMUClusterManagerDelegate and GMSMapViewDelegate events.
-        
-       
-        
-        mapView.delegate = self
-        mapView.isIndoorEnabled = false
         clusterManager.setDelegate(self, mapDelegate: self)
         
-        resultsViewController = GMSAutocompleteResultsViewController()
-        resultsViewController?.delegate = self
+        
+        
+        
+        // Search
+//        resultsViewController = GMSAutocompleteResultsViewController()
+//        resultsViewController?.delegate = self
         
         searchController = UISearchController(searchResultsController: resultsViewController)
         searchController?.searchResultsUpdater = resultsViewController
@@ -157,104 +162,22 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
         clusterManager.cluster()
     }
     
-    func makeCrimeInfoView(viewCollection: [CrimeInfoView],crimeX:CGFloat,crimeY:CGFloat) -> UIScrollView{
-        //TODO Make the weight calculation dynamic
-        var maxWidth:CGFloat = 0.0
-        var maxHeight:CGFloat = 0.0
-        for singleView in viewCollection{
-            if maxWidth < singleView.frame.width{
-                maxWidth = singleView.frame.width
-            }
-            
-            if maxHeight < singleView.frame.height{
-                maxHeight = singleView.frame.height
-            }
-        }
-        if maxWidth == 0{
-            maxWidth = 227
-        }
-        
-        if maxHeight == 0{
-            maxHeight = 66
-        }
-        //TODO-END
-        
-        //TODO Possibly translate into a custom class
-        let stackView = UIStackView(arrangedSubviews: viewCollection.reversed())
-        stackView.axis = UILayoutConstraintAxis.vertical
-        stackView.distribution  = UIStackViewDistribution.fillEqually
-        stackView.alignment = UIStackViewAlignment.center
-        stackView.spacing = 3.0
-        stackView.frame = CGRect(x: 0, y: 0, width: maxWidth, height: maxHeight*CGFloat(viewCollection.count))
-        
-        var scrollView = UIScrollView()
-        
-        if(viewCollection.count > 3){
-            scrollView = UIScrollView(frame: CGRect(x: crimeX - (maxWidth/2), y: crimeY - (CGFloat(4)*maxHeight), width: maxWidth, height: maxHeight*CGFloat(3)-(maxHeight/3)))
-        }
-        else{
-            scrollView = UIScrollView(frame: CGRect(x: crimeX - (maxWidth/2), y: crimeY - (CGFloat(viewCollection.count+1) * maxHeight), width: maxWidth, height: CGFloat(viewCollection.count)*maxHeight))
-        }
-        scrollView.layer.borderWidth = 1
-        scrollView.layer.borderColor = UIColor(red:0/255.0, green:0/255.0, blue:0/255.0, alpha: 1.0).cgColor
-        scrollView.layer.cornerRadius = 10
-        scrollView.contentSize = stackView.bounds.size
-        scrollView.backgroundColor = UIColor(red:1, green:1, blue:1, alpha: 0.5)
-        scrollView.addSubview(stackView)
-        scrollView.tag = 100
-        scrollView.alpha = 0
-        return scrollView
-    }
-    
-    func makePopupForSingleCrime(crimeItem:CrimeClusterItem){
-        let singleCrimeInfoView:CrimeInfoView = CrimeInfoView()
-        let currentCrime:Crime = crimeItem.crime
-        singleCrimeInfoView.setAllCrimeInfo(currentCrime: currentCrime)
-       
-        let infoViewCollection:[CrimeInfoView] = [singleCrimeInfoView]
-        let crimePoint = mapView.projection.point(for: currentCrime.location)
-        
-        crimeInfoTotal = makeCrimeInfoView(viewCollection: infoViewCollection, crimeX: crimePoint.x, crimeY: crimePoint.y)
-        mapView.addSubview(crimeInfoTotal!)        
-    }
-    
-    func makePopupForCluster(crimeCluster:GMUCluster){
-        var infoViewCollection:[CrimeInfoView] = []
-        let clusterItems = crimeCluster.items
-        for singleCrimeItem in clusterItems{
-            let crime = (singleCrimeItem as! CrimeClusterItem).crime
-            let singleCrimeInfoView:CrimeInfoView = CrimeInfoView()
-            singleCrimeInfoView.setAllCrimeInfo(currentCrime: crime!)
-            infoViewCollection.append(singleCrimeInfoView)
-        }
-        
-        let crimePoint = mapView.projection.point(for: crimeCluster.position)
-
-        crimeInfoTotal = makeCrimeInfoView(viewCollection: infoViewCollection, crimeX: crimePoint.x, crimeY: crimePoint.y)
-        mapView.addSubview(crimeInfoTotal!)
-        
-    }
-    
     func showPopup(_ shouldShow: Bool, animated: Bool) {
         let alpha: CGFloat = (shouldShow ? 1 : 0)
         if animated {
             UIView.animate(withDuration: 0.25,animations: { [unowned self] in
-                self.crimeInfoTotal?.alpha = alpha
+                self.crimeInfoSummary?.alpha = alpha
                 }, completion: { (finished: Bool) in
                     if(!shouldShow){
-                        if let viewWithTag = self.view.viewWithTag(100) {
-                            viewWithTag.removeFromSuperview()
-                        }
-                        self.crimeInfoTotal = nil
+                        self.crimeInfoSummary?.removeFromSuperview()
+                        self.crimeInfoSummary = nil
                     }
             })
         } else {
-            crimeInfoTotal?.alpha = alpha
+            crimeInfoSummary?.alpha = alpha
             if(!shouldShow){
-                if let viewWithTag = self.view.viewWithTag(100) {
-                    viewWithTag.removeFromSuperview()
-                }
-                self.crimeInfoTotal = nil
+                self.crimeInfoSummary?.removeFromSuperview()
+                self.crimeInfoSummary = nil
             }
         }
     }
@@ -271,6 +194,10 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
     // MARK: - GMUClusterManagerDelegate
     
     func clusterManager(_ clusterManager: GMUClusterManager, didTap cluster: GMUCluster) -> Bool {
+        if(crimeInfoSummary != nil)
+        {
+            showPopup(false, animated: false)
+        }
         let currentZoom = mapView.camera.zoom
         if(currentZoom <= 20){
             let newCamera = GMSCameraPosition.camera(withTarget: cluster.position, zoom: mapView.camera.zoom + 1)
@@ -278,29 +205,54 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
             mapView.moveCamera(update)
         }
         else{
-            makePopupForCluster(crimeCluster: cluster)
+            if crimeInfoSummary == nil{
+                crimeInfoSummary = CrimeInfoSummaryView()
+            }
+            
+            crimeInfoSummary?.makeViewForCluster(crimeCluster: cluster)
+            mapView.addSubview(crimeInfoSummary!)
         }
         return false
     }
     
     func clusterManager(_ clusterManager: GMUClusterManager, didTap clusterItem: GMUClusterItem) -> Bool {
-        makePopupForSingleCrime(crimeItem: clusterItem as! CrimeClusterItem)
+        if(crimeInfoSummary != nil)
+        {
+            showPopup(false, animated: false)
+        }
+        if crimeInfoSummary == nil{
+            crimeInfoSummary = CrimeInfoSummaryView()
+        }
+        
+        crimeInfoSummary?.makeViewForSingle(crimeItem: clusterItem as! CrimeClusterItem)
+        mapView.addSubview(crimeInfoSummary!)
+
+        
         return false
     }
+    
+    //MARK: - GMSMapViewDelegate
     
     func mapView(_ mapView: GMSMapView, willMove gesture: Bool) {
         if gesture {
             showPopup(false, animated: true)
         }
     }
+
     
     func mapView(_ mapView: GMSMapView, idleAt position: GMSCameraPosition) {
-        if crimeInfoTotal != nil{
+        if crimeInfoSummary != nil{
             let userViewPosition = mapView.projection.point(for: position.target)
-            crimeInfoTotal?.frame.origin.x = userViewPosition.x - (crimeInfoTotal?.frame.width)!/2
-            //TODOOOOOO RELATED TO CLUSTER ICON SIZE
-            crimeInfoTotal?.frame.origin.y = userViewPosition.y - (crimeInfoTotal?.frame.height)! - 20
+            crimeInfoSummary?.frame.origin.x = userViewPosition.x - (crimeInfoSummary?.frame.width)!/2
+            if crimeInfoSummary?.numberOfCrimes() == 1 {
+                crimeInfoSummary?.frame.origin.y = userViewPosition.y - (crimeInfoSummary?.frame.height)! - 55
+            }
+            else{
+               crimeInfoSummary?.frame.origin.y = userViewPosition.y - (crimeInfoSummary?.frame.height)! - 25
+            }
+
             showPopup(true, animated: true)
+            
         }
     }
     
@@ -343,32 +295,32 @@ extension MapViewController: CLLocationManagerDelegate {
     }
 }
 
-// Handle the user's selection.
-extension MapViewController: GMSAutocompleteResultsViewControllerDelegate {
-    func resultsController(_ resultsController: GMSAutocompleteResultsViewController,
-                           didAutocompleteWith place: GMSPlace) {
-        searchController?.isActive = false
-        // Do something with the selected place.
-        print("Place name: \(place.name)")
-        print("Place address: \(place.formattedAddress)")
-        print("Place attributions: \(place.attributions)")
-    }
-    
-    func resultsController(_ resultsController: GMSAutocompleteResultsViewController,
-                           didFailAutocompleteWithError error: Error){
-        // TODO: handle the error.
-        print("Error: ", error.localizedDescription)
-    }
-    
-    // Turn the network activity indicator on and off again.
-    func didRequestAutocompletePredictions(forResultsController resultsController: GMSAutocompleteResultsViewController) {
-        UIApplication.shared.isNetworkActivityIndicatorVisible = true
-    }
-    
-    func didUpdateAutocompletePredictions(forResultsController resultsController: GMSAutocompleteResultsViewController) {
-        UIApplication.shared.isNetworkActivityIndicatorVisible = false
-    }
-}
+//// Handle the user's selection.
+//extension MapViewController: GMSAutocompleteResultsViewControllerDelegate {
+//    func resultsController(_ resultsController: GMSAutocompleteResultsViewController,
+//                           didAutocompleteWith place: GMSPlace) {
+//        searchController?.isActive = false
+//        // Do something with the selected place.
+//        print("Place name: \(place.name)")
+//        print("Place address: \(place.formattedAddress)")
+//        print("Place attributions: \(place.attributions)")
+//    }
+//
+//    func resultsController(_ resultsController: GMSAutocompleteResultsViewController,
+//                           didFailAutocompleteWithError error: Error){
+//        // TODO: handle the error.
+//        print("Error: ", error.localizedDescription)
+//    }
+//
+//    // Turn the network activity indicator on and off again.
+//    func didRequestAutocompletePredictions(forResultsController resultsController: GMSAutocompleteResultsViewController) {
+//        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+//    }
+//
+//    func didUpdateAutocompletePredictions(forResultsController resultsController: GMSAutocompleteResultsViewController) {
+//        UIApplication.shared.isNetworkActivityIndicatorVisible = false
+//    }
+//}
 
 class CrimeClusterItem: NSObject, GMUClusterItem {
     var position: CLLocationCoordinate2D
