@@ -36,6 +36,8 @@
 		CF33A9701F8C2CF000D9B48E /* GMUStaticCluster.m in Sources */ = {isa = PBXBuildFile; fileRef = CF33A9511F8C2CF000D9B48E /* GMUStaticCluster.m */; };
 		CF33A9711F8C2CF000D9B48E /* GMUDefaultClusterIconGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = CF33A9571F8C2CF000D9B48E /* GMUDefaultClusterIconGenerator.m */; };
 		CF33A9721F8C2CF000D9B48E /* GMUDefaultClusterRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = CF33A95A1F8C2CF000D9B48E /* GMUDefaultClusterRenderer.m */; };
+		CF4F09811FAF9FE500A472BF /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4F09801FAF9FE500A472BF /* Route.swift */; };
+		CF4F09831FAFA19300A472BF /* RouteStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4F09821FAFA19300A472BF /* RouteStep.swift */; };
 		CF60519B1FA0D882002B6C0B /* CrimeInfoSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF60519A1FA0D882002B6C0B /* CrimeInfoSummaryView.swift */; };
 		CF9D92971F895BF9000E9224 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9D92961F895BF9000E9224 /* AppDelegate.swift */; };
 		CF9D92991F895BF9000E9224 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9D92981F895BF9000E9224 /* MapViewController.swift */; };
@@ -143,6 +145,8 @@
 		CF33A9581F8C2CF000D9B48E /* GMUDefaultClusterRenderer+Testing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GMUDefaultClusterRenderer+Testing.h"; sourceTree = "<group>"; };
 		CF33A9591F8C2CF000D9B48E /* GMUDefaultClusterRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GMUDefaultClusterRenderer.h; sourceTree = "<group>"; };
 		CF33A95A1F8C2CF000D9B48E /* GMUDefaultClusterRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GMUDefaultClusterRenderer.m; sourceTree = "<group>"; };
+		CF4F09801FAF9FE500A472BF /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
+		CF4F09821FAFA19300A472BF /* RouteStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteStep.swift; sourceTree = "<group>"; };
 		CF60519A1FA0D882002B6C0B /* CrimeInfoSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrimeInfoSummaryView.swift; sourceTree = "<group>"; };
 		CF9D92931F895BF9000E9224 /* lighthouse-gmaps.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "lighthouse-gmaps.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF9D92961F895BF9000E9224 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -385,19 +389,21 @@
 		CF9D92951F895BF9000E9224 /* lighthouse-gmaps */ = {
 			isa = PBXGroup;
 			children = (
-				CFFFB2FC1F966B3100A55F20 /* CrimeInfo */,
+				CFFFB2FC1F966B3100A55F20 /* crimeInfo */,
 				CF2FBB8C1F8976B30010603F /* resources */,
 				CFDCD91C1F89649F006DEDE4 /* settings */,
-				CF9D92961F895BF9000E9224 /* AppDelegate.swift */,
+				CFDCD9251F896876006DEDE4 /* acknowledgment */,
+				CFC4F1851FB0BCAF0074C4B3 /* route */,
 				CF9D92981F895BF9000E9224 /* MapViewController.swift */,
+				CF9D92961F895BF9000E9224 /* AppDelegate.swift */,
 				CFCD85171F89871500EBDAD7 /* Crime.swift */,
-				CF9D929A1F895BF9000E9224 /* Main.storyboard */,
+				CFB29CCB1F9FA35500753CA1 /* MapClusterIconGenerator.swift */,
 				CF9D92A01F895BF9000E9224 /* Assets.xcassets */,
+				CF9D929A1F895BF9000E9224 /* Main.storyboard */,
 				CF9D92A21F895BF9000E9224 /* LaunchScreen.storyboard */,
 				CF9D92A51F895BF9000E9224 /* Info.plist */,
 				CF9D929D1F895BF9000E9224 /* lighthouse_gmaps.xcdatamodeld */,
 				CFC0CFA81F8C1EC800B92795 /* lighthouse-gmaps-Bridging-Header.h */,
-				CFB29CCB1F9FA35500753CA1 /* MapClusterIconGenerator.swift */,
 			);
 			path = "lighthouse-gmaps";
 			sourceTree = "<group>";
@@ -420,12 +426,20 @@
 			path = "lighthouse-gmapsUITests";
 			sourceTree = "<group>";
 		};
+		CFC4F1851FB0BCAF0074C4B3 /* route */ = {
+			isa = PBXGroup;
+			children = (
+				CF4F09801FAF9FE500A472BF /* Route.swift */,
+				CF4F09821FAFA19300A472BF /* RouteStep.swift */,
+			);
+			path = route;
+			sourceTree = "<group>";
+		};
 		CFDCD91C1F89649F006DEDE4 /* settings */ = {
 			isa = PBXGroup;
 			children = (
 				CFDCD91D1F8964D1006DEDE4 /* SettingsViewController.swift */,
 				CFDCD91F1F89655E006DEDE4 /* crimeWeight */,
-				CFDCD9251F896876006DEDE4 /* acknowledgment */,
 			);
 			path = settings;
 			sourceTree = "<group>";
@@ -447,14 +461,14 @@
 			path = acknowledgment;
 			sourceTree = "<group>";
 		};
-		CFFFB2FC1F966B3100A55F20 /* CrimeInfo */ = {
+		CFFFB2FC1F966B3100A55F20 /* crimeInfo */ = {
 			isa = PBXGroup;
 			children = (
 				CFFFB2FD1F966B9900A55F20 /* CrimeInfoEntryView.swift */,
 				CFFFB2FE1F966BA300A55F20 /* CrimeInfoEntryView.xib */,
 				CF60519A1FA0D882002B6C0B /* CrimeInfoSummaryView.swift */,
 			);
-			path = CrimeInfo;
+			path = crimeInfo;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -751,6 +765,7 @@
 				CF33A9631F8C2CF000D9B48E /* GMUPoint.m in Sources */,
 				CFFFB2FF1F966BAB00A55F20 /* CrimeInfoEntryView.swift in Sources */,
 				CF33A95D1F8C2CF000D9B48E /* GMUKMLParser.m in Sources */,
+				CF4F09811FAF9FE500A472BF /* Route.swift in Sources */,
 				CF9D929F1F895BF9000E9224 /* lighthouse_gmaps.xcdatamodeld in Sources */,
 				CFDCD9211F896601006DEDE4 /* CrimeWeightViewController.swift in Sources */,
 				CF33A9711F8C2CF000D9B48E /* GMUDefaultClusterIconGenerator.m in Sources */,
@@ -772,6 +787,7 @@
 				CF33A96D1F8C2CF000D9B48E /* GMUSimpleClusterAlgorithm.m in Sources */,
 				CF33A9681F8C2CF000D9B48E /* GMUGradient.m in Sources */,
 				CFCD85181F89871500EBDAD7 /* Crime.swift in Sources */,
+				CF4F09831FAFA19300A472BF /* RouteStep.swift in Sources */,
 				CFDCD9231F896652006DEDE4 /* CrimeWeightTableViewCell.swift in Sources */,
 				CF33A95B1F8C2CF000D9B48E /* GMUGeoJSONParser.m in Sources */,
 				CF33A9721F8C2CF000D9B48E /* GMUDefaultClusterRenderer.m in Sources */,

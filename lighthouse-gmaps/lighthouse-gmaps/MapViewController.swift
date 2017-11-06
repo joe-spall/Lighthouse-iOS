@@ -14,41 +14,44 @@ import SwiftyJSON
 
 class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapViewDelegate, GMUClusterRendererDelegate{
 
-    // Mapping
+    // MARK: - Mapping
     @IBOutlet var mapView:GMSMapView!
     let locationManager = CLLocationManager()
     var lastLocation = CLLocation()
     
-    // Data Pull
+    // MARK: - Data Pull
     let CRIME_PULL_URL:String = "https://www.app-lighthouse.com/app/crimepullcirc.php"
     var storedCrimes:[Crime] = []
     
-    // Cluster
+    // MARK: - Cluster
     private var clusterManager: GMUClusterManager!
     let CRIME_ICON:UIImage = UIImage(named:"crime_icon")!
     
-    // Popup window
+    // MARK: - Popup window
     var crimeInfoSummary: CrimeInfoSummaryView?
     fileprivate var locationMarker : GMSMarker? = GMSMarker()
     
-    // Search
+    // MARK: - Search
     var resultsViewController: GMSAutocompleteResultsViewController?
     var searchController: UISearchController?
+    let GOOGLE_DIRECTION_API:String = "AIzaSyAYo8bhVOYfriZCk-8i5fzpII_WRLJjS40"
     
+    // MARK: - Routing
+    var currentRoute:Route?
+    let ROUTE_COLOR:[Int] = [0x28BF00, 0x53C300,0x7FC700,0xAECB00,0xCFC100,0xD49800,0xD86D00,0xDC40000,0xE01100,0xE5001F]
     
-    
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Mapping
+        // MARK: - Mapping
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
         
         mapView.delegate = self
         mapView.isIndoorEnabled = false
         
-        // Cluster
+        // MARK: - Cluster
         let iconGenerator = GMUDefaultClusterIconGenerator()
         let algorithm = GMUNonHierarchicalDistanceBasedAlgorithm()
         let renderer = GMUDefaultClusterRenderer(mapView: mapView, clusterIconGenerator: iconGenerator)
@@ -59,23 +62,23 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
         
         
         
-        // Search
-//        resultsViewController = GMSAutocompleteResultsViewController()
-//        resultsViewController?.delegate = self
+        // MARK: - Search
+        resultsViewController = GMSAutocompleteResultsViewController()
+        resultsViewController?.delegate = self
         
         searchController = UISearchController(searchResultsController: resultsViewController)
         searchController?.searchResultsUpdater = resultsViewController
         
-        let subView = UIView(frame: CGRect(x: 0, y: 20.0, width: 350.0, height: 45.0))
-        
-        subView.addSubview((searchController?.searchBar)!)
-        //view.addSubview(subView)
+        // Put the search bar in the navigation bar.
         searchController?.searchBar.sizeToFit()
-        searchController?.hidesNavigationBarDuringPresentation = false
+        navigationItem.titleView = searchController?.searchBar
         
         // When UISearchController presents the results view, present it in
         // this view controller, not one further up the chain.
         definesPresentationContext = true
+        
+        // Prevent the navigation bar from being hidden when searching.
+        searchController?.hidesNavigationBarDuringPresentation = false
         
     }
     
@@ -87,13 +90,13 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // Hide the navigation bar on this view controller
-        self.navigationController?.setNavigationBarHidden(true, animated: animated)
+       // self.navigationController?.setNavigationBarHidden(true, animated: animated)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         // Show the navigation bar on other view controllers
-        self.navigationController?.setNavigationBarHidden(false, animated: animated)
+        
     }
     
     func drawSearchCircle(userLocation: CLLocationCoordinate2D){
@@ -128,7 +131,7 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
                             }
                         }
                         catch{
-                            //TODO Make error more effective
+                            //TODO: Make error more effective
                             print(error)
                             self.createErrorAlert(description: error.localizedDescription)
                         }
@@ -138,14 +141,14 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
                     //self.calculateDanger(crimes: self.storedCrimes,userLoc: userLocation)
                 }
                 else{
-                    //TODO Make error more effective
+                    //TODO: Make error more effective
                     print(mightError.string!)
                     self.createErrorAlert(description: mightError.string!)
                 }
                 
             }
             else {
-                //TODO Make error more effective
+                //TODO: Make error more effective
                 print(error!)
                 self.createErrorAlert(description: error!)
             }
@@ -181,9 +184,65 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
             }
         }
     }
+    
+    
+    
+    // MARK: - Routing
+    func getDirections(destination:CLLocationCoordinate2D){
+        let originString = locationToString(location: lastLocation.coordinate)
+        let destinationString = locationToString(location: destination)
+        Alamofire.request("https://maps.googleapis.com/maps/api/directions/json?" +
+            "origin=" + originString +
+            "&destination=" + destinationString +
+            "&mode=" + "walking" +
+            "&key=" + GOOGLE_DIRECTION_API).responseJSON
+        { response in
+                if response.response?.statusCode == 200{
+                    do{
+                        let json = JSON(response.result.value!)
+                        let newRoute = try Route(json: json["routes"][0])
+                        self.currentRoute = newRoute
+                        self.changeMapForRoute(route: self.currentRoute!)
+                    }
+                    catch{
+                        //TODO: Make error more effective
+                        print(error)
+                        self.createErrorAlert(description: error.localizedDescription)
+                    }
+                }
+        }
+        
+    }
+
+    func locationToString(location:CLLocationCoordinate2D) -> String{
+        var output:String = ""
+        output += String(format: "%f",location.latitude)
+        output += ","
+        output += String(format: "%f",location.longitude)
+        return output
+    }
+
+    func changeMapForRoute(route:Route){
+        let routeBounds = GMSCoordinateBounds(coordinate: route.startLocation, coordinate: route.endLocation)
+        let startMarker = GMSMarker(position: route.startLocation)
+        let endMarker = GMSMarker(position: route.endLocation)
+        let polyline = GMSPolyline(path: GMSPath(fromEncodedPath: route.totalPolylinePath))
+        polyline.strokeWidth = 5
+        polyline.strokeColor = UIColor(rgb:0x33cc33)
+        startMarker.map = mapView
+        endMarker.map = mapView
+        polyline.map = mapView
+        
+        // Camera update
+        let update = GMSCameraUpdate.fit(routeBounds, with: UIEdgeInsets(top: 150, left: 40, bottom: 50, right: 40))
+        mapView.moveCamera(update)
+        
+        
+    }
+    
 
 
-    //Error Handling
+    // MARK: - Error Handling
     
     func createErrorAlert(description:String){
         let alert = UIAlertController(title: "Alert", message: description, preferredStyle: UIAlertControllerStyle.alert)
@@ -234,17 +293,19 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
     //MARK: - GMSMapViewDelegate
     
     func mapView(_ mapView: GMSMapView, willMove gesture: Bool) {
+        self.navigationController?.setNavigationBarHidden(true, animated: true)
         if gesture {
             showPopup(false, animated: true)
         }
     }
-
     
     func mapView(_ mapView: GMSMapView, idleAt position: GMSCameraPosition) {
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
         if crimeInfoSummary != nil{
             let userViewPosition = mapView.projection.point(for: position.target)
             crimeInfoSummary?.frame.origin.x = userViewPosition.x - (crimeInfoSummary?.frame.width)!/2
             if crimeInfoSummary?.numberOfCrimes() == 1 {
+                
                 crimeInfoSummary?.frame.origin.y = userViewPosition.y - (crimeInfoSummary?.frame.height)! - 55
             }
             else{
@@ -290,37 +351,44 @@ extension MapViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error)
     {
-        //TODO Make Error more effective
+        //TODO: Make Error more effective
         print("Error \(error)")
     }
 }
 
+
 //// Handle the user's selection.
-//extension MapViewController: GMSAutocompleteResultsViewControllerDelegate {
-//    func resultsController(_ resultsController: GMSAutocompleteResultsViewController,
-//                           didAutocompleteWith place: GMSPlace) {
-//        searchController?.isActive = false
-//        // Do something with the selected place.
+extension MapViewController: GMSAutocompleteResultsViewControllerDelegate {
+    func resultsController(_ resultsController: GMSAutocompleteResultsViewController,
+                           didAutocompleteWith place: GMSPlace) {
+        searchController?.isActive = false
+        // Do something with the selected place.
 //        print("Place name: \(place.name)")
-//        print("Place address: \(place.formattedAddress)")
-//        print("Place attributions: \(place.attributions)")
-//    }
-//
-//    func resultsController(_ resultsController: GMSAutocompleteResultsViewController,
-//                           didFailAutocompleteWithError error: Error){
-//        // TODO: handle the error.
-//        print("Error: ", error.localizedDescription)
-//    }
-//
-//    // Turn the network activity indicator on and off again.
-//    func didRequestAutocompletePredictions(forResultsController resultsController: GMSAutocompleteResultsViewController) {
-//        UIApplication.shared.isNetworkActivityIndicatorVisible = true
-//    }
-//
-//    func didUpdateAutocompletePredictions(forResultsController resultsController: GMSAutocompleteResultsViewController) {
-//        UIApplication.shared.isNetworkActivityIndicatorVisible = false
-//    }
-//}
+//        print("Place address: \(String(describing: place.formattedAddress))")
+//        print("Place attributions: \(String(describing: place.attributions))")
+//        print("Place coordinates: \(place.coordinate)")
+        getDirections(destination: place.coordinate)
+        
+    }
+
+    func resultsController(_ resultsController: GMSAutocompleteResultsViewController,
+                           didFailAutocompleteWithError error: Error){
+        // TODO: handle the error.
+        print("Error: ", error.localizedDescription)
+    }
+
+    // Turn the network activity indicator on and off again.
+    func didRequestAutocompletePredictions(forResultsController resultsController: GMSAutocompleteResultsViewController) {
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+    }
+
+    func didUpdateAutocompletePredictions(forResultsController resultsController: GMSAutocompleteResultsViewController) {
+        UIApplication.shared.isNetworkActivityIndicatorVisible = false
+    }
+}
+
+
+// MARK: - CrimeClusterItem
 
 class CrimeClusterItem: NSObject, GMUClusterItem {
     var position: CLLocationCoordinate2D
@@ -332,4 +400,23 @@ class CrimeClusterItem: NSObject, GMUClusterItem {
     }
 }
 
+
+// MARK: - UIColor
+extension UIColor {
+    convenience init(red: Int, green: Int, blue: Int) {
+        assert(red >= 0 && red <= 255, "Invalid red component")
+        assert(green >= 0 && green <= 255, "Invalid green component")
+        assert(blue >= 0 && blue <= 255, "Invalid blue component")
+        
+        self.init(red: CGFloat(red) / 255.0, green: CGFloat(green) / 255.0, blue: CGFloat(blue) / 255.0, alpha: 1.0)
+    }
+    
+    convenience init(rgb: Int) {
+        self.init(
+            red: (rgb >> 16) & 0xFF,
+            green: (rgb >> 8) & 0xFF,
+            blue: rgb & 0xFF
+        )
+    }
+}
 
