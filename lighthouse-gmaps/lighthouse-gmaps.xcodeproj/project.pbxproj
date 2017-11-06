@@ -389,7 +389,7 @@
 		CF9D92951F895BF9000E9224 /* lighthouse-gmaps */ = {
 			isa = PBXGroup;
 			children = (
-				CFFFB2FC1F966B3100A55F20 /* CrimeInfo */,
+				CFFFB2FC1F966B3100A55F20 /* crimeInfo */,
 				CF2FBB8C1F8976B30010603F /* resources */,
 				CFDCD91C1F89649F006DEDE4 /* settings */,
 				CFDCD9251F896876006DEDE4 /* acknowledgment */,
@@ -461,14 +461,14 @@
 			path = acknowledgment;
 			sourceTree = "<group>";
 		};
-		CFFFB2FC1F966B3100A55F20 /* CrimeInfo */ = {
+		CFFFB2FC1F966B3100A55F20 /* crimeInfo */ = {
 			isa = PBXGroup;
 			children = (
 				CFFFB2FD1F966B9900A55F20 /* CrimeInfoEntryView.swift */,
 				CFFFB2FE1F966BA300A55F20 /* CrimeInfoEntryView.xib */,
 				CF60519A1FA0D882002B6C0B /* CrimeInfoSummaryView.swift */,
 			);
-			path = CrimeInfo;
+			path = crimeInfo;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
