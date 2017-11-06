@@ -66,6 +66,7 @@ extension Route {
         
         
         
+        // Assignment
         startLocation = CLLocationCoordinate2D(latitude: startLat, longitude: startLng)
         endLocation = CLLocationCoordinate2D(latitude: endLat, longitude: endLng)
         startAddress = _startAddress

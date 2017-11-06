@@ -223,6 +223,7 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
     }
 
     func changeMapForRoute(route:Route){
+        let routeBounds = GMSCoordinateBounds(coordinate: route.startLocation, coordinate: route.endLocation)
         let startMarker = GMSMarker(position: route.startLocation)
         let endMarker = GMSMarker(position: route.endLocation)
         let polyline = GMSPolyline(path: GMSPath(fromEncodedPath: route.polylinePath))
@@ -231,6 +232,9 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
         startMarker.map = mapView
         endMarker.map = mapView
         polyline.map = mapView
+        let update = GMSCameraUpdate.fit(routeBounds, with: UIEdgeInsets(top: 150, left: 40, bottom: 50, right: 40))
+        mapView.moveCamera(update)
+        
         
     }
     
