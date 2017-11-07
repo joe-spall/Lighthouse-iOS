@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 import GoogleMaps
 import GooglePlaces
-import SWXMLHash
+import SwiftyJSON
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -116,19 +116,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func initDangerLevel(){
         if(!isKeyPresentInUserDefaults(key: "danger_loaded")){
-            if let url = Bundle.main.url(forResource: "danger_info", withExtension: "xml") {
-                do {
-                    let currentCrimeEntryString = try String(contentsOf: url, encoding: String.Encoding.utf8)
-                    let indexer = SWXMLHash.parse(currentCrimeEntryString)
-                    for elm in indexer["danger"]["crime"].all{
-                        UserDefaults.standard.set(Double(1),forKey: (elm.element?.attribute(by: "type")?.text)!)
+            let url = Bundle.main.url(forResource: "danger_file", withExtension: "json")
+            do{
+                let data = try Data(contentsOf: url!)
+                let totalJSON = JSON(data:data)
+                let valueArray = totalJSON["danger"].array
+                for entry in valueArray!{
+                    let tagName = entry["tag"].string;
+                    if(!isKeyPresentInUserDefaults(key: tagName!)){
+                        UserDefaults.standard.set(Float(1), forKey: tagName!)
                     }
                     
                 }
-                catch {
-                    print(error)
-                    //TODO Error Handle if file is unavailable
-                }
+            }
+            catch{
+                print(error)
             }
         }
         

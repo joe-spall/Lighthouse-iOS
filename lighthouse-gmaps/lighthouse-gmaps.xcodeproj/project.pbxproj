@@ -10,8 +10,8 @@
 		134BD2AE23F30BBBA1A01FFF /* Pods_lighthouse_gmaps.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57551C962B86B3F21EE32A50 /* Pods_lighthouse_gmaps.framework */; };
 		58CE327DFAE77D4B86C980F2 /* Pods_lighthouse_gmapsUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01CA9B43CEBDD03905A3A814 /* Pods_lighthouse_gmapsUITests.framework */; };
 		80144129AB22597BB6165E52 /* Pods_lighthouse_gmapsTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 561F23A41FA2B12A10E241EF /* Pods_lighthouse_gmapsTests.framework */; };
+		CF0E6B031FB222380040F286 /* danger_file.json in Resources */ = {isa = PBXBuildFile; fileRef = CF0E6B021FB222380040F286 /* danger_file.json */; };
 		CF2FBB8D1F897B4E0010603F /* ack_storage.xml in Resources */ = {isa = PBXBuildFile; fileRef = CFDCD9281F8969D2006DEDE4 /* ack_storage.xml */; };
-		CF2FBB8E1F897B510010603F /* danger_info.xml in Resources */ = {isa = PBXBuildFile; fileRef = CFDCD9241F896785006DEDE4 /* danger_info.xml */; };
 		CF33A95B1F8C2CF000D9B48E /* GMUGeoJSONParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CF33A9171F8C2CF000D9B48E /* GMUGeoJSONParser.m */; };
 		CF33A95C1F8C2CF000D9B48E /* GMUGeometryRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = CF33A91A1F8C2CF000D9B48E /* GMUGeometryRenderer.m */; };
 		CF33A95D1F8C2CF000D9B48E /* GMUKMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CF33A91C1F8C2CF000D9B48E /* GMUKMLParser.m */; };
@@ -82,6 +82,7 @@
 		79F420C065CBE9A800E76897 /* Pods-lighthouse-gmapsUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lighthouse-gmapsUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-lighthouse-gmapsUITests/Pods-lighthouse-gmapsUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		B1476C78EEBC50786593536F /* Pods-lighthouse-gmapsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lighthouse-gmapsTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-lighthouse-gmapsTests/Pods-lighthouse-gmapsTests.debug.xcconfig"; sourceTree = "<group>"; };
 		C882BE29E68BB4B4DB6EE017 /* Pods-lighthouse-gmapsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lighthouse-gmapsTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-lighthouse-gmapsTests/Pods-lighthouse-gmapsTests.release.xcconfig"; sourceTree = "<group>"; };
+		CF0E6B021FB222380040F286 /* danger_file.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = danger_file.json; sourceTree = "<group>"; };
 		CF33A9161F8C2CF000D9B48E /* GMUGeoJSONParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GMUGeoJSONParser.h; sourceTree = "<group>"; };
 		CF33A9171F8C2CF000D9B48E /* GMUGeoJSONParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GMUGeoJSONParser.m; sourceTree = "<group>"; };
 		CF33A9181F8C2CF000D9B48E /* GMUGeometryRenderer+Testing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GMUGeometryRenderer+Testing.h"; sourceTree = "<group>"; };
@@ -168,7 +169,6 @@
 		CFDCD91D1F8964D1006DEDE4 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		CFDCD9201F896601006DEDE4 /* CrimeWeightViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrimeWeightViewController.swift; sourceTree = "<group>"; };
 		CFDCD9221F896652006DEDE4 /* CrimeWeightTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrimeWeightTableViewCell.swift; sourceTree = "<group>"; };
-		CFDCD9241F896785006DEDE4 /* danger_info.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = danger_info.xml; sourceTree = "<group>"; };
 		CFDCD9261F8968FC006DEDE4 /* AcknowledgmentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcknowledgmentViewController.swift; sourceTree = "<group>"; };
 		CFDCD9281F8969D2006DEDE4 /* ack_storage.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = ack_storage.xml; sourceTree = "<group>"; };
 		CFFFB2FD1F966B9900A55F20 /* CrimeInfoEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CrimeInfoEntryView.swift; path = ../../../discont/Lighthouse/CrimeInfoEntryView.swift; sourceTree = "<group>"; };
@@ -231,8 +231,8 @@
 		CF2FBB8C1F8976B30010603F /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				CF0E6B021FB222380040F286 /* danger_file.json */,
 				CFDCD9281F8969D2006DEDE4 /* ack_storage.xml */,
-				CFDCD9241F896785006DEDE4 /* danger_info.xml */,
 			);
 			path = resources;
 			sourceTree = "<group>";
@@ -588,7 +588,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CF2FBB8E1F897B510010603F /* danger_info.xml in Resources */,
+				CF0E6B031FB222380040F286 /* danger_file.json in Resources */,
 				CFFFB3001F966BAE00A55F20 /* CrimeInfoEntryView.xib in Resources */,
 				CF9D92A41F895BF9000E9224 /* LaunchScreen.storyboard in Resources */,
 				CF2FBB8D1F897B4E0010603F /* ack_storage.xml in Resources */,

@@ -11,7 +11,6 @@ target 'lighthouse-gmaps' do
  	pod 'SwiftyJSON'
  	pod 'GoogleMaps', '~> 2.5'
 	pod 'GooglePlaces', '~> 2.5'
-    pod 'SWXMLHash', '~> 4.0.0'
   
 
   target 'lighthouse-gmapsTests' do

@@ -375,10 +375,6 @@ extension MapViewController: GMSAutocompleteResultsViewControllerDelegate {
                            didAutocompleteWith place: GMSPlace) {
         searchController?.isActive = false
         // Do something with the selected place.
-//        print("Place name: \(place.name)")
-//        print("Place address: \(String(describing: place.formattedAddress))")
-//        print("Place attributions: \(String(describing: place.attributions))")
-//        print("Place coordinates: \(place.coordinate)")
         getDirections(destination: place.coordinate)
         
     }

@@ -7,27 +7,20 @@
 //
 
 import UIKit
+import SwiftyJSON
 
-class CrimeWeightViewController: UITableViewController,XMLParserDelegate {
-    
+class CrimeWeightViewController: UITableViewController{
+
+    var totalJSON:JSON = JSON.null
     var crimeSlide:[CrimeWeight] = []
-    var crimePreference:[String:Float] = [:]
-    var eName: String = String()
-    var crmName = String()
-    var dngValue = Float(1)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         
         // Do any additional setup after loading the view.
-        if let path = Bundle.main.url(forResource: "danger_info", withExtension: "xml") {
-            if let parser = XMLParser(contentsOf: path) {
-                parser.delegate = self
-                parser.parse()
-            }
-            //TODO Error if crime info not found
-        }
+        initCrimeSlide()
+        
         tableView.rowHeight = 75.0;
         //tableView.rowHeight = UITableViewAutomaticDimension
     }
@@ -37,7 +30,7 @@ class CrimeWeightViewController: UITableViewController,XMLParserDelegate {
         // Dispose of any resources that can be recreated.
     }
     
-    //TableView
+    // MARK: - UITableViewController
     
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -49,72 +42,58 @@ class CrimeWeightViewController: UITableViewController,XMLParserDelegate {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! CrimeWeightTableViewCell
-        
-        let singleCrimeSlide = crimeSlide[indexPath.row]
-        cell.crimeNameLabel.text = singleCrimeSlide.name
-        cell.crimeNameLabel.sizeToFit()
-        cell.crimeNameLabel.lineBreakMode = NSLineBreakMode.byWordWrapping
-        cell.crimeNameLabel.numberOfLines = 0
-        
-        cell.setDangerLabel(score: singleCrimeSlide.dangerValue)
-        
-        cell.dangerSlider.value = singleCrimeSlide.dangerValue
-        
-        
+        if(totalJSON != JSON.null)
+        {
+            let singleCrimeSlide = crimeSlide[indexPath.row]
+            cell.crimeTag = singleCrimeSlide.tag
+            cell.crimeNameLabel.text = singleCrimeSlide.name
+            cell.crimeNameLabel.sizeToFit()
+            cell.crimeNameLabel.lineBreakMode = NSLineBreakMode.byWordWrapping
+            cell.crimeNameLabel.numberOfLines = 0
+            cell.setDangerLabel(score: singleCrimeSlide.dangerValue)
+            cell.dangerSlider.value = singleCrimeSlide.dangerValue
+        }
         return cell
     }
     
-    //Parser
-    func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String]) {
-        eName = elementName
-        if elementName == "crime" {
-            crmName = String()
-            dngValue = Float(1)
-        }
-    }
-    
-    func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
-        if elementName == "crime" {
-            //TODO Implement an initial install
-            if(isKeyPresentInUserDefaults(key: crmName)){
-                dngValue = UserDefaults.standard.float(forKey:crmName)
-            }
-            else{
-                UserDefaults.standard.set(dngValue,forKey: crmName)
-            }
-            let entry = CrimeWeight(name: crmName, dangerValue: dngValue)
-            crimeSlide.append(entry)
-        }
-    }
-    
-    func parser(_ parser: XMLParser, foundCharacters string: String) {
-        let data = string.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
-        
-        if (!data.isEmpty) {
-            if eName == "name" {
-                crmName += data
-            }
-        }
-    }
-    
-    
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destinationViewController.
-     // Pass the selected object to the new view controller.
-     }
-     */
+    // MARK: - DangerValue
     
     func isKeyPresentInUserDefaults(key: String) -> Bool {
         return UserDefaults.standard.object(forKey: key) != nil
     }
     
+    func initCrimeSlide(){
+        let url = Bundle.main.url(forResource: "danger_file", withExtension: "json")
+        do{
+            let data = try Data(contentsOf: url!)
+            totalJSON = JSON(data:data)
+            let valueArray = totalJSON["danger"].array
+            for entry in valueArray!{
+                let tagName = entry["tag"].string;
+                print(tagName!)
+                let userName = entry["name"].string;
+                print(userName!)
+                if(isKeyPresentInUserDefaults(key: tagName!)){
+                    let tempSetWeight:Float = UserDefaults.standard.float(forKey: tagName!)
+                    let tempCrimeWeight:CrimeWeight = CrimeWeight(tag: tagName!, name: userName!, dangerValue: tempSetWeight)
+                    crimeSlide.append(tempCrimeWeight)
+                }
+                else{
+                    UserDefaults.standard.set(Float(1), forKey: tagName!)
+                    let tempCrimeWeight:CrimeWeight = CrimeWeight(tag: tagName!, name: userName!, dangerValue: Float(1))
+                    crimeSlide.append(tempCrimeWeight)
+                }
+            }
+        }
+        catch{
+            print(error)
+        }
+    }
+    
 }
 
 struct CrimeWeight{
+    let tag:String
     let name:String
     var dangerValue:Float
 }
