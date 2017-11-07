@@ -13,6 +13,7 @@ class CrimeWeightTableViewCell: UITableViewCell {
     @IBOutlet weak var crimeNameLabel: UILabel!
     @IBOutlet weak var dangerScoreLabel: UILabel!
     @IBOutlet weak var dangerSlider: UISlider!
+    var crimeTag:String = ""
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -40,8 +41,9 @@ class CrimeWeightTableViewCell: UITableViewCell {
     }
     
     func setDangerValue(score: Float){
-        let crimeKey = crimeNameLabel.text
-        UserDefaults.standard.set(score,forKey: crimeKey!)
+        if(crimeTag != ""){
+            UserDefaults.standard.set(score,forKey: crimeTag)
+        }
         
     }
     

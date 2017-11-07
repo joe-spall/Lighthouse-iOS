@@ -1,0 +1,47 @@
+{"danger":[
+	{
+		"tag":"AGGRAVATED ASSAULT",
+		"name":"Aggravated Assault"
+	},
+	{
+		"tag":"AUTO THEFT",
+		"name":"Motor Vehicle Theft"
+	},
+	{
+		"tag":"BURGLARY",
+		"name":"Burglary"
+	},
+	{
+		"tag":"BURGLARY FROM VEHICLE",
+		"name":"Burglary from Vehicle"
+	},
+	{
+		"tag":"HOMICIDE",
+		"name":"Homicide"
+	},
+	{
+		"tag":"LARCENY",
+		"name":"Larceny"
+	},
+	{
+		"tag":"LARCENY FROM VEHICLE",
+		"name":"Larceny from a Vehicle"
+	},
+	{
+		"tag":"RAPE",
+		"name":"Rape"
+	},
+	{
+		"tag":"ROBBERY",
+		"name":"Robbery"
+	},
+	{
+		"tag":"THEFT",
+		"name":"Theft"
+	}
+]}
+
+
+
+
+

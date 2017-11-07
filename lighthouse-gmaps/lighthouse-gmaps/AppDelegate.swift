@@ -10,6 +10,7 @@ import UIKit
 import CoreData
 import GoogleMaps
 import GooglePlaces
+import SwiftyJSON
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -18,11 +19,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     let GOOGLE_MAP_API:String = "AIzaSyAoQH-GwOO8okM0krrHyP1hLv6VVl5U2to"
     
-    let SETTING_KEYS:[String] = ["load_before","units","year","radius","date_format","num_format","map_style"]
-    let DEFAULT_VALUES:[Any] = [true,"feet","2015",100,"MM/dd/yyyy","1,000.00","mapbox://styles/mapbox/streets-v9"]
+    let SETTING_KEYS:[String] = ["load_before","units","year","radius","date_format","num_format","map_style","danger_loaded"]
+    let DEFAULT_VALUES:[Any] = [true,"feet","2015",100,"MM/dd/yyyy","1,000.00","mapbox://styles/mapbox/streets-v9",true]
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        initalizeUserDefaults()
+        initDangerLevel()
+        initUserDefaults()
         GMSPlacesClient.provideAPIKey(GOOGLE_MAP_API)
         GMSServices.provideAPIKey(GOOGLE_MAP_API)
         // Override point for customization after application launch.
@@ -102,7 +104,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return UserDefaults.standard.object(forKey: key) != nil
     }
     
-    func initalizeUserDefaults(){
+    func initUserDefaults(){
         var count:Int = 0
         for key in SETTING_KEYS{
             if !isKeyPresentInUserDefaults(key: key){
@@ -110,6 +112,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
             count += 1
         }
+    }
+    
+    func initDangerLevel(){
+        if(!isKeyPresentInUserDefaults(key: "danger_loaded")){
+            let url = Bundle.main.url(forResource: "danger_file", withExtension: "json")
+            do{
+                let data = try Data(contentsOf: url!)
+                let totalJSON = JSON(data:data)
+                let valueArray = totalJSON["danger"].array
+                for entry in valueArray!{
+                    let tagName = entry["tag"].string;
+                    if(!isKeyPresentInUserDefaults(key: tagName!)){
+                        UserDefaults.standard.set(Float(1), forKey: tagName!)
+                    }
+                    
+                }
+            }
+            catch{
+                print(error)
+            }
+        }
+        
     }
 
 }
