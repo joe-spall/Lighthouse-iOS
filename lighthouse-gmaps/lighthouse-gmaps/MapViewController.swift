@@ -23,6 +23,9 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
     let CRIME_PULL_URL:String = "https://www.app-lighthouse.com/app/crimepullcirc.php"
     var storedCrimes:[Crime] = []
     
+    // MARK: - Danger Level
+    var currentDanger:Double = 0
+    
     // MARK: - Cluster
     private var clusterManager: GMUClusterManager!
     let CRIME_ICON:UIImage = UIImage(named:"crime_icon")!
@@ -138,7 +141,7 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
                     }
                     self.addCrimesToMap(crimeArray: self.storedCrimes)
                     
-                    //self.calculateDanger(crimes: self.storedCrimes,userLoc: userLocation)
+                    self.calculateDanger(crimes: self.storedCrimes,userLoc: userLocation)
                 }
                 else{
                     //TODO: Make error more effective
@@ -154,6 +157,15 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
             }
         }
         
+    }
+    
+    func calculateDanger(crimes: [Crime], userLoc: CLLocationCoordinate2D){
+        let currentDate = Date()
+        for crime in crimes{
+            let userDefinedDanger = UserDefaults.standard.double(forKey: crime.type)
+            currentDanger += crime.calculateSingleThreatScore(userLocation: userLoc, currentDate: currentDate, userValue: userDefinedDanger)
+        }
+        print(currentDanger)
     }
     
     func addCrimesToMap(crimeArray: [Crime]){

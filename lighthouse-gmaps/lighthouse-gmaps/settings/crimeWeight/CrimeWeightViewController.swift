@@ -21,7 +21,7 @@ class CrimeWeightViewController: UITableViewController,XMLParserDelegate {
         
         
         // Do any additional setup after loading the view.
-        if let path = Bundle.main.url(forResource: "crime_info", withExtension: "xml") {
+        if let path = Bundle.main.url(forResource: "danger_info", withExtension: "xml") {
             if let parser = XMLParser(contentsOf: path) {
                 parser.delegate = self
                 parser.parse()

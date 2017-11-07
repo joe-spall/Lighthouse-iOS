@@ -19,7 +19,14 @@ struct Route{
     let totalPolylinePath:String
     var totalDangerLevel:Double = 0
     let steps:[RouteStep]
+    
+    mutating func calculateTotalDangerLevel(){
+        for step in steps{
+            totalDangerLevel += step.dangerLevel
+        }
+    }
 }
+
 
 extension Route {
     init(json: JSON) throws {

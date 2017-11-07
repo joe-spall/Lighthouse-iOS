@@ -24,22 +24,18 @@ struct Crime{
     let type:String
     let location:CLLocationCoordinate2D
     
-    //TODO Rewrite with current system of pulling user entered values
-    func calculateSingleThreatScore(userLocation:CLLocationCoordinate2D, currentDate:Date) -> Double{
-
+    
+    func calculateSingleThreatScore(userLocation:CLLocationCoordinate2D, currentDate:Date, userValue:Double) -> Double{
         let timeSinceTotal:Double = TIME_SINCE_WEIGHT*pow(M_E,(Double(currentDate.timeIntervalSince(self.date))/2629743.83)/TIME_SINCE_CONST)
         let topOfExponent = pow(2,((Double(currentDate.timeIntervalSince(self.date))/3600000).truncatingRemainder(dividingBy: Double(12))-24))
         let timeOfDayTotal = TIME_OF_DAY_WEIGHT*pow(M_E,(topOfExponent/TIME_OF_DAY_CONST))
-        var distanceTotal:Double = 0;
+        var distanceTotal:Double = DISTANCE_WEIGHT;
         let distanceFromCrime = CLLocation.distance(from: self.location, to:userLocation)
         if(distanceFromCrime > 100){
-            distanceTotal = DISTANCE_WEIGHT*pow(M_E,(distanceFromCrime-100)/DISTANCE_CONST)
+            distanceTotal *= pow(M_E,(distanceFromCrime-100)/DISTANCE_CONST)
         }
-        else{
-            distanceTotal = DISTANCE_WEIGHT
-        }
-        
-        return (timeSinceTotal+distanceTotal+timeOfDayTotal)
+
+        return (userValue*(timeSinceTotal+distanceTotal+timeOfDayTotal))
     }
 
 }
