@@ -24,6 +24,7 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
     // MARK: - Data Pull
     let CRIME_PULL_URL:String = "https://www.app-lighthouse.com/app/crimepullcirc.php"
     var storedCrimes:[Crime] = []
+    var searchCicle:GMSCircle?
     
     // MARK: - Danger Level
     var currentDanger:Double = 0
@@ -107,8 +108,13 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
     
     func drawSearchCircle(userLocation: CLLocationCoordinate2D){
         let radius = Double(UserDefaults.standard.integer(forKey:"radius"))*0.3048
-        let circ = GMSCircle(position: userLocation, radius: radius)
-        circ.map = mapView
+        searchCicle = GMSCircle(position: userLocation, radius: radius)
+        // TODO: Make based on crime levels instead of random
+        let color = ROUTE_COLOR[Int(arc4random_uniform(UInt32(ROUTE_COLOR.count)))]
+        searchCicle?.strokeColor = UIColor(rgb:color)
+        searchCicle?.strokeWidth = 4
+        searchCicle?.fillColor = UIColor(rgb:color).withAlphaComponent(0.50)
+        searchCicle!.map = mapView
     }
     
     func pullCrimes(userLocation: CLLocationCoordinate2D){
@@ -178,6 +184,8 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
             clusterManager.add(item)
         }
         clusterManager.cluster()
+        drawSearchCircle(userLocation: lastLocation.coordinate)
+
     }
     
     func showPopup(_ shouldShow: Bool, animated: Bool) {
@@ -359,7 +367,6 @@ extension MapViewController: CLLocationManagerDelegate {
                 mapView.camera = GMSCameraPosition(target: location.coordinate, zoom: 15, bearing: 0, viewingAngle: 0)
                 locationManager.stopUpdatingLocation()
                 pullCrimes(userLocation: location.coordinate)
-                drawSearchCircle(userLocation: location.coordinate)
             }
         }
     }
