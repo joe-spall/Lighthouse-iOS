@@ -27,6 +27,7 @@ class SettingsViewController: UITableViewController, UIPickerViewDelegate, UIPic
     //Radius Variables
     let DISTANCE_OPTIONS:[Int] = [25,50,100,150,200,250,500]
     private var radiusCellExpanded: Bool = false
+    var lastRadius:Int = 0
     @IBOutlet weak var radiusLabel: UILabel!
     @IBOutlet weak var radiusSlider: UISlider!
     
@@ -36,12 +37,9 @@ class SettingsViewController: UITableViewController, UIPickerViewDelegate, UIPic
     @IBOutlet weak var yearLabel: UILabel!
     @IBOutlet weak var yearPicker: UIPickerView!
     
-    //Personal Crime Score Variables
-    let CRIME_SCORE_IDENTIFIERS:[String] = ["AGGRAVATED ASSAULT", "AUTO THEFT", "BURGLARY"]
     
     //Map Styles Variables
-    let MAP_STYLE_URL_OPTIONS:[String] = ["mapbox://styles/mapbox/streets-v9", "mapbox://styles/mapbox/satellite-v9"]
-    let MAP_STYLE_NAME_OPTIONS:[String] = ["Street","Satelite"]
+    let MAP_STYLE_NAME_OPTIONS:[String] = ["Normal","Hybrid","Satellite","Terrain"]
     
     private var mapStyleCellExpanded:Bool = false
     @IBOutlet weak var mapStyleLabel: UILabel!
@@ -310,9 +308,8 @@ class SettingsViewController: UITableViewController, UIPickerViewDelegate, UIPic
         }
         else if(pickerView == mapStylePicker){
             let mapStyleNameSelection = MAP_STYLE_NAME_OPTIONS[row]
-            let mapStyleURLSelection = MAP_STYLE_URL_OPTIONS[row]
             mapStyleLabel.text = mapStyleNameSelection
-            UserDefaults.standard.set(mapStyleURLSelection, forKey:"map_style")
+            UserDefaults.standard.set(mapStyleNameSelection, forKey:"map_style")
         }
         
     }
@@ -321,6 +318,7 @@ class SettingsViewController: UITableViewController, UIPickerViewDelegate, UIPic
     //TODO Add numbers for ranges on slider UI
     func initalizeRadius(){
         let savedRadius = UserDefaults.standard.integer(forKey:"radius")
+        lastRadius = savedRadius
         radiusSlider.maximumValue = Float(DISTANCE_OPTIONS.count-1)
         radiusSlider.minimumValue = 0
         radiusSlider.value = Float(DISTANCE_OPTIONS.index(of: savedRadius)!)
@@ -332,8 +330,18 @@ class SettingsViewController: UITableViewController, UIPickerViewDelegate, UIPic
         let index = Int(round(newIndexGeneral))
         let newRadius = DISTANCE_OPTIONS[index]
         radiusSlider.value = Float(index)
+        if(newRadius != lastRadius){
+            setRadiusLabel(dist: newRadius)
+            lastRadius = newRadius
+        }
+    }
+    
+    @IBAction func radiusSliderEndChange(sender: UISlider) {
+        let newIndexGeneral = radiusSlider.value
+        let index = Int(round(newIndexGeneral))
+        let newRadius = DISTANCE_OPTIONS[index]
+        radiusSlider.value = Float(index)
         UserDefaults.standard.set(newRadius,forKey:"radius")
-        setRadiusLabel(dist: newRadius)
     }
     
     func setRadiusLabel(dist: Int){
@@ -363,9 +371,9 @@ class SettingsViewController: UITableViewController, UIPickerViewDelegate, UIPic
         self.mapStylePicker.delegate = self
         self.mapStylePicker.dataSource = self
         tableView.tableFooterView = UIView()
-        let mapStyleIndex:Int = MAP_STYLE_URL_OPTIONS.index(of: UserDefaults.standard.string(forKey: "map_style")!)!
-        let mapStyleFormat = MAP_STYLE_NAME_OPTIONS[mapStyleIndex]
-        mapStyleLabel.text = mapStyleFormat
+        let mapStyleName = UserDefaults.standard.string(forKey: "map_style")
+        let mapStyleIndex:Int = MAP_STYLE_NAME_OPTIONS.index(of: mapStyleName!)!
+        mapStyleLabel.text = mapStyleName
         mapStylePicker.selectRow(mapStyleIndex, inComponent: 0, animated: true)
         
     }

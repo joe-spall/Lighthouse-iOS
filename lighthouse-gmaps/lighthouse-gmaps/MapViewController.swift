@@ -18,6 +18,8 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
     @IBOutlet var mapView:GMSMapView!
     let locationManager = CLLocationManager()
     var lastLocation = CLLocation()
+    let MAP_STYLE_TYPE_OPTIONS = [GMSMapViewType.normal, GMSMapViewType.hybrid, GMSMapViewType.satellite, GMSMapViewType.terrain]
+    let MAP_STYLE_NAME_OPTIONS:[String] = ["Normal","Hybrid","Satellite","Terrain"]
     
     // MARK: - Data Pull
     let CRIME_PULL_URL:String = "https://www.app-lighthouse.com/app/crimepullcirc.php"
@@ -53,6 +55,7 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
         
         mapView.delegate = self
         mapView.isIndoorEnabled = false
+        mapView.mapType = MAP_STYLE_TYPE_OPTIONS[MAP_STYLE_NAME_OPTIONS.index(of: UserDefaults.standard.string(forKey: "map_style")!)!]
         
         // MARK: - Cluster
         let iconGenerator = GMUDefaultClusterIconGenerator()
@@ -93,7 +96,7 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // Hide the navigation bar on this view controller
-       // self.navigationController?.setNavigationBarHidden(true, animated: animated)
+        mapView.mapType = MAP_STYLE_TYPE_OPTIONS[MAP_STYLE_NAME_OPTIONS.index(of: UserDefaults.standard.string(forKey: "map_style")!)!]
     }
     
     override func viewWillDisappear(_ animated: Bool) {

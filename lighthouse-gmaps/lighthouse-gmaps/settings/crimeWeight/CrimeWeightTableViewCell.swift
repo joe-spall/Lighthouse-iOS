@@ -21,9 +21,11 @@ class CrimeWeightTableViewCell: UITableViewCell {
     }
     
     @IBAction func dangerValueChanged(sender: UISlider) {
-        let dangerValue = dangerSlider.value
-        setDangerLabel(score: dangerValue)
-        setDangerValue(score: dangerValue)
+        setDangerLabel(score: dangerSlider.value)
+    }
+    
+    @IBAction func dangerValueEnd(sender: UISlider){
+        setDangerValue(score: dangerSlider.value)
     }
     
     func setDangerLabel(score: Float){

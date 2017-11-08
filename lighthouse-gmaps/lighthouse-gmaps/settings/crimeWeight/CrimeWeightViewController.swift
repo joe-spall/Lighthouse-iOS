@@ -70,9 +70,8 @@ class CrimeWeightViewController: UITableViewController{
             let valueArray = totalJSON["danger"].array
             for entry in valueArray!{
                 let tagName = entry["tag"].string;
-                print(tagName!)
                 let userName = entry["name"].string;
-                print(userName!)
+
                 if(isKeyPresentInUserDefaults(key: tagName!)){
                     let tempSetWeight:Float = UserDefaults.standard.float(forKey: tagName!)
                     let tempCrimeWeight:CrimeWeight = CrimeWeight(tag: tagName!, name: userName!, dangerValue: tempSetWeight)

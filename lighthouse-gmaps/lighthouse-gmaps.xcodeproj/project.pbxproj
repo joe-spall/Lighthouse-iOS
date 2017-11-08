@@ -389,6 +389,8 @@
 		CF9D92951F895BF9000E9224 /* lighthouse-gmaps */ = {
 			isa = PBXGroup;
 			children = (
+				CF9D92A51F895BF9000E9224 /* Info.plist */,
+				CFC0CFA81F8C1EC800B92795 /* lighthouse-gmaps-Bridging-Header.h */,
 				CFFFB2FC1F966B3100A55F20 /* crimeInfo */,
 				CF2FBB8C1F8976B30010603F /* resources */,
 				CFDCD91C1F89649F006DEDE4 /* settings */,
@@ -401,9 +403,7 @@
 				CF9D92A01F895BF9000E9224 /* Assets.xcassets */,
 				CF9D929A1F895BF9000E9224 /* Main.storyboard */,
 				CF9D92A21F895BF9000E9224 /* LaunchScreen.storyboard */,
-				CF9D92A51F895BF9000E9224 /* Info.plist */,
 				CF9D929D1F895BF9000E9224 /* lighthouse_gmaps.xcdatamodeld */,
-				CFC0CFA81F8C1EC800B92795 /* lighthouse-gmaps-Bridging-Header.h */,
 			);
 			path = "lighthouse-gmaps";
 			sourceTree = "<group>";
