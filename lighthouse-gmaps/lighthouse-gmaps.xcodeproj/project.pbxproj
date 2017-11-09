@@ -39,6 +39,7 @@
 		CF4F09811FAF9FE500A472BF /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4F09801FAF9FE500A472BF /* Route.swift */; };
 		CF4F09831FAFA19300A472BF /* RouteStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4F09821FAFA19300A472BF /* RouteStep.swift */; };
 		CF60519B1FA0D882002B6C0B /* CrimeInfoSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF60519A1FA0D882002B6C0B /* CrimeInfoSummaryView.swift */; };
+		CF8445661FB4C22B00764986 /* ErrorHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8445651FB4C22A00764986 /* ErrorHandling.swift */; };
 		CF8BA0271FB39326009897E8 /* MapClusterRender.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8BA0261FB39326009897E8 /* MapClusterRender.swift */; };
 		CF9D92971F895BF9000E9224 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9D92961F895BF9000E9224 /* AppDelegate.swift */; };
 		CF9D92991F895BF9000E9224 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9D92981F895BF9000E9224 /* MapViewController.swift */; };
@@ -150,6 +151,7 @@
 		CF4F09801FAF9FE500A472BF /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
 		CF4F09821FAFA19300A472BF /* RouteStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteStep.swift; sourceTree = "<group>"; };
 		CF60519A1FA0D882002B6C0B /* CrimeInfoSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrimeInfoSummaryView.swift; sourceTree = "<group>"; };
+		CF8445651FB4C22A00764986 /* ErrorHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorHandling.swift; sourceTree = "<group>"; };
 		CF8BA0261FB39326009897E8 /* MapClusterRender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MapClusterRender.swift; path = "lighthouse-gmaps/MapClusterRender.swift"; sourceTree = SOURCE_ROOT; };
 		CF9D92931F895BF9000E9224 /* lighthouse-gmaps.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "lighthouse-gmaps.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF9D92961F895BF9000E9224 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -399,6 +401,7 @@
 				CFDCD9251F896876006DEDE4 /* acknowledgment */,
 				CFC4F1851FB0BCAF0074C4B3 /* route */,
 				CF9D92981F895BF9000E9224 /* MapViewController.swift */,
+				CF8445651FB4C22A00764986 /* ErrorHandling.swift */,
 				CF9D92961F895BF9000E9224 /* AppDelegate.swift */,
 				CFCD85171F89871500EBDAD7 /* Crime.swift */,
 				CFB29CCB1F9FA35500753CA1 /* MapClusterIconGenerator.swift */,
@@ -780,6 +783,7 @@
 				CF33A9671F8C2CF000D9B48E /* GQTPointQuadTreeChild.m in Sources */,
 				CF33A96B1F8C2CF000D9B48E /* GMUGridBasedClusterAlgorithm.m in Sources */,
 				CF33A95C1F8C2CF000D9B48E /* GMUGeometryRenderer.m in Sources */,
+				CF8445661FB4C22B00764986 /* ErrorHandling.swift in Sources */,
 				CFDCD91E1F8964D1006DEDE4 /* SettingsViewController.swift in Sources */,
 				CFB29CCC1F9FA35500753CA1 /* MapClusterIconGenerator.swift in Sources */,
 				CF33A9611F8C2CF000D9B48E /* GMULineString.m in Sources */,

@@ -40,10 +40,6 @@ struct Crime{
 
 }
 
-enum SerializationError: Error {
-    case missing(String)
-}
-
 extension Crime {
     init(json: JSON) throws {
         // Extract id

@@ -220,6 +220,8 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
             "&mode=" + "walking" +
             "&key=" + GOOGLE_DIRECTION_API).responseJSON
         { response in
+            
+
                 if response.response?.statusCode == 200{
                     do{
                         let json = JSON(response.result.value!)
@@ -232,7 +234,11 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
                         print(error)
                         self.createErrorAlert(description: error.localizedDescription)
                     }
+                }else{
+                    //TODO: Make error more effective
+                    
                 }
+            
         }
         
     }
@@ -373,11 +379,11 @@ extension MapViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error)
     {
+        
         //TODO: Make Error more effective
         print("Error \(error)")
     }
 }
-
 
 //// Handle the user's selection.
 extension MapViewController: GMSAutocompleteResultsViewControllerDelegate {
@@ -392,7 +398,10 @@ extension MapViewController: GMSAutocompleteResultsViewControllerDelegate {
     func resultsController(_ resultsController: GMSAutocompleteResultsViewController,
                            didFailAutocompleteWithError error: Error){
         // TODO: handle the error.
-        print("Error: ", error.localizedDescription)
+        if error.code == GMSPlacesErrorCode.networkError.rawValue{
+            log.error(NetworkError(calledFunction: "resultsController",provider:.GooglePlaces))
+        }
+        
     }
 
     // Turn the network activity indicator on and off again.

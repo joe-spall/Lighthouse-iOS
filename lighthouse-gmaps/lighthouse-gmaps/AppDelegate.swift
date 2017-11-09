@@ -11,6 +11,8 @@ import CoreData
 import GoogleMaps
 import GooglePlaces
 import SwiftyJSON
+import SwiftyBeaver
+let log = SwiftyBeaver.self
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -19,12 +21,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     let GOOGLE_MAP_API:String = "AIzaSyAoQH-GwOO8okM0krrHyP1hLv6VVl5U2to"
     
+    
+
+    
     let SETTING_KEYS:[String] = ["load_before","units","year","date_format","num_format","map_style","danger_loaded"]
     let DEFAULT_VALUES_STRINGS:[Any] = [true,"feet","2015","MM/dd/yyyy","1,000.00","Normal",true]
     let SETTING_KEYS_INT:[String] = ["radius"]
     let DEFAULT_VALUES_INT:[Int] = [100]
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        initLogging()
         initDangerLevel()
         initUserDefaults()
         GMSPlacesClient.provideAPIKey(GOOGLE_MAP_API)
@@ -100,6 +106,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
             }
         }
+    }
+    
+    func initLogging(){
+        let console = ConsoleDestination()  // log to Xcode Console
+        let file = FileDestination()  // log to default swiftybeaver.log file
+        let cloud = SBPlatformDestination(appID: "k6PJGd", appSecret: "6hmzabesy6fzl4nvejvuu3FoiFb5dI0e", encryptionKey: "kmdtdedaplz3boaw3cnupvyObbeskQfu") // to cloud
+        
+        // use custom format and set console output to short time, log level & message
+        console.format = "$DHH:mm:ss$d $L $M"
+        
+        log.addDestination(console)
+        log.addDestination(file)
+        log.addDestination(cloud)
+        
     }
     
     func isKeyPresentInUserDefaults(key: String) -> Bool {
