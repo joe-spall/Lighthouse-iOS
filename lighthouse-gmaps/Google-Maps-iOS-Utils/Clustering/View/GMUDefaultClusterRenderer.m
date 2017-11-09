@@ -29,8 +29,7 @@ static const NSUInteger kGMUMinClusterSize = 4;
 
 // At zooms above this level, clusters will be expanded.
 // This is to prevent cases where items are so close to each other than they are always grouped.
-#warning changed MaxClusterZoom to 21 from 20
-static const float kGMUMaxClusterZoom = 21;
+static const float kGMUMaxClusterZoom = 20;
 
 // Animation duration for marker splitting/merging effects.
 static const double kGMUAnimationDuration = 0.5;  // seconds.

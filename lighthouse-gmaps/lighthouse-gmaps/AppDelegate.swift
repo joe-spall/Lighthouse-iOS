@@ -19,8 +19,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     let GOOGLE_MAP_API:String = "AIzaSyAoQH-GwOO8okM0krrHyP1hLv6VVl5U2to"
     
-    let SETTING_KEYS:[String] = ["load_before","units","year","radius","date_format","num_format","map_style","danger_loaded"]
-    let DEFAULT_VALUES:[Any] = [true,"feet","2015",100,"MM/dd/yyyy","1,000.00","mapbox://styles/mapbox/streets-v9",true]
+    let SETTING_KEYS:[String] = ["load_before","units","year","date_format","num_format","map_style","danger_loaded"]
+    let DEFAULT_VALUES_STRINGS:[Any] = [true,"feet","2015","MM/dd/yyyy","1,000.00","Normal",true]
+    let SETTING_KEYS_INT:[String] = ["radius"]
+    let DEFAULT_VALUES_INT:[Int] = [100]
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         initDangerLevel()
@@ -108,10 +110,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         var count:Int = 0
         for key in SETTING_KEYS{
             if !isKeyPresentInUserDefaults(key: key){
-                UserDefaults.standard.set(DEFAULT_VALUES[count],forKey:key)
+                UserDefaults.standard.set(DEFAULT_VALUES_STRINGS[count],forKey:key)
             }
             count += 1
         }
+        count = 0
+        for key in SETTING_KEYS_INT{
+            if !isKeyPresentInUserDefaults(key: key){
+                UserDefaults.standard.set(Int(DEFAULT_VALUES_INT[count]),forKey:key)
+            }
+            count += 1
+        }
+        
     }
     
     func initDangerLevel(){

@@ -18,10 +18,13 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
     @IBOutlet var mapView:GMSMapView!
     let locationManager = CLLocationManager()
     var lastLocation = CLLocation()
+    let MAP_STYLE_TYPE_OPTIONS = [GMSMapViewType.normal, GMSMapViewType.hybrid, GMSMapViewType.satellite, GMSMapViewType.terrain]
+    let MAP_STYLE_NAME_OPTIONS:[String] = ["Normal","Hybrid","Satellite","Terrain"]
     
     // MARK: - Data Pull
     let CRIME_PULL_URL:String = "https://www.app-lighthouse.com/app/crimepullcirc.php"
     var storedCrimes:[Crime] = []
+    var searchCicle:GMSCircle?
     
     // MARK: - Danger Level
     var currentDanger:Double = 0
@@ -53,11 +56,12 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
         
         mapView.delegate = self
         mapView.isIndoorEnabled = false
+        mapView.mapType = MAP_STYLE_TYPE_OPTIONS[MAP_STYLE_NAME_OPTIONS.index(of: UserDefaults.standard.string(forKey: "map_style")!)!]
         
         // MARK: - Cluster
         let iconGenerator = GMUDefaultClusterIconGenerator()
         let algorithm = GMUNonHierarchicalDistanceBasedAlgorithm()
-        let renderer = GMUDefaultClusterRenderer(mapView: mapView, clusterIconGenerator: iconGenerator)
+        let renderer = MapClusterRender(mapView: mapView, clusterIconGenerator: iconGenerator)
         renderer.delegate = self
         clusterManager = GMUClusterManager(map: mapView, algorithm: algorithm, renderer: renderer)
         clusterManager.setDelegate(self, mapDelegate: self)
@@ -93,7 +97,7 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // Hide the navigation bar on this view controller
-       // self.navigationController?.setNavigationBarHidden(true, animated: animated)
+        mapView.mapType = MAP_STYLE_TYPE_OPTIONS[MAP_STYLE_NAME_OPTIONS.index(of: UserDefaults.standard.string(forKey: "map_style")!)!]
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -104,8 +108,13 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
     
     func drawSearchCircle(userLocation: CLLocationCoordinate2D){
         let radius = Double(UserDefaults.standard.integer(forKey:"radius"))*0.3048
-        let circ = GMSCircle(position: userLocation, radius: radius)
-        circ.map = mapView
+        searchCicle = GMSCircle(position: userLocation, radius: radius)
+        // TODO: Make based on crime levels instead of random
+        let color = ROUTE_COLOR[Int(arc4random_uniform(UInt32(ROUTE_COLOR.count)))]
+        searchCicle?.strokeColor = UIColor(rgb:color)
+        searchCicle?.strokeWidth = 4
+        searchCicle?.fillColor = UIColor(rgb:color).withAlphaComponent(0.50)
+        searchCicle!.map = mapView
     }
     
     func pullCrimes(userLocation: CLLocationCoordinate2D){
@@ -175,6 +184,8 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
             clusterManager.add(item)
         }
         clusterManager.cluster()
+        drawSearchCircle(userLocation: lastLocation.coordinate)
+
     }
     
     func showPopup(_ shouldShow: Bool, animated: Bool) {
@@ -356,7 +367,6 @@ extension MapViewController: CLLocationManagerDelegate {
                 mapView.camera = GMSCameraPosition(target: location.coordinate, zoom: 15, bearing: 0, viewingAngle: 0)
                 locationManager.stopUpdatingLocation()
                 pullCrimes(userLocation: location.coordinate)
-                drawSearchCircle(userLocation: location.coordinate)
             }
         }
     }
