@@ -61,7 +61,7 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
         // MARK: - Cluster
         let iconGenerator = GMUDefaultClusterIconGenerator()
         let algorithm = GMUNonHierarchicalDistanceBasedAlgorithm()
-        let renderer = GMUDefaultClusterRenderer(mapView: mapView, clusterIconGenerator: iconGenerator)
+        let renderer = MapClusterRender(mapView: mapView, clusterIconGenerator: iconGenerator)
         renderer.delegate = self
         clusterManager = GMUClusterManager(map: mapView, algorithm: algorithm, renderer: renderer)
         clusterManager.setDelegate(self, mapDelegate: self)

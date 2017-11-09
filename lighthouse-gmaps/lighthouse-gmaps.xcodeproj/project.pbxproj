@@ -39,6 +39,7 @@
 		CF4F09811FAF9FE500A472BF /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4F09801FAF9FE500A472BF /* Route.swift */; };
 		CF4F09831FAFA19300A472BF /* RouteStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4F09821FAFA19300A472BF /* RouteStep.swift */; };
 		CF60519B1FA0D882002B6C0B /* CrimeInfoSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF60519A1FA0D882002B6C0B /* CrimeInfoSummaryView.swift */; };
+		CF8BA0271FB39326009897E8 /* MapClusterRender.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8BA0261FB39326009897E8 /* MapClusterRender.swift */; };
 		CF9D92971F895BF9000E9224 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9D92961F895BF9000E9224 /* AppDelegate.swift */; };
 		CF9D92991F895BF9000E9224 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9D92981F895BF9000E9224 /* MapViewController.swift */; };
 		CF9D929C1F895BF9000E9224 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF9D929A1F895BF9000E9224 /* Main.storyboard */; };
@@ -149,6 +150,7 @@
 		CF4F09801FAF9FE500A472BF /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
 		CF4F09821FAFA19300A472BF /* RouteStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteStep.swift; sourceTree = "<group>"; };
 		CF60519A1FA0D882002B6C0B /* CrimeInfoSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrimeInfoSummaryView.swift; sourceTree = "<group>"; };
+		CF8BA0261FB39326009897E8 /* MapClusterRender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MapClusterRender.swift; path = "lighthouse-gmaps/MapClusterRender.swift"; sourceTree = SOURCE_ROOT; };
 		CF9D92931F895BF9000E9224 /* lighthouse-gmaps.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "lighthouse-gmaps.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF9D92961F895BF9000E9224 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CF9D92981F895BF9000E9224 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
@@ -355,10 +357,10 @@
 				CF33A9541F8C2CF000D9B48E /* GMUClusterRenderer.h */,
 				CF33A9551F8C2CF000D9B48E /* GMUDefaultClusterIconGenerator+Testing.h */,
 				CF33A9561F8C2CF000D9B48E /* GMUDefaultClusterIconGenerator.h */,
+				CF33A95A1F8C2CF000D9B48E /* GMUDefaultClusterRenderer.m */,
 				CF33A9571F8C2CF000D9B48E /* GMUDefaultClusterIconGenerator.m */,
 				CF33A9581F8C2CF000D9B48E /* GMUDefaultClusterRenderer+Testing.h */,
 				CF33A9591F8C2CF000D9B48E /* GMUDefaultClusterRenderer.h */,
-				CF33A95A1F8C2CF000D9B48E /* GMUDefaultClusterRenderer.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -400,6 +402,7 @@
 				CF9D92961F895BF9000E9224 /* AppDelegate.swift */,
 				CFCD85171F89871500EBDAD7 /* Crime.swift */,
 				CFB29CCB1F9FA35500753CA1 /* MapClusterIconGenerator.swift */,
+				CF8BA0261FB39326009897E8 /* MapClusterRender.swift */,
 				CF9D92A01F895BF9000E9224 /* Assets.xcassets */,
 				CF9D929A1F895BF9000E9224 /* Main.storyboard */,
 				CF9D92A21F895BF9000E9224 /* LaunchScreen.storyboard */,
@@ -787,6 +790,7 @@
 				CF33A96D1F8C2CF000D9B48E /* GMUSimpleClusterAlgorithm.m in Sources */,
 				CF33A9681F8C2CF000D9B48E /* GMUGradient.m in Sources */,
 				CFCD85181F89871500EBDAD7 /* Crime.swift in Sources */,
+				CF8BA0271FB39326009897E8 /* MapClusterRender.swift in Sources */,
 				CF4F09831FAFA19300A472BF /* RouteStep.swift in Sources */,
 				CFDCD9231F896652006DEDE4 /* CrimeWeightTableViewCell.swift in Sources */,
 				CF33A95B1F8C2CF000D9B48E /* GMUGeoJSONParser.m in Sources */,
