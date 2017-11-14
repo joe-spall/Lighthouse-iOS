@@ -11,10 +11,85 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--Initial Load View Controller-->
+        <scene sceneID="tuR-az-7bI">
+            <objects>
+                <viewController restorationIdentifier="InitialLoadViewController" storyboardIdentifier="InitialLoadViewController" id="cZB-fd-ILA" customClass="InitialLoadViewController" customModule="lighthouse_gmaps" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Ksw-Ws-ozf">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please read and accept our terms and conditions to continue" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mXS-Bt-gAZ">
+                                <rect key="frame" x="60" y="81" width="255" height="41"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f20-gd-wLu">
+                                <rect key="frame" x="16" y="141" width="343" height="428"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome to Lighthouse" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0YD-pu-UBg">
+                                <rect key="frame" x="70" y="44" width="235" height="28"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="23"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="I accept the Terms and Conditions" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ajo-ux-eJH">
+                                <rect key="frame" x="70" y="588" width="262" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="TWc-MN-yep">
+                                <rect key="frame" x="14" y="583" width="51" height="31"/>
+                            </switch>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0kd-8C-yqW">
+                                <rect key="frame" x="150" y="617" width="74" height="30"/>
+                                <state key="normal" title="Continue"/>
+                                <connections>
+                                    <action selector="continueActionWithSender:" destination="cZB-fd-ILA" eventType="touchUpInside" id="cFr-rs-Yyb"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="mXS-Bt-gAZ" firstAttribute="leading" secondItem="ubF-J3-Nct" secondAttribute="leading" constant="60" id="4Ff-gQ-loA"/>
+                            <constraint firstItem="0YD-pu-UBg" firstAttribute="top" secondItem="ubF-J3-Nct" secondAttribute="top" constant="24" id="5xG-Vf-0ER"/>
+                            <constraint firstItem="ubF-J3-Nct" firstAttribute="trailing" secondItem="0YD-pu-UBg" secondAttribute="trailing" constant="70" id="6ON-1D-9Um"/>
+                            <constraint firstItem="Ajo-ux-eJH" firstAttribute="centerY" secondItem="TWc-MN-yep" secondAttribute="centerY" id="8H6-wC-sLQ"/>
+                            <constraint firstItem="ubF-J3-Nct" firstAttribute="trailing" secondItem="Ajo-ux-eJH" secondAttribute="trailing" constant="43" id="GXc-bB-Jqh"/>
+                            <constraint firstItem="ubF-J3-Nct" firstAttribute="trailing" secondItem="mXS-Bt-gAZ" secondAttribute="trailing" constant="60" id="Hbs-gK-fmB"/>
+                            <constraint firstItem="ubF-J3-Nct" firstAttribute="trailing" secondItem="f20-gd-wLu" secondAttribute="trailing" constant="16" id="KQI-JZ-9W7"/>
+                            <constraint firstItem="f20-gd-wLu" firstAttribute="top" secondItem="mXS-Bt-gAZ" secondAttribute="bottom" constant="19" id="OAI-Q1-Jql"/>
+                            <constraint firstItem="mXS-Bt-gAZ" firstAttribute="top" secondItem="0YD-pu-UBg" secondAttribute="bottom" constant="8.5" id="dhT-vH-AWo"/>
+                            <constraint firstItem="f20-gd-wLu" firstAttribute="leading" secondItem="ubF-J3-Nct" secondAttribute="leading" constant="16" id="kbe-Pw-0SW"/>
+                            <constraint firstAttribute="bottom" secondItem="0kd-8C-yqW" secondAttribute="bottom" constant="20" symbolic="YES" id="mHc-2L-6eX"/>
+                            <constraint firstItem="Ajo-ux-eJH" firstAttribute="leading" secondItem="TWc-MN-yep" secondAttribute="trailing" constant="7" id="qgU-9r-OjZ"/>
+                            <constraint firstItem="0kd-8C-yqW" firstAttribute="top" secondItem="Ajo-ux-eJH" secondAttribute="bottom" constant="8" symbolic="YES" id="rJM-yG-PU0"/>
+                            <constraint firstItem="0kd-8C-yqW" firstAttribute="top" secondItem="f20-gd-wLu" secondAttribute="bottom" constant="48" id="tuG-oM-lsS"/>
+                            <constraint firstItem="0kd-8C-yqW" firstAttribute="leading" secondItem="ubF-J3-Nct" secondAttribute="leading" constant="150" id="utI-Tg-oVu"/>
+                            <constraint firstItem="ubF-J3-Nct" firstAttribute="trailing" secondItem="0kd-8C-yqW" secondAttribute="trailing" constant="151" id="wlg-2v-XpK"/>
+                            <constraint firstItem="0YD-pu-UBg" firstAttribute="leading" secondItem="ubF-J3-Nct" secondAttribute="leading" constant="70" id="xEr-gM-8cM"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="ubF-J3-Nct"/>
+                    </view>
+                    <connections>
+                        <outlet property="continueButton" destination="0kd-8C-yqW" id="4Ie-P8-ajv"/>
+                        <outlet property="termsSwitch" destination="TWc-MN-yep" id="00A-5d-7cg"/>
+                        <outlet property="termsTextView" destination="f20-gd-wLu" id="GAM-bc-CTF"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="b3O-Il-OYX" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-554" y="779"/>
+        </scene>
         <!--Map View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="MapViewController" customModule="lighthouse_gmaps" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController restorationIdentifier="MapViewController" storyboardIdentifier="MapViewController" id="BYZ-38-t0r" customClass="MapViewController" customModule="lighthouse_gmaps" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ded-gv-0zw" customClass="GMSMapView">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -50,12 +125,12 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="rdG-jd-1uW"/>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="DxP-qW-YwR"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Gpx-m5-jkh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-372" y="113"/>
+            <point key="canvasLocation" x="-553" y="113"/>
         </scene>
         <!--Settings-->
         <scene sceneID="Ij7-cr-2W2">

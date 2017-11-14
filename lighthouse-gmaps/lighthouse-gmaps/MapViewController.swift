@@ -46,10 +46,24 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
     var currentRoute:Route?
     let ROUTE_COLOR:[Int] = [0x28BF00, 0x53C300,0x7FC700,0xAECB00,0xCFC100,0xD49800,0xD86D00,0xDC40000,0xE01100,0xE5001F]
     
-
+    // MARK: - Terms and Conditions
+    var comingFromTerms:Bool = false;
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        if(!isKeyPresentInUserDefaults(key: "terms_conditions")){
+           sendToTermsView()
+        }
+        else{
+            initMapViewController()
+        }
+        
+        
+        
+    }
+    
+    func initMapViewController(){
         // MARK: - Mapping
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
@@ -65,8 +79,6 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
         renderer.delegate = self
         clusterManager = GMUClusterManager(map: mapView, algorithm: algorithm, renderer: renderer)
         clusterManager.setDelegate(self, mapDelegate: self)
-        
-        
         
         
         // MARK: - Search
@@ -86,7 +98,6 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
         
         // Prevent the navigation bar from being hidden when searching.
         searchController?.hidesNavigationBarDuringPresentation = false
-        
     }
     
     override func didReceiveMemoryWarning() {
@@ -96,9 +107,18 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.navigationController?.setNavigationBarHidden(false, animated: animated)
+
         // Hide the navigation bar on this view controller
         mapView.mapType = MAP_STYLE_TYPE_OPTIONS[MAP_STYLE_NAME_OPTIONS.index(of: UserDefaults.standard.string(forKey: "map_style")!)!]
+    
+        if(comingFromTerms){
+            initMapViewController()
+            comingFromTerms = false
+        }
+        
     }
+    
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
@@ -263,6 +283,23 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
         
     }
     
+    
+    
+    func sendToTermsView(){
+        let transition = CATransition()
+        transition.duration = 0.5
+        transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+        transition.type = kCATransitionMoveIn
+        transition.subtype = kCATransitionFromTop
+        navigationController?.view.layer.add(transition, forKey: nil)
+        comingFromTerms = true;
+        let viewController:InitialLoadViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "InitialLoadViewController") as! InitialLoadViewController
+        self.navigationController?.pushViewController(viewController, animated: false)
+    }
+    
+    func isKeyPresentInUserDefaults(key: String) -> Bool {
+        return UserDefaults.standard.object(forKey: key) != nil
+    }
 
 
     // MARK: - Error Handling
@@ -356,6 +393,9 @@ extension MapViewController: CLLocationManagerDelegate {
             locationManager.startUpdatingLocation()
             mapView.isMyLocationEnabled = true
             mapView.settings.myLocationButton = true
+        }
+        if status == .denied{
+            //TODO: Implement if access denied, question whether to use the app without location access
         }
     }
     
