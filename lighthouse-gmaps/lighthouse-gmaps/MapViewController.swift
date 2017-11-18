@@ -49,6 +49,10 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
     // MARK: - Terms and Conditions
     var comingFromTerms:Bool = false;
     
+    // MARK: - Lighthouse Button
+    @IBOutlet var lighthouseButton:UIButton!
+    var halfModalTransitioningDelegate: HalfModalTransitioningDelegate?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -64,6 +68,9 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
     }
     
     func initMapViewController(){
+        // MARK: - Lighthouse Button
+        view.bringSubview(toFront: self.lighthouseButton)
+        
         // MARK: - Mapping
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
@@ -117,6 +124,15 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
             comingFromTerms = false
         }
         
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        super.prepare(for: segue, sender: sender)
+        
+        self.halfModalTransitioningDelegate = HalfModalTransitioningDelegate(viewController: self, presentingViewController: segue.destination)
+        
+        segue.destination.modalPresentationStyle = .custom
+        segue.destination.transitioningDelegate = self.halfModalTransitioningDelegate
     }
     
     
@@ -446,6 +462,7 @@ extension MapViewController: GMSAutocompleteResultsViewControllerDelegate {
 }
 
 
+
 // MARK: - CrimeClusterItem
 
 class CrimeClusterItem: NSObject, GMUClusterItem {
@@ -457,7 +474,6 @@ class CrimeClusterItem: NSObject, GMUClusterItem {
         self.crime = crime
     }
 }
-
 
 // MARK: - UIColor
 extension UIColor {

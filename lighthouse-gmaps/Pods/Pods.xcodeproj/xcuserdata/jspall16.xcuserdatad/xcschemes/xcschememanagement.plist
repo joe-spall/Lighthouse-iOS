@@ -32,16 +32,6 @@
 			<key>orderHint</key>
 			<integer>3</integer>
 		</dict>
-		<key>SWXMLHash.xcscheme</key>
-		<dict>
-			<key>orderHint</key>
-			<integer>5</integer>
-		</dict>
-		<key>SwiftyBeaver.xcscheme</key>
-		<dict>
-			<key>orderHint</key>
-			<integer>4</integer>
-		</dict>
 		<key>SwiftyJSON.xcscheme</key>
 		<dict>
 			<key>isShown</key>
