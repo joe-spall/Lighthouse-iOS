@@ -29,6 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         initUserDefaults()
         GMSPlacesClient.provideAPIKey(GOOGLE_MAP_API)
         GMSServices.provideAPIKey(GOOGLE_MAP_API)
+        
         // Override point for customization after application launch.
         return true
     }
