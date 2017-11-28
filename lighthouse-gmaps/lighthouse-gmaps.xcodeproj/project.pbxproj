@@ -54,7 +54,7 @@
 		CF9D92A41F895BF9000E9224 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF9D92A21F895BF9000E9224 /* LaunchScreen.storyboard */; };
 		CF9D92AF1F895BF9000E9224 /* lighthouse_gmapsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9D92AE1F895BF9000E9224 /* lighthouse_gmapsTests.swift */; };
 		CF9D92BA1F895BF9000E9224 /* lighthouse_gmapsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9D92B91F895BF9000E9224 /* lighthouse_gmapsUITests.swift */; };
-		CFB29CCC1F9FA35500753CA1 /* MapClusterIconGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB29CCB1F9FA35500753CA1 /* MapClusterIconGenerator.swift */; };
+		CFC803741FC9A7CF007590D6 /* Connectivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFC803731FC9A7CF007590D6 /* Connectivity.swift */; };
 		CFCD85181F89871500EBDAD7 /* Crime.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFCD85171F89871500EBDAD7 /* Crime.swift */; };
 		CFDCD91E1F8964D1006DEDE4 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDCD91D1F8964D1006DEDE4 /* SettingsViewController.swift */; };
 		CFDCD9211F896601006DEDE4 /* CrimeWeightViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDCD9201F896601006DEDE4 /* CrimeWeightViewController.swift */; };
@@ -178,8 +178,8 @@
 		CF9D92B51F895BF9000E9224 /* lighthouse-gmapsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "lighthouse-gmapsUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF9D92B91F895BF9000E9224 /* lighthouse_gmapsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = lighthouse_gmapsUITests.swift; sourceTree = "<group>"; };
 		CF9D92BB1F895BF9000E9224 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		CFB29CCB1F9FA35500753CA1 /* MapClusterIconGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapClusterIconGenerator.swift; sourceTree = "<group>"; };
 		CFC0CFA81F8C1EC800B92795 /* lighthouse-gmaps-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "lighthouse-gmaps-Bridging-Header.h"; sourceTree = "<group>"; };
+		CFC803731FC9A7CF007590D6 /* Connectivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Connectivity.swift; sourceTree = "<group>"; };
 		CFCD85171F89871500EBDAD7 /* Crime.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Crime.swift; sourceTree = "<group>"; };
 		CFDCD91D1F8964D1006DEDE4 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		CFDCD9201F896601006DEDE4 /* CrimeWeightViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrimeWeightViewController.swift; sourceTree = "<group>"; };
@@ -434,11 +434,11 @@
 				CFDCD9251F896876006DEDE4 /* acknowledgment */,
 				CFC4F1851FB0BCAF0074C4B3 /* route */,
 				CF6BEDA71FB4E2A1003A95B8 /* initialLoadController */,
+				CFC803721FC9A79B007590D6 /* network */,
 				CF9D92981F895BF9000E9224 /* MapViewController.swift */,
 				CF58841E1FC0AD5D003B10E2 /* SmallMenuViewController.swift */,
 				CF9D92961F895BF9000E9224 /* AppDelegate.swift */,
 				CFCD85171F89871500EBDAD7 /* Crime.swift */,
-				CFB29CCB1F9FA35500753CA1 /* MapClusterIconGenerator.swift */,
 				CF8BA0261FB39326009897E8 /* MapClusterRender.swift */,
 				CF9D92A01F895BF9000E9224 /* Assets.xcassets */,
 				CF9D929A1F895BF9000E9224 /* Main.storyboard */,
@@ -473,6 +473,14 @@
 				CF4F09821FAFA19300A472BF /* RouteStep.swift */,
 			);
 			path = route;
+			sourceTree = "<group>";
+		};
+		CFC803721FC9A79B007590D6 /* network */ = {
+			isa = PBXGroup;
+			children = (
+				CFC803731FC9A7CF007590D6 /* Connectivity.swift */,
+			);
+			path = network;
 			sourceTree = "<group>";
 		};
 		CFDCD91C1F89649F006DEDE4 /* settings */ = {
@@ -820,9 +828,9 @@
 				CF5884181FC0AA52003B10E2 /* HalfModalInteractiveTransition.swift in Sources */,
 				CF33A9671F8C2CF000D9B48E /* GQTPointQuadTreeChild.m in Sources */,
 				CF33A96B1F8C2CF000D9B48E /* GMUGridBasedClusterAlgorithm.m in Sources */,
+				CFC803741FC9A7CF007590D6 /* Connectivity.swift in Sources */,
 				CF33A95C1F8C2CF000D9B48E /* GMUGeometryRenderer.m in Sources */,
 				CFDCD91E1F8964D1006DEDE4 /* SettingsViewController.swift in Sources */,
-				CFB29CCC1F9FA35500753CA1 /* MapClusterIconGenerator.swift in Sources */,
 				CF33A9611F8C2CF000D9B48E /* GMULineString.m in Sources */,
 				CF33A96C1F8C2CF000D9B48E /* GMUNonHierarchicalDistanceBasedAlgorithm.m in Sources */,
 				CFDCD9271F8968FC006DEDE4 /* AcknowledgmentViewController.swift in Sources */,

@@ -12,7 +12,7 @@ import GooglePlaces
 import Alamofire
 import SwiftyJSON
 
-class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapViewDelegate, GMUClusterRendererDelegate{
+class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapViewDelegate, GMUClusterRendererDelegate,UISearchControllerDelegate{
 
     // MARK: - Mapping
     @IBOutlet var mapView:GMSMapView!
@@ -38,13 +38,17 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
     fileprivate var locationMarker : GMSMarker? = GMSMarker()
     
     // MARK: - Search
-    var resultsViewController: GMSAutocompleteResultsViewController?
-    var searchController: UISearchController?
+    var destResultsViewController: GMSAutocompleteResultsViewController?
+    var destSearchController: UISearchController?
     let GOOGLE_DIRECTION_API:String = "AIzaSyAYo8bhVOYfriZCk-8i5fzpII_WRLJjS40"
     
     // MARK: - Routing
     var currentRoute:Route?
     let ROUTE_COLOR:[Int] = [0x28BF00, 0x53C300,0x7FC700,0xAECB00,0xCFC100,0xD49800,0xD86D00,0xDC40000,0xE01100,0xE5001F]
+    var routeBounds:GMSCoordinateBounds = GMSCoordinateBounds()
+    var startMarker:GMSMarker = GMSMarker()
+    var endMarker:GMSMarker = GMSMarker()
+    var polylineArray:[GMSPolyline] = []
     
     // MARK: - Terms and Conditions
     var comingFromTerms:Bool = false;
@@ -62,8 +66,6 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
         else{
             initMapViewController()
         }
-        
-        
         
     }
     
@@ -89,22 +91,25 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
         
         
         // MARK: - Search
-        resultsViewController = GMSAutocompleteResultsViewController()
-        resultsViewController?.delegate = self
+        destResultsViewController = GMSAutocompleteResultsViewController()
+        destResultsViewController?.delegate = self
         
-        searchController = UISearchController(searchResultsController: resultsViewController)
-        searchController?.searchResultsUpdater = resultsViewController
+        destSearchController = UISearchController(searchResultsController: destResultsViewController)
+        destSearchController?.searchResultsUpdater = destResultsViewController
+        destSearchController?.delegate = self
         
         // Put the search bar in the navigation bar.
-        searchController?.searchBar.sizeToFit()
-        navigationItem.titleView = searchController?.searchBar
+        destSearchController?.searchBar.sizeToFit()
+        navigationItem.titleView = destSearchController?.searchBar
         
         // When UISearchController presents the results view, present it in
         // this view controller, not one further up the chain.
         definesPresentationContext = true
         
         // Prevent the navigation bar from being hidden when searching.
-        searchController?.hidesNavigationBarDuringPresentation = false
+        destSearchController?.hidesNavigationBarDuringPresentation = false
+
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -135,6 +140,7 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
         segue.destination.transitioningDelegate = self.halfModalTransitioningDelegate
     }
     
+
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
@@ -282,15 +288,17 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
     }
 
     func changeMapForRoute(route:Route){
-        let routeBounds = GMSCoordinateBounds(coordinate: route.startLocation, coordinate: route.endLocation)
-        let startMarker = GMSMarker(position: route.startLocation)
-        let endMarker = GMSMarker(position: route.endLocation)
-        let polyline = GMSPolyline(path: GMSPath(fromEncodedPath: route.totalPolylinePath))
-        polyline.strokeWidth = 5
-        polyline.strokeColor = UIColor(rgb:0x33cc33)
+        startMarker.map = nil
+        endMarker.map = nil
+        removeAllPolylineElements(polySteps: polylineArray)
+        
+        routeBounds = GMSCoordinateBounds(coordinate: route.startLocation, coordinate: route.endLocation)
+        startMarker = GMSMarker(position: route.startLocation)
+        endMarker = GMSMarker(position: route.endLocation)
+        
         startMarker.map = mapView
         endMarker.map = mapView
-        polyline.map = mapView
+        addAllStepElements(routeSteps: route.steps)
         
         // Camera update
         let update = GMSCameraUpdate.fit(routeBounds, with: UIEdgeInsets(top: 150, left: 40, bottom: 50, right: 40))
@@ -299,7 +307,24 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
         
     }
     
+    func addAllStepElements(routeSteps:[RouteStep]){
+        polylineArray = []
+        for step in routeSteps{
+            let curPoly = GMSPolyline(path: GMSPath(fromEncodedPath: step.polylinePath))
+            curPoly.strokeWidth = 5
+            //TODO: DON'T Make Random
+            curPoly.strokeColor = UIColor(rgb:ROUTE_COLOR[Int(arc4random_uniform(UInt32(ROUTE_COLOR.count)))])
+            curPoly.map = mapView
+            polylineArray.append(curPoly)
+        }
+
+    }
     
+    func removeAllPolylineElements(polySteps:[GMSPolyline]){
+        for step in polySteps{
+            step.map = nil
+        }
+    }
     
     func sendToTermsView(){
         let transition = CATransition()
@@ -381,7 +406,6 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
             let userViewPosition = mapView.projection.point(for: position.target)
             crimeInfoSummary?.frame.origin.x = userViewPosition.x - (crimeInfoSummary?.frame.width)!/2
             if crimeInfoSummary?.numberOfCrimes() == 1 {
-                
                 crimeInfoSummary?.frame.origin.y = userViewPosition.y - (crimeInfoSummary?.frame.height)! - 55
             }
             else{
@@ -435,12 +459,11 @@ extension MapViewController: CLLocationManagerDelegate {
 }
 
 
-//// Handle the user's selection.
 extension MapViewController: GMSAutocompleteResultsViewControllerDelegate {
     func resultsController(_ resultsController: GMSAutocompleteResultsViewController,
                            didAutocompleteWith place: GMSPlace) {
-        searchController?.isActive = false
         // Do something with the selected place.
+        destSearchController?.isActive = false
         getDirections(destination: place.coordinate)
         
     }

@@ -34,7 +34,6 @@ struct Crime{
         if(distanceFromCrime > 100){
             distanceTotal *= pow(M_E,(distanceFromCrime-100)/DISTANCE_CONST)
         }
-
         return (userValue*(timeSinceTotal+distanceTotal+timeOfDayTotal))
     }
 
