@@ -102,7 +102,7 @@
                                 </constraints>
                                 <state key="normal" title="Button" image="lighthouse_icon"/>
                                 <connections>
-                                    <segue destination="OyB-eW-7kB" kind="presentation" id="fxh-7p-CGw"/>
+                                    <action selector="makeQuickMenu" destination="BYZ-38-t0r" eventType="touchUpInside" id="lan-dY-ED9"/>
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OpB-kG-4h2" customClass="GMSMapView">
@@ -139,30 +139,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="476" y="112.89355322338831"/>
-        </scene>
-        <!--Small Menu View Controller-->
-        <scene sceneID="tBT-Bg-fCf">
-            <objects>
-                <viewController id="OyB-eW-7kB" customClass="SmallMenuViewController" customModule="lighthouse_gmaps" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="2Bd-Zt-6Zb">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Cute Settings" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QYQ-9P-KSC">
-                                <rect key="frame" x="135" y="48" width="104" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <viewLayoutGuide key="safeArea" id="pgn-ec-3Eh"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="YTp-yb-78m" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="476" y="913.49325337331345"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="hKE-w4-b14">

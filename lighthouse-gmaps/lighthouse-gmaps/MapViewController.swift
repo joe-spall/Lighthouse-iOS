@@ -55,7 +55,7 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
     
     // MARK: - Lighthouse Button
     @IBOutlet var lighthouseButton:UIButton!
-    var halfModalTransitioningDelegate: HalfModalTransitioningDelegate?
+    var currentMenuView:UIView?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -130,16 +130,6 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
         }
         
     }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        super.prepare(for: segue, sender: sender)
-        
-        self.halfModalTransitioningDelegate = HalfModalTransitioningDelegate(viewController: self, presentingViewController: segue.destination)
-        
-        segue.destination.modalPresentationStyle = .custom
-        segue.destination.transitioningDelegate = self.halfModalTransitioningDelegate
-    }
-    
 
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -164,6 +154,7 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
         let currentLong:Double = ((userLocation.longitude)*1000000).rounded()/1000000
         let radius = Double(UserDefaults.standard.integer(forKey:"radius"))/364000
         let year = UserDefaults.standard.string(forKey:"year")!
+        
         let param:[String:Any] = [
             "curlatitude": currentLat,
             "curlongitude": currentLong,
@@ -175,6 +166,8 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
                 let dataFromPull = response.data!
                 let json = JSON(data:dataFromPull)
                 let mightError = json["error"]
+                //TODO: Improve storage
+                self.storedCrimes = []
                 if(mightError == JSON.null){
                     let resultsArray = json["results"]
                     for (_,subJson):(String, JSON) in resultsArray {
@@ -216,7 +209,7 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
             let userDefinedDanger = UserDefaults.standard.double(forKey: crime.type)
             currentDanger += crime.calculateSingleThreatScore(userLocation: userLoc, currentDate: currentDate, userValue: userDefinedDanger)
         }
-        print(currentDanger)
+        currentDanger /= Double(crimes.count)
     }
     
     func addCrimesToMap(crimeArray: [Crime]){
@@ -279,6 +272,7 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
         
     }
 
+
     func locationToString(location:CLLocationCoordinate2D) -> String{
         var output:String = ""
         output += String(format: "%f",location.latitude)
@@ -304,7 +298,29 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
         let update = GMSCameraUpdate.fit(routeBounds, with: UIEdgeInsets(top: 150, left: 40, bottom: 50, right: 40))
         mapView.moveCamera(update)
         
+    }
+    
+    @IBAction func makeQuickMenu(){
+        let screenSize = UIScreen.main.bounds
+        let screenWidth = screenSize.width
+        let screenHeight = screenSize.height
+        let viewHeight = screenHeight/3;
         
+        let testFrame: CGRect = CGRect(x: 0, y: screenHeight-viewHeight, width: screenWidth, height: viewHeight)
+        currentMenuView = UIView(frame: testFrame)
+        let button = UIButton() // let preferred over var here
+        button.frame = CGRect(x: 0, y: 0, width: 100, height: 50)
+        button.setTitle("Close", for: UIControlState.normal)
+        button.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
+        currentMenuView?.addSubview(button)
+        currentMenuView?.backgroundColor = UIColor(red: 0.5, green: 0.5, blue: 0.5, alpha: 1.0)
+        self.view.addSubview((currentMenuView)!)
+        self.view.bringSubview(toFront: (currentMenuView)!)
+        
+    }
+    
+    @objc func buttonAction(sender: UIButton!) {
+        currentMenuView?.removeFromSuperview()
     }
     
     func addAllStepElements(routeSteps:[RouteStep]){
