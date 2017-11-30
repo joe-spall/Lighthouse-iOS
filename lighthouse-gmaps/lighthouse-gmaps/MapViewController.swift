@@ -53,6 +53,7 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
     // MARK: - Routing
     var currentRoute:Route?
     let ROUTE_COLOR:[Int] = [0x28BF00,0xE6E600,0xE01100]
+    let ROUTE_RANGES:[Double] = [0.000001,0.00001]
     var routeBounds:GMSCoordinateBounds = GMSCoordinateBounds()
     var startMarker:GMSMarker = GMSMarker()
     var endMarker:GMSMarker = GMSMarker()
@@ -137,7 +138,6 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
                  pullCrimesOnPoint(userLocation: lastLocation.coordinate)
             }
         }
-       
     
         if(comingFromTerms){
             initMapViewController()
@@ -146,15 +146,13 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
         
     }
     
-    
-
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         // Show the navigation bar on other view controllers
         
     }
     
-    func calculateDanger(crimes: [Crime], userLoc: CLLocationCoordinate2D){
+    func calculateLocalDanger(crimes: [Crime], userLoc: CLLocationCoordinate2D){
         let currentDate = Date()
         for crime in crimes{
             let userDefinedDanger = UserDefaults.standard.double(forKey: crime.type)
@@ -222,7 +220,7 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
                     }
                     
                     self.addCrimesToMap(crimeArray: self.storedCrimes)
-                    self.calculateDanger(crimes: self.storedCrimes,userLoc: userLocation)
+                    self.calculateLocalDanger(crimes: self.storedCrimes,userLoc: userLocation)
                 }
                 else{
                     //TODO: Make error more effective
@@ -402,7 +400,7 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
         addAllStepElements(routeSteps: route.steps)
         
         // Camera update
-        let update = GMSCameraUpdate.fit(routeBounds, with: UIEdgeInsets(top: 150, left: 40, bottom: 80, right: 40))
+        let update = GMSCameraUpdate.fit(routeBounds, with: UIEdgeInsets(top: 150, left: 40, bottom: 100, right: 40))
         mapView.moveCamera(update)
         
     }
@@ -432,15 +430,47 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
     
     func addAllStepElements(routeSteps:[RouteStep]){
         polylineArray = []
+        let currentRadius = Double(UserDefaults.standard.integer(forKey:"radius"))*0.3048;
         for step in routeSteps{
-            let curPoly = GMSPolyline(path: GMSPath(fromEncodedPath: step.polylinePath))
+            let currentPath = GMSPath(fromEncodedPath: step.polylinePath)
+            let curPoly = GMSPolyline(path: currentPath)
             curPoly.strokeWidth = 5
-            //TODO: DON'T Make Random
-            curPoly.strokeColor = UIColor(rgb:ROUTE_COLOR[Int(arc4random_uniform(UInt32(ROUTE_COLOR.count)))])
+            let currentRouteDangerLevel = calculateDangerForPath(path: currentPath!, radius: currentRadius)
+            curPoly.strokeColor = calculateDangerColorRoute(length: (currentPath?.length(of: .rhumb))!, radius: currentRadius, dangerLevel: currentRouteDangerLevel)
             curPoly.map = mapView
             polylineArray.append(curPoly)
         }
 
+    }
+    
+    func calculateDangerForPath(path:GMSPath, radius:Double) -> Double{
+        var dangerLevel:Double = 0;
+        let currentDate = Date()
+        var currentPathCrimeCount:Double = 0;
+        for crime in storedCrimes{
+            if(GMSGeometryIsLocationOnPathTolerance(crime.location, path, false, radius)){
+                let userDefinedDanger = UserDefaults.standard.double(forKey: crime.type)
+                dangerLevel += crime.calculateSingleThreatScore(userLocation: crime.location, currentDate: currentDate, userValue: userDefinedDanger)
+                currentPathCrimeCount += 1.0
+                
+            }
+        }
+        return dangerLevel/currentPathCrimeCount
+        
+    }
+    
+    func calculateDangerColorRoute(length:Double,radius:Double, dangerLevel:Double) -> UIColor{
+        let dangerPerSquareMeter = dangerLevel/(radius*length)
+        if(dangerPerSquareMeter <= ROUTE_RANGES[0]){
+            return UIColor(rgb: ROUTE_COLOR[0])
+        }
+        else if(dangerPerSquareMeter <= ROUTE_RANGES[1]){
+            return UIColor(rgb: ROUTE_COLOR[1])
+        }
+        else{
+            return UIColor(rgb: ROUTE_COLOR[2])
+        }
+        
     }
     
     func removeAllPolylineElements(polySteps:[GMSPolyline]){
