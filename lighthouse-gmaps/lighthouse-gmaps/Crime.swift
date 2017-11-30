@@ -46,36 +46,33 @@ enum SerializationError: Error {
 extension Crime {
     init(json: JSON) throws {
         // Extract id
-        guard let id = json["id"].string else {
-            throw SerializationError.missing("id")
+        guard let id = json["_id"].string else {
+            throw SerializationError.missing("_id")
         }
         
         // Extract date
-        guard let dateString = json["date"].string else {
-            throw SerializationError.missing("date")
+        guard var dateString = json["Timestamp"].string else {
+            throw SerializationError.missing("Timestamp")
         }
         
         // Extract type
-        guard let type = json["typeCrime"].string else {
-            throw SerializationError.missing("typeCrime")
+        guard let type = json["Crime"].string else {
+            throw SerializationError.missing("Crime")
         }
         
-        // Extract lat
-        guard let lat = json["lat"].double else {
-            throw SerializationError.missing("lat")
-        }
-        
-        // Extract lng
-        guard let lng = json["long"].double else {
-            throw SerializationError.missing("lng")
+        guard let coords = json["Coordinates"].array else{
+            throw SerializationError.missing("Coordinates")
+            
         }
         
         self.id = id
         let dateFormatHandle:DateFormatter = DateFormatter()
         dateFormatHandle.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        dateString = dateString.replacingOccurrences(of: "T", with: " ", options: NSString.CompareOptions.literal, range:nil)
+        dateString = dateString.replacingOccurrences(of: ".000Z", with: "", options: NSString.CompareOptions.literal, range:nil)
         self.date = dateFormatHandle.date(from: dateString)!
         self.type = type
-        self.location = CLLocationCoordinate2D(latitude: lat, longitude: lng)
+        self.location = CLLocationCoordinate2D(latitude: coords[1].double!, longitude: coords[0].double!)
         
     }
 }

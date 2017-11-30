@@ -22,7 +22,9 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
     let MAP_STYLE_NAME_OPTIONS:[String] = ["Normal","Hybrid","Satellite","Terrain"]
     
     // MARK: - Data Pull
-    let CRIME_PULL_URL:String = "https://www.app-lighthouse.com/app/crimepullcirc.php"
+    let CRIME_PULL_URL:String = "http://app-lighthouse.herokuapp.com/api/"
+    let URL_ROUTE:String = "route_crimepull"
+    let URL_POINT:String = "point_crimepull"
     var storedCrimes:[Crime] = []
     var searchCicle:GMSCircle?
     
@@ -41,6 +43,7 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
     var destResultsViewController: GMSAutocompleteResultsViewController?
     var destSearchController: UISearchController?
     let GOOGLE_DIRECTION_API:String = "AIzaSyAYo8bhVOYfriZCk-8i5fzpII_WRLJjS40"
+    var placesClient: GMSPlacesClient!
     
     // MARK: - Routing
     var currentRoute:Route?
@@ -109,7 +112,9 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
         // Prevent the navigation bar from being hidden when searching.
         destSearchController?.hidesNavigationBarDuringPresentation = false
 
-        
+        // Places stuff
+        placesClient = GMSPlacesClient.shared()
+       // placeAutocomplete()
     }
     
     override func didReceiveMemoryWarning() {
@@ -149,18 +154,17 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
         searchCicle!.map = mapView
     }
     
-    func pullCrimes(userLocation: CLLocationCoordinate2D){
+    func pullCrimesOnPoint(userLocation: CLLocationCoordinate2D){
         let currentLat:Double = ((userLocation.latitude)*1000000).rounded()/1000000
         let currentLong:Double = ((userLocation.longitude)*1000000).rounded()/1000000
-        let radius = Double(UserDefaults.standard.integer(forKey:"radius"))/364000
+        let radius = Double(UserDefaults.standard.integer(forKey:"radius"))*0.3048
         let year = UserDefaults.standard.string(forKey:"year")!
-        
         let param:[String:Any] = [
-            "curlatitude": currentLat,
-            "curlongitude": currentLong,
+            "lat": currentLat,
+            "lng": currentLong,
             "radius": radius,
             "year": year]
-        Alamofire.request(CRIME_PULL_URL, method: .post, parameters: param).response{ response in
+        Alamofire.request(CRIME_PULL_URL + URL_POINT, method: .post, parameters: param).response{ response in
             let error = response.error?.localizedDescription
             if(error == nil) {
                 let dataFromPull = response.data!
@@ -169,10 +173,10 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
                 //TODO: Improve storage
                 self.storedCrimes = []
                 if(mightError == JSON.null){
-                    let resultsArray = json["results"]
-                    for (_,subJson):(String, JSON) in resultsArray {
+                    let resultArray = json.array!
+                    for subJson:JSON in resultArray {
                         do{
-                            let id = subJson["id"].string
+                            let id = subJson["_id"].string
                             if !self.storedCrimes.contains(where: {$0.id == id}){
                                 try self.storedCrimes.append(Crime(json: subJson))
                             }
@@ -183,9 +187,73 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
                             self.createErrorAlert(description: error.localizedDescription)
                         }
                     }
-                    self.addCrimesToMap(crimeArray: self.storedCrimes)
                     
+                    self.addCrimesToMap(crimeArray: self.storedCrimes)
                     self.calculateDanger(crimes: self.storedCrimes,userLoc: userLocation)
+                }
+                else{
+                    //TODO: Make error more effective
+                    print(mightError.string!)
+                    self.createErrorAlert(description: mightError.string!)
+                }
+                
+            }
+            else {
+                //TODO: Make error more effective
+                print(error!)
+                self.createErrorAlert(description: error!)
+            }
+        }
+        
+    }
+    
+    func pullCrimesRoute(route: Route){
+        var points:[Double] = []
+        let steps = route.steps
+        if(steps.count > 0){
+            let startLat = steps[0].startLocationStep.latitude
+            let startLng = steps[0].startLocationStep.longitude
+            points.append(startLat)
+            points.append(startLng)
+        }
+        for step in steps{
+            let endLat = step.endLocationStep.latitude
+            let endLng = step.endLocationStep.longitude
+            points.append(endLat)
+            points.append(endLng)
+        }
+        let radius = Double(UserDefaults.standard.integer(forKey:"radius"))*0.3048
+        let year = UserDefaults.standard.string(forKey:"year")!
+        let param:[String:Any] = [
+            "points": points,
+            "radius": radius,
+            "year": year]
+        Alamofire.request(CRIME_PULL_URL + URL_ROUTE, method: .post, parameters: param).response{ response in
+            let error = response.error?.localizedDescription
+            if(error == nil) {
+                let dataFromPull = response.data!
+                let json = JSON(data:dataFromPull)
+                let mightError = json["error"]
+                //TODO: Improve storage
+                self.storedCrimes = []
+                if(mightError == JSON.null){
+                    let resultArray = json.array!
+                    for subJson:JSON in resultArray {
+                        do{
+                            let id = subJson["_id"].string
+                            if !self.storedCrimes.contains(where: {$0.id == id}){
+                                try self.storedCrimes.append(Crime(json: subJson))
+                            }
+                        }
+                        catch{
+                            //TODO: Make error more effective
+                            print(error)
+                            self.createErrorAlert(description: error.localizedDescription)
+                        }
+                    }
+                    
+                    self.addCrimesToMap(crimeArray: self.storedCrimes)
+                    self.changeMapForRoute(route: route)
                 }
                 else{
                     //TODO: Make error more effective
@@ -214,6 +282,7 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
     
     func addCrimesToMap(crimeArray: [Crime]){
         mapView.clear()
+        clusterManager.clearItems()
         for crime in crimeArray{
             let item = CrimeClusterItem(crime: crime)
             clusterManager.add(item)
@@ -243,6 +312,21 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
         }
     }
     
+    func placeAutocomplete() {
+        let filter = GMSAutocompleteFilter()
+        filter.type = .noFilter
+        placesClient.autocompleteQuery("Sydney Oper", bounds: nil, filter: filter, callback: {(results, error) -> Void in
+            if let error = error {
+                print("Autocomplete error \(error)")
+                return
+            }
+            if let results = results {
+                for result in results {
+                    print("Result \(result.attributedFullText) with placeID \(String(describing: result.placeID))")
+                }
+            }
+        })
+    }
     
     
     // MARK: - Routing
@@ -260,7 +344,8 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
                         let json = JSON(response.result.value!)
                         let newRoute = try Route(json: json["routes"][0])
                         self.currentRoute = newRoute
-                        self.changeMapForRoute(route: self.currentRoute!)
+                        self.pullCrimesRoute(route: newRoute)
+                        
                     }
                     catch{
                         //TODO: Make error more effective
@@ -462,7 +547,7 @@ extension MapViewController: CLLocationManagerDelegate {
                 lastLocation = location
                 mapView.camera = GMSCameraPosition(target: location.coordinate, zoom: 15, bearing: 0, viewingAngle: 0)
                 locationManager.stopUpdatingLocation()
-                pullCrimes(userLocation: location.coordinate)
+                pullCrimesOnPoint(userLocation: location.coordinate)
             }
         }
     }
