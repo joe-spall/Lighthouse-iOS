@@ -14,6 +14,9 @@ import SwiftyJSON
 
 class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapViewDelegate, GMUClusterRendererDelegate,UISearchControllerDelegate{
 
+    // MARK: - Settings Changed
+    var settingsChanged: Bool = false
+    
     // MARK: - Mapping
     @IBOutlet var mapView:GMSMapView!
     let locationManager = CLLocationManager()
@@ -26,10 +29,12 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
     let URL_ROUTE:String = "route_crimepull"
     let URL_POINT:String = "point_crimepull"
     var storedCrimes:[Crime] = []
+    let POINT_COLOR:[Int] = [0x28BF00,0xE6E600,0xE01100]
+    let POINT_RANGES:[Double] = [0.00001,0.001]
     var searchCicle:GMSCircle?
     
     // MARK: - Danger Level
-    var currentDanger:Double = 0
+    var localDanger:Double = 0
     
     // MARK: - Cluster
     private var clusterManager: GMUClusterManager!
@@ -47,7 +52,7 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
     
     // MARK: - Routing
     var currentRoute:Route?
-    let ROUTE_COLOR:[Int] = [0x28BF00, 0x53C300,0x7FC700,0xAECB00,0xCFC100,0xD49800,0xD86D00,0xDC40000,0xE01100,0xE5001F]
+    let ROUTE_COLOR:[Int] = [0x28BF00,0xE6E600,0xE01100]
     var routeBounds:GMSCoordinateBounds = GMSCoordinateBounds()
     var startMarker:GMSMarker = GMSMarker()
     var endMarker:GMSMarker = GMSMarker()
@@ -126,8 +131,13 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
 
-        // Hide the navigation bar on this view controller
-        mapView.mapType = MAP_STYLE_TYPE_OPTIONS[MAP_STYLE_NAME_OPTIONS.index(of: UserDefaults.standard.string(forKey: "map_style")!)!]
+        if(settingsChanged){
+            mapView.mapType = MAP_STYLE_TYPE_OPTIONS[MAP_STYLE_NAME_OPTIONS.index(of: UserDefaults.standard.string(forKey: "map_style")!)!]
+            if(lastLocation != CLLocation()){
+                 pullCrimesOnPoint(userLocation: lastLocation.coordinate)
+            }
+        }
+       
     
         if(comingFromTerms){
             initMapViewController()
@@ -135,23 +145,46 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
         }
         
     }
-
     
+    
+
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         // Show the navigation bar on other view controllers
         
     }
     
+    func calculateDanger(crimes: [Crime], userLoc: CLLocationCoordinate2D){
+        let currentDate = Date()
+        for crime in crimes{
+            let userDefinedDanger = UserDefaults.standard.double(forKey: crime.type)
+            localDanger += crime.calculateSingleThreatScore(userLocation: userLoc, currentDate: currentDate, userValue: userDefinedDanger)
+        }
+        drawSearchCircle(userLocation: userLoc)
+    }
+    
     func drawSearchCircle(userLocation: CLLocationCoordinate2D){
         let radius = Double(UserDefaults.standard.integer(forKey:"radius"))*0.3048
         searchCicle = GMSCircle(position: userLocation, radius: radius)
-        // TODO: Make based on crime levels instead of random
-        let color = ROUTE_COLOR[Int(arc4random_uniform(UInt32(ROUTE_COLOR.count)))]
-        searchCicle?.strokeColor = UIColor(rgb:color)
+        let color = calculateDangerColorPoint(radius: radius, dangerLevel: localDanger)
+        searchCicle?.strokeColor = color
         searchCicle?.strokeWidth = 4
-        searchCicle?.fillColor = UIColor(rgb:color).withAlphaComponent(0.50)
+        searchCicle?.fillColor = color.withAlphaComponent(0.50)
         searchCicle!.map = mapView
+    }
+    
+    func calculateDangerColorPoint(radius:Double, dangerLevel:Double) -> UIColor{
+        let dangerPerSquareMeter = dangerLevel/(Double.pi*pow(radius,2.0))
+        if(dangerPerSquareMeter <= POINT_RANGES[0]){
+            return UIColor(rgb: POINT_COLOR[0])
+        }
+        else if(dangerPerSquareMeter <= POINT_RANGES[1]){
+            return UIColor(rgb: POINT_COLOR[1])
+        }
+        else{
+            return UIColor(rgb: POINT_COLOR[2])
+        }
+        
     }
     
     func pullCrimesOnPoint(userLocation: CLLocationCoordinate2D){
@@ -271,14 +304,6 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
         
     }
     
-    func calculateDanger(crimes: [Crime], userLoc: CLLocationCoordinate2D){
-        let currentDate = Date()
-        for crime in crimes{
-            let userDefinedDanger = UserDefaults.standard.double(forKey: crime.type)
-            currentDanger += crime.calculateSingleThreatScore(userLocation: userLoc, currentDate: currentDate, userValue: userDefinedDanger)
-        }
-        currentDanger /= Double(crimes.count)
-    }
     
     func addCrimesToMap(crimeArray: [Crime]){
         mapView.clear()
@@ -288,8 +313,6 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
             clusterManager.add(item)
         }
         clusterManager.cluster()
-        drawSearchCircle(userLocation: lastLocation.coordinate)
-
     }
     
     func showPopup(_ shouldShow: Bool, animated: Bool) {
@@ -345,7 +368,6 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
                         let newRoute = try Route(json: json["routes"][0])
                         self.currentRoute = newRoute
                         self.pullCrimesRoute(route: newRoute)
-                        
                     }
                     catch{
                         //TODO: Make error more effective
@@ -380,7 +402,7 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
         addAllStepElements(routeSteps: route.steps)
         
         // Camera update
-        let update = GMSCameraUpdate.fit(routeBounds, with: UIEdgeInsets(top: 150, left: 40, bottom: 50, right: 40))
+        let update = GMSCameraUpdate.fit(routeBounds, with: UIEdgeInsets(top: 150, left: 40, bottom: 80, right: 40))
         mapView.moveCamera(update)
         
     }

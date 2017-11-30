@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SettingsViewController: UITableViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+class SettingsViewController: UITableViewController, UIPickerViewDelegate, UIPickerViewDataSource{
     
     //TODO Add arrows for transitioning elements
     
@@ -40,13 +40,16 @@ class SettingsViewController: UITableViewController, UIPickerViewDelegate, UIPic
     
     //Map Styles Variables
     let MAP_STYLE_NAME_OPTIONS:[String] = ["Normal","Hybrid","Satellite","Terrain"]
-    
     private var mapStyleCellExpanded:Bool = false
     @IBOutlet weak var mapStyleLabel: UILabel!
     @IBOutlet weak var mapStylePicker: UIPickerView!
     
+    // MARK: Settings Changed
+    var settingsChanged:Bool = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.delegate = self
         // Do any additional setup after loading the view, typically from a nib.
         initalizeUnits()
         initalizeNumberFormat()
@@ -75,9 +78,11 @@ class SettingsViewController: UITableViewController, UIPickerViewDelegate, UIPic
     @IBAction func unitSegmentedControlAction(sender: AnyObject) {
         if(unitsSegment.selectedSegmentIndex == 0){
             UserDefaults.standard.set("feet", forKey:"units")
+            settingsChanged = true
         }
         else if(unitsSegment.selectedSegmentIndex == 1){
             UserDefaults.standard.set("meters", forKey:"units")
+            settingsChanged = true
         }
         initalizeRadius()
     }
@@ -97,9 +102,11 @@ class SettingsViewController: UITableViewController, UIPickerViewDelegate, UIPic
     @IBAction func numberSegmentedControlAction(sender: AnyObject) {
         if(numFormatSegment.selectedSegmentIndex == 0){
             UserDefaults.standard.set("1,000.00", forKey:"num_format")
+            settingsChanged = true
         }
         else if(numFormatSegment.selectedSegmentIndex == 1){
             UserDefaults.standard.set("1.000,00", forKey:"num_format")
+            settingsChanged = true
         }
     }
     
@@ -300,16 +307,19 @@ class SettingsViewController: UITableViewController, UIPickerViewDelegate, UIPic
                 yearLabel.text = yearSelection
             }
             UserDefaults.standard.set(yearSelection,forKey: "year")
+            settingsChanged = true
         }
         else if(pickerView == dateFormatPicker){
             let dateFormatSelection = DATE_FORMAT_OPTIONS[row]
             dateFormatLabel.text = dateFormatSelection
             UserDefaults.standard.set(dateFormatSelection,forKey: "date_format")
+            settingsChanged = true
         }
         else if(pickerView == mapStylePicker){
             let mapStyleNameSelection = MAP_STYLE_NAME_OPTIONS[row]
             mapStyleLabel.text = mapStyleNameSelection
             UserDefaults.standard.set(mapStyleNameSelection, forKey:"map_style")
+            settingsChanged = true
         }
         
     }
@@ -342,6 +352,7 @@ class SettingsViewController: UITableViewController, UIPickerViewDelegate, UIPic
         let newRadius = DISTANCE_OPTIONS[index]
         radiusSlider.value = Float(index)
         UserDefaults.standard.set(newRadius,forKey:"radius")
+        settingsChanged = true
     }
     
     func setRadiusLabel(dist: Int){
@@ -378,7 +389,12 @@ class SettingsViewController: UITableViewController, UIPickerViewDelegate, UIPic
         
     }
     
-    
-    
 }
 
+extension SettingsViewController: UINavigationControllerDelegate {
+    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
+        if let controller = viewController as? MapViewController {
+            controller.settingsChanged = settingsChanged
+        }
+    }
+}
