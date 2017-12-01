@@ -11,9 +11,10 @@ import GoogleMaps
 import GooglePlaces
 import Alamofire
 import SwiftyJSON
+import MBProgressHUD
 
 class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapViewDelegate, GMUClusterRendererDelegate,UISearchControllerDelegate{
-
+    
     // MARK: - Settings Changed
     var settingsChanged: Bool = false
     
@@ -58,6 +59,8 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
     var startMarker:GMSMarker = GMSMarker()
     var endMarker:GMSMarker = GMSMarker()
     var polylineArray:[GMSPolyline] = []
+    var startMarkerView:UIImageView?
+    var endMarkerView:UIImageView?
     
     // MARK: - Terms and Conditions
     var comingFromTerms:Bool = false;
@@ -186,6 +189,10 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
     }
     
     func pullCrimesOnPoint(userLocation: CLLocationCoordinate2D){
+        let loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
+        loadingNotification.mode = MBProgressHUDMode.indeterminate
+        loadingNotification.label.text = "Loading"
+        
         let currentLat:Double = ((userLocation.latitude)*1000000).rounded()/1000000
         let currentLong:Double = ((userLocation.longitude)*1000000).rounded()/1000000
         let radius = Double(UserDefaults.standard.integer(forKey:"radius"))*0.3048
@@ -221,9 +228,11 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
                     
                     self.addCrimesToMap(crimeArray: self.storedCrimes)
                     self.calculateLocalDanger(crimes: self.storedCrimes,userLoc: userLocation)
+                    MBProgressHUD.hide(for: self.view, animated: true)
                 }
                 else{
                     //TODO: Make error more effective
+                    MBProgressHUD.hide(for: self.view, animated: true)
                     print(mightError.string!)
                     self.createErrorAlert(description: mightError.string!)
                 }
@@ -231,14 +240,20 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
             }
             else {
                 //TODO: Make error more effective
+                MBProgressHUD.hide(for: self.view, animated: true)
                 print(error!)
                 self.createErrorAlert(description: error!)
             }
         }
-        
+
     }
     
     func pullCrimesRoute(route: Route){
+        let loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
+        loadingNotification.mode = MBProgressHUDMode.indeterminate
+        loadingNotification.label.text = "Loading"
+        
+        
         var points:[Double] = []
         let steps = route.steps
         if(steps.count > 0){
@@ -285,11 +300,13 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
                     
                     self.addCrimesToMap(crimeArray: self.storedCrimes)
                     self.changeMapForRoute(route: route)
+                    MBProgressHUD.hide(for: self.view, animated: true)
                 }
                 else{
                     //TODO: Make error more effective
                     print(mightError.string!)
                     self.createErrorAlert(description: mightError.string!)
+                    MBProgressHUD.hide(for: self.view, animated: true)
                 }
                 
             }
@@ -297,6 +314,7 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
                 //TODO: Make error more effective
                 print(error!)
                 self.createErrorAlert(description: error!)
+                MBProgressHUD.hide(for: self.view, animated: true)
             }
         }
         
@@ -304,7 +322,6 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
     
     
     func addCrimesToMap(crimeArray: [Crime]){
-        mapView.clear()
         clusterManager.clearItems()
         for crime in crimeArray{
             let item = CrimeClusterItem(crime: crime)
@@ -393,7 +410,9 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
         
         routeBounds = GMSCoordinateBounds(coordinate: route.startLocation, coordinate: route.endLocation)
         startMarker = GMSMarker(position: route.startLocation)
+        startMarker.iconView = changeLocationMarkerColor(color: .blue)
         endMarker = GMSMarker(position: route.endLocation)
+        endMarker.iconView = changeLocationMarkerColor(color: .green)
         
         startMarker.map = mapView
         endMarker.map = mapView
@@ -405,6 +424,13 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
         
     }
     
+    func changeLocationMarkerColor(color: UIColor) -> UIImageView{
+        let marker = UIImage(named: "map_marker")!.withRenderingMode(.alwaysTemplate)
+        let markerView = UIImageView(image: marker)
+        markerView.tintColor = color
+        return markerView
+    }
+    
     @IBAction func makeQuickMenu(){
         let screenSize = UIScreen.main.bounds
         let screenWidth = screenSize.width
@@ -413,11 +439,13 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
         
         let testFrame: CGRect = CGRect(x: 0, y: screenHeight-viewHeight, width: screenWidth, height: viewHeight)
         currentMenuView = UIView(frame: testFrame)
-        let button = UIButton() // let preferred over var here
-        button.frame = CGRect(x: 0, y: 0, width: 100, height: 50)
-        button.setTitle("Close", for: UIControlState.normal)
-        button.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
-        currentMenuView?.addSubview(button)
+        
+        let closeButton = UIButton()
+        closeButton.frame = CGRect(x: 0, y: 0, width: 100, height: 50)
+        closeButton.setTitle("Close", for: UIControlState.normal)
+        closeButton.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
+        currentMenuView?.addSubview(closeButton)
+    
         currentMenuView?.backgroundColor = UIColor(red: 0.5, green: 0.5, blue: 0.5, alpha: 1.0)
         self.view.addSubview((currentMenuView)!)
         self.view.bringSubview(toFront: (currentMenuView)!)
@@ -434,7 +462,7 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
         for step in routeSteps{
             let currentPath = GMSPath(fromEncodedPath: step.polylinePath)
             let curPoly = GMSPolyline(path: currentPath)
-            curPoly.strokeWidth = 5
+            curPoly.strokeWidth = 8
             let currentRouteDangerLevel = calculateDangerForPath(path: currentPath!, radius: currentRadius)
             curPoly.strokeColor = calculateDangerColorRoute(length: (currentPath?.length(of: .rhumb))!, radius: currentRadius, dangerLevel: currentRouteDangerLevel)
             curPoly.map = mapView
