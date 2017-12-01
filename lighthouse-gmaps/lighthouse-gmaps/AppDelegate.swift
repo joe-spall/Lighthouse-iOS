@@ -11,6 +11,7 @@ import CoreData
 import GoogleMaps
 import GooglePlaces
 import SwiftyJSON
+import AlamofireNetworkActivityIndicator
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -29,6 +30,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         initUserDefaults()
         GMSPlacesClient.provideAPIKey(GOOGLE_MAP_API)
         GMSServices.provideAPIKey(GOOGLE_MAP_API)
+        NetworkActivityIndicatorManager.shared.isEnabled = true
+
         
         // Override point for customization after application launch.
         return true

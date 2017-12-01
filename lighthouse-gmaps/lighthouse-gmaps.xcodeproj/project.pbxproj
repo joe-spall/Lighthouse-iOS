@@ -38,11 +38,6 @@
 		CF33A9721F8C2CF000D9B48E /* GMUDefaultClusterRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = CF33A95A1F8C2CF000D9B48E /* GMUDefaultClusterRenderer.m */; };
 		CF4F09811FAF9FE500A472BF /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4F09801FAF9FE500A472BF /* Route.swift */; };
 		CF4F09831FAFA19300A472BF /* RouteStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4F09821FAFA19300A472BF /* RouteStep.swift */; };
-		CF5884151FC0AA4C003B10E2 /* HalfModalTransitioningDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF5884141FC0AA4C003B10E2 /* HalfModalTransitioningDelegate.swift */; };
-		CF5884181FC0AA52003B10E2 /* HalfModalInteractiveTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF5884161FC0AA52003B10E2 /* HalfModalInteractiveTransition.swift */; };
-		CF5884191FC0AA52003B10E2 /* HalfModalTransitionAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF5884171FC0AA52003B10E2 /* HalfModalTransitionAnimator.swift */; };
-		CF58841C1FC0AA70003B10E2 /* HalfModalPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF58841B1FC0AA70003B10E2 /* HalfModalPresentationController.swift */; };
-		CF58841F1FC0AD5D003B10E2 /* SmallMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF58841E1FC0AD5D003B10E2 /* SmallMenuViewController.swift */; };
 		CF60519B1FA0D882002B6C0B /* CrimeInfoSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF60519A1FA0D882002B6C0B /* CrimeInfoSummaryView.swift */; };
 		CF6BEDA91FB4E331003A95B8 /* InitialLoadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6BEDA81FB4E331003A95B8 /* InitialLoadViewController.swift */; };
 		CF8BA0271FB39326009897E8 /* MapClusterRender.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8BA0261FB39326009897E8 /* MapClusterRender.swift */; };
@@ -156,11 +151,6 @@
 		CF33A95A1F8C2CF000D9B48E /* GMUDefaultClusterRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GMUDefaultClusterRenderer.m; sourceTree = "<group>"; };
 		CF4F09801FAF9FE500A472BF /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
 		CF4F09821FAFA19300A472BF /* RouteStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteStep.swift; sourceTree = "<group>"; };
-		CF5884141FC0AA4C003B10E2 /* HalfModalTransitioningDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HalfModalTransitioningDelegate.swift; sourceTree = "<group>"; };
-		CF5884161FC0AA52003B10E2 /* HalfModalInteractiveTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HalfModalInteractiveTransition.swift; sourceTree = "<group>"; };
-		CF5884171FC0AA52003B10E2 /* HalfModalTransitionAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HalfModalTransitionAnimator.swift; sourceTree = "<group>"; };
-		CF58841B1FC0AA70003B10E2 /* HalfModalPresentationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HalfModalPresentationController.swift; sourceTree = "<group>"; };
-		CF58841E1FC0AD5D003B10E2 /* SmallMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmallMenuViewController.swift; sourceTree = "<group>"; };
 		CF60519A1FA0D882002B6C0B /* CrimeInfoSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrimeInfoSummaryView.swift; sourceTree = "<group>"; };
 		CF6BEDA81FB4E331003A95B8 /* InitialLoadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialLoadViewController.swift; sourceTree = "<group>"; };
 		CF8BA0261FB39326009897E8 /* MapClusterRender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MapClusterRender.swift; path = "lighthouse-gmaps/MapClusterRender.swift"; sourceTree = SOURCE_ROOT; };
@@ -380,17 +370,6 @@
 			path = View;
 			sourceTree = "<group>";
 		};
-		CF58841A1FC0AA62003B10E2 /* smallMenu */ = {
-			isa = PBXGroup;
-			children = (
-				CF5884141FC0AA4C003B10E2 /* HalfModalTransitioningDelegate.swift */,
-				CF5884161FC0AA52003B10E2 /* HalfModalInteractiveTransition.swift */,
-				CF5884171FC0AA52003B10E2 /* HalfModalTransitionAnimator.swift */,
-				CF58841B1FC0AA70003B10E2 /* HalfModalPresentationController.swift */,
-			);
-			path = smallMenu;
-			sourceTree = "<group>";
-		};
 		CF6BEDA71FB4E2A1003A95B8 /* initialLoadController */ = {
 			isa = PBXGroup;
 			children = (
@@ -427,7 +406,6 @@
 			children = (
 				CF9D92A51F895BF9000E9224 /* Info.plist */,
 				CFC0CFA81F8C1EC800B92795 /* lighthouse-gmaps-Bridging-Header.h */,
-				CF58841A1FC0AA62003B10E2 /* smallMenu */,
 				CFFFB2FC1F966B3100A55F20 /* crimeInfo */,
 				CF2FBB8C1F8976B30010603F /* resources */,
 				CFDCD91C1F89649F006DEDE4 /* settings */,
@@ -435,8 +413,7 @@
 				CFC4F1851FB0BCAF0074C4B3 /* route */,
 				CF6BEDA71FB4E2A1003A95B8 /* initialLoadController */,
 				CFC803721FC9A79B007590D6 /* network */,
-				CF9D92981F895BF9000E9224 /* MapViewController.swift */,
-				CF58841E1FC0AD5D003B10E2 /* SmallMenuViewController.swift */,
+				CFCA773B1FD1C61F005E15B3 /* mapViewController */,
 				CF9D92961F895BF9000E9224 /* AppDelegate.swift */,
 				CFCD85171F89871500EBDAD7 /* Crime.swift */,
 				CF8BA0261FB39326009897E8 /* MapClusterRender.swift */,
@@ -481,6 +458,14 @@
 				CFC803731FC9A7CF007590D6 /* Connectivity.swift */,
 			);
 			path = network;
+			sourceTree = "<group>";
+		};
+		CFCA773B1FD1C61F005E15B3 /* mapViewController */ = {
+			isa = PBXGroup;
+			children = (
+				CF9D92981F895BF9000E9224 /* MapViewController.swift */,
+			);
+			path = mapViewController;
 			sourceTree = "<group>";
 		};
 		CFDCD91C1F89649F006DEDE4 /* settings */ = {
@@ -669,9 +654,13 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-lighthouse-gmaps/Pods-lighthouse-gmaps-resources.sh",
+				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle",
+				"${PODS_ROOT}/GooglePlaces/Frameworks/GooglePlaces.framework/Resources/GooglePlaces.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -699,13 +688,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-lighthouse-gmaps-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		7E7D26DA259F6F7AC5F8C75C /* [CP] Check Pods Manifest.lock */ = {
@@ -714,13 +706,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-lighthouse-gmapsUITests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		AE54A91C2D048B237B4860A9 /* [CP] Embed Pods Frameworks */ = {
@@ -729,9 +724,18 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-lighthouse-gmaps/Pods-lighthouse-gmaps-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/AlamofireNetworkActivityIndicator/AlamofireNetworkActivityIndicator.framework",
+				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AlamofireNetworkActivityIndicator.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -759,13 +763,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-lighthouse-gmapsTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		D6FF648AA054D5B718FCBD64 /* [CP] Copy Pods Resources */ = {
@@ -822,10 +829,8 @@
 				CF9D92971F895BF9000E9224 /* AppDelegate.swift in Sources */,
 				CF33A96A1F8C2CF000D9B48E /* GMUWeightedLatLng.m in Sources */,
 				CF33A9661F8C2CF000D9B48E /* GQTPointQuadTree.m in Sources */,
-				CF58841F1FC0AD5D003B10E2 /* SmallMenuViewController.swift in Sources */,
 				CF33A96F1F8C2CF000D9B48E /* GMUClusterManager.m in Sources */,
 				CF60519B1FA0D882002B6C0B /* CrimeInfoSummaryView.swift in Sources */,
-				CF5884181FC0AA52003B10E2 /* HalfModalInteractiveTransition.swift in Sources */,
 				CF33A9671F8C2CF000D9B48E /* GQTPointQuadTreeChild.m in Sources */,
 				CF33A96B1F8C2CF000D9B48E /* GMUGridBasedClusterAlgorithm.m in Sources */,
 				CFC803741FC9A7CF007590D6 /* Connectivity.swift in Sources */,
@@ -839,15 +844,12 @@
 				CF33A96D1F8C2CF000D9B48E /* GMUSimpleClusterAlgorithm.m in Sources */,
 				CF33A9681F8C2CF000D9B48E /* GMUGradient.m in Sources */,
 				CFCD85181F89871500EBDAD7 /* Crime.swift in Sources */,
-				CF5884151FC0AA4C003B10E2 /* HalfModalTransitioningDelegate.swift in Sources */,
 				CF8BA0271FB39326009897E8 /* MapClusterRender.swift in Sources */,
-				CF58841C1FC0AA70003B10E2 /* HalfModalPresentationController.swift in Sources */,
 				CF4F09831FAFA19300A472BF /* RouteStep.swift in Sources */,
 				CFDCD9231F896652006DEDE4 /* CrimeWeightTableViewCell.swift in Sources */,
 				CF33A95B1F8C2CF000D9B48E /* GMUGeoJSONParser.m in Sources */,
 				CF33A9721F8C2CF000D9B48E /* GMUDefaultClusterRenderer.m in Sources */,
 				CF33A9701F8C2CF000D9B48E /* GMUStaticCluster.m in Sources */,
-				CF5884191FC0AA52003B10E2 /* HalfModalTransitionAnimator.swift in Sources */,
 				CF33A9601F8C2CF000D9B48E /* GMUGroundOverlay.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

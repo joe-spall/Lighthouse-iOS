@@ -11,9 +11,13 @@ import GoogleMaps
 import GooglePlaces
 import Alamofire
 import SwiftyJSON
+import MBProgressHUD
 
 class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapViewDelegate, GMUClusterRendererDelegate,UISearchControllerDelegate{
-
+    
+    // MARK: - Settings Changed
+    var settingsChanged: Bool = false
+    
     // MARK: - Mapping
     @IBOutlet var mapView:GMSMapView!
     let locationManager = CLLocationManager()
@@ -22,12 +26,16 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
     let MAP_STYLE_NAME_OPTIONS:[String] = ["Normal","Hybrid","Satellite","Terrain"]
     
     // MARK: - Data Pull
-    let CRIME_PULL_URL:String = "https://www.app-lighthouse.com/app/crimepullcirc.php"
+    let CRIME_PULL_URL:String = "http://app-lighthouse.herokuapp.com/api/"
+    let URL_ROUTE:String = "route_crimepull"
+    let URL_POINT:String = "point_crimepull"
     var storedCrimes:[Crime] = []
+    let POINT_COLOR:[Int] = [0x28BF00,0xE6E600,0xE01100]
+    let POINT_RANGES:[Double] = [0.00001,0.001]
     var searchCicle:GMSCircle?
     
     // MARK: - Danger Level
-    var currentDanger:Double = 0
+    var localDanger:Double = 0
     
     // MARK: - Cluster
     private var clusterManager: GMUClusterManager!
@@ -41,21 +49,25 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
     var destResultsViewController: GMSAutocompleteResultsViewController?
     var destSearchController: UISearchController?
     let GOOGLE_DIRECTION_API:String = "AIzaSyAYo8bhVOYfriZCk-8i5fzpII_WRLJjS40"
+    var placesClient: GMSPlacesClient!
     
     // MARK: - Routing
     var currentRoute:Route?
-    let ROUTE_COLOR:[Int] = [0x28BF00, 0x53C300,0x7FC700,0xAECB00,0xCFC100,0xD49800,0xD86D00,0xDC40000,0xE01100,0xE5001F]
+    let ROUTE_COLOR:[Int] = [0x28BF00,0xE6E600,0xE01100]
+    let ROUTE_RANGES:[Double] = [0.000001,0.00001]
     var routeBounds:GMSCoordinateBounds = GMSCoordinateBounds()
     var startMarker:GMSMarker = GMSMarker()
     var endMarker:GMSMarker = GMSMarker()
     var polylineArray:[GMSPolyline] = []
+    var startMarkerView:UIImageView?
+    var endMarkerView:UIImageView?
     
     // MARK: - Terms and Conditions
     var comingFromTerms:Bool = false;
     
     // MARK: - Lighthouse Button
     @IBOutlet var lighthouseButton:UIButton!
-    var halfModalTransitioningDelegate: HalfModalTransitioningDelegate?
+    var currentMenuView:UIView?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -109,7 +121,9 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
         // Prevent the navigation bar from being hidden when searching.
         destSearchController?.hidesNavigationBarDuringPresentation = false
 
-        
+        // Places stuff
+        placesClient = GMSPlacesClient.shared()
+       // placeAutocomplete()
     }
     
     override func didReceiveMemoryWarning() {
@@ -121,8 +135,12 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
 
-        // Hide the navigation bar on this view controller
-        mapView.mapType = MAP_STYLE_TYPE_OPTIONS[MAP_STYLE_NAME_OPTIONS.index(of: UserDefaults.standard.string(forKey: "map_style")!)!]
+        if(settingsChanged){
+            mapView.mapType = MAP_STYLE_TYPE_OPTIONS[MAP_STYLE_NAME_OPTIONS.index(of: UserDefaults.standard.string(forKey: "map_style")!)!]
+            if(lastLocation != CLLocation()){
+                 pullCrimesOnPoint(userLocation: lastLocation.coordinate)
+            }
+        }
     
         if(comingFromTerms){
             initMapViewController()
@@ -131,55 +149,72 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
         
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        super.prepare(for: segue, sender: sender)
-        
-        self.halfModalTransitioningDelegate = HalfModalTransitioningDelegate(viewController: self, presentingViewController: segue.destination)
-        
-        segue.destination.modalPresentationStyle = .custom
-        segue.destination.transitioningDelegate = self.halfModalTransitioningDelegate
-    }
-    
-
-    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         // Show the navigation bar on other view controllers
         
     }
     
+    func calculateLocalDanger(crimes: [Crime], userLoc: CLLocationCoordinate2D){
+        let currentDate = Date()
+        for crime in crimes{
+            let userDefinedDanger = UserDefaults.standard.double(forKey: crime.type)
+            localDanger += crime.calculateSingleThreatScore(userLocation: userLoc, currentDate: currentDate, userValue: userDefinedDanger)
+        }
+        drawSearchCircle(userLocation: userLoc)
+    }
+    
     func drawSearchCircle(userLocation: CLLocationCoordinate2D){
         let radius = Double(UserDefaults.standard.integer(forKey:"radius"))*0.3048
         searchCicle = GMSCircle(position: userLocation, radius: radius)
-        // TODO: Make based on crime levels instead of random
-        let color = ROUTE_COLOR[Int(arc4random_uniform(UInt32(ROUTE_COLOR.count)))]
-        searchCicle?.strokeColor = UIColor(rgb:color)
+        let color = calculateDangerColorPoint(radius: radius, dangerLevel: localDanger)
+        searchCicle?.strokeColor = color
         searchCicle?.strokeWidth = 4
-        searchCicle?.fillColor = UIColor(rgb:color).withAlphaComponent(0.50)
+        searchCicle?.fillColor = color.withAlphaComponent(0.50)
         searchCicle!.map = mapView
     }
     
-    func pullCrimes(userLocation: CLLocationCoordinate2D){
+    func calculateDangerColorPoint(radius:Double, dangerLevel:Double) -> UIColor{
+        let dangerPerSquareMeter = dangerLevel/(Double.pi*pow(radius,2.0))
+        if(dangerPerSquareMeter <= POINT_RANGES[0]){
+            return UIColor(rgb: POINT_COLOR[0])
+        }
+        else if(dangerPerSquareMeter <= POINT_RANGES[1]){
+            return UIColor(rgb: POINT_COLOR[1])
+        }
+        else{
+            return UIColor(rgb: POINT_COLOR[2])
+        }
+        
+    }
+    
+    func pullCrimesOnPoint(userLocation: CLLocationCoordinate2D){
+        let loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
+        loadingNotification.mode = MBProgressHUDMode.indeterminate
+        loadingNotification.label.text = "Loading"
+        
         let currentLat:Double = ((userLocation.latitude)*1000000).rounded()/1000000
         let currentLong:Double = ((userLocation.longitude)*1000000).rounded()/1000000
-        let radius = Double(UserDefaults.standard.integer(forKey:"radius"))/364000
+        let radius = Double(UserDefaults.standard.integer(forKey:"radius"))*0.3048
         let year = UserDefaults.standard.string(forKey:"year")!
         let param:[String:Any] = [
-            "curlatitude": currentLat,
-            "curlongitude": currentLong,
+            "lat": currentLat,
+            "lng": currentLong,
             "radius": radius,
             "year": year]
-        Alamofire.request(CRIME_PULL_URL, method: .post, parameters: param).response{ response in
+        Alamofire.request(CRIME_PULL_URL + URL_POINT, method: .post, parameters: param).response{ response in
             let error = response.error?.localizedDescription
             if(error == nil) {
                 let dataFromPull = response.data!
                 let json = JSON(data:dataFromPull)
                 let mightError = json["error"]
+                //TODO: Improve storage
+                self.storedCrimes = []
                 if(mightError == JSON.null){
-                    let resultsArray = json["results"]
-                    for (_,subJson):(String, JSON) in resultsArray {
+                    let resultArray = json.array!
+                    for subJson:JSON in resultArray {
                         do{
-                            let id = subJson["id"].string
+                            let id = subJson["_id"].string
                             if !self.storedCrimes.contains(where: {$0.id == id}){
                                 try self.storedCrimes.append(Crime(json: subJson))
                             }
@@ -190,12 +225,14 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
                             self.createErrorAlert(description: error.localizedDescription)
                         }
                     }
-                    self.addCrimesToMap(crimeArray: self.storedCrimes)
                     
-                    self.calculateDanger(crimes: self.storedCrimes,userLoc: userLocation)
+                    self.addCrimesToMap(crimeArray: self.storedCrimes)
+                    self.calculateLocalDanger(crimes: self.storedCrimes,userLoc: userLocation)
+                    MBProgressHUD.hide(for: self.view, animated: true)
                 }
                 else{
                     //TODO: Make error more effective
+                    MBProgressHUD.hide(for: self.view, animated: true)
                     print(mightError.string!)
                     self.createErrorAlert(description: mightError.string!)
                 }
@@ -203,31 +240,94 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
             }
             else {
                 //TODO: Make error more effective
+                MBProgressHUD.hide(for: self.view, animated: true)
                 print(error!)
                 self.createErrorAlert(description: error!)
+            }
+        }
+
+    }
+    
+    func pullCrimesRoute(route: Route){
+        let loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
+        loadingNotification.mode = MBProgressHUDMode.indeterminate
+        loadingNotification.label.text = "Loading"
+        
+        
+        var points:[Double] = []
+        let steps = route.steps
+        if(steps.count > 0){
+            let startLat = steps[0].startLocationStep.latitude
+            let startLng = steps[0].startLocationStep.longitude
+            points.append(startLat)
+            points.append(startLng)
+        }
+        for step in steps{
+            let endLat = step.endLocationStep.latitude
+            let endLng = step.endLocationStep.longitude
+            points.append(endLat)
+            points.append(endLng)
+        }
+        let radius = Double(UserDefaults.standard.integer(forKey:"radius"))*0.3048
+        let year = UserDefaults.standard.string(forKey:"year")!
+        let param:[String:Any] = [
+            "points": points,
+            "radius": radius,
+            "year": year]
+        Alamofire.request(CRIME_PULL_URL + URL_ROUTE, method: .post, parameters: param).response{ response in
+            let error = response.error?.localizedDescription
+            if(error == nil) {
+                let dataFromPull = response.data!
+                let json = JSON(data:dataFromPull)
+                let mightError = json["error"]
+                //TODO: Improve storage
+                self.storedCrimes = []
+                if(mightError == JSON.null){
+                    let resultArray = json.array!
+                    for subJson:JSON in resultArray {
+                        do{
+                            let id = subJson["_id"].string
+                            if !self.storedCrimes.contains(where: {$0.id == id}){
+                                try self.storedCrimes.append(Crime(json: subJson))
+                            }
+                        }
+                        catch{
+                            //TODO: Make error more effective
+                            print(error)
+                            self.createErrorAlert(description: error.localizedDescription)
+                        }
+                    }
+                    
+                    self.addCrimesToMap(crimeArray: self.storedCrimes)
+                    self.changeMapForRoute(route: route)
+                    MBProgressHUD.hide(for: self.view, animated: true)
+                }
+                else{
+                    //TODO: Make error more effective
+                    print(mightError.string!)
+                    self.createErrorAlert(description: mightError.string!)
+                    MBProgressHUD.hide(for: self.view, animated: true)
+                }
+                
+            }
+            else {
+                //TODO: Make error more effective
+                print(error!)
+                self.createErrorAlert(description: error!)
+                MBProgressHUD.hide(for: self.view, animated: true)
             }
         }
         
     }
     
-    func calculateDanger(crimes: [Crime], userLoc: CLLocationCoordinate2D){
-        let currentDate = Date()
-        for crime in crimes{
-            let userDefinedDanger = UserDefaults.standard.double(forKey: crime.type)
-            currentDanger += crime.calculateSingleThreatScore(userLocation: userLoc, currentDate: currentDate, userValue: userDefinedDanger)
-        }
-        print(currentDanger)
-    }
     
     func addCrimesToMap(crimeArray: [Crime]){
-        mapView.clear()
+        clusterManager.clearItems()
         for crime in crimeArray{
             let item = CrimeClusterItem(crime: crime)
             clusterManager.add(item)
         }
         clusterManager.cluster()
-        drawSearchCircle(userLocation: lastLocation.coordinate)
-
     }
     
     func showPopup(_ shouldShow: Bool, animated: Bool) {
@@ -250,6 +350,21 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
         }
     }
     
+    func placeAutocomplete() {
+        let filter = GMSAutocompleteFilter()
+        filter.type = .noFilter
+        placesClient.autocompleteQuery("Sydney Oper", bounds: nil, filter: filter, callback: {(results, error) -> Void in
+            if let error = error {
+                print("Autocomplete error \(error)")
+                return
+            }
+            if let results = results {
+                for result in results {
+                    print("Result \(result.attributedFullText) with placeID \(String(describing: result.placeID))")
+                }
+            }
+        })
+    }
     
     
     // MARK: - Routing
@@ -267,7 +382,7 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
                         let json = JSON(response.result.value!)
                         let newRoute = try Route(json: json["routes"][0])
                         self.currentRoute = newRoute
-                        self.changeMapForRoute(route: self.currentRoute!)
+                        self.pullCrimesRoute(route: newRoute)
                     }
                     catch{
                         //TODO: Make error more effective
@@ -278,6 +393,7 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
         }
         
     }
+
 
     func locationToString(location:CLLocationCoordinate2D) -> String{
         var output:String = ""
@@ -294,30 +410,95 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
         
         routeBounds = GMSCoordinateBounds(coordinate: route.startLocation, coordinate: route.endLocation)
         startMarker = GMSMarker(position: route.startLocation)
+        startMarker.iconView = changeLocationMarkerColor(color: .blue)
         endMarker = GMSMarker(position: route.endLocation)
+        endMarker.iconView = changeLocationMarkerColor(color: .green)
         
         startMarker.map = mapView
         endMarker.map = mapView
         addAllStepElements(routeSteps: route.steps)
         
         // Camera update
-        let update = GMSCameraUpdate.fit(routeBounds, with: UIEdgeInsets(top: 150, left: 40, bottom: 50, right: 40))
+        let update = GMSCameraUpdate.fit(routeBounds, with: UIEdgeInsets(top: 150, left: 40, bottom: 100, right: 40))
         mapView.moveCamera(update)
         
+    }
+    
+    func changeLocationMarkerColor(color: UIColor) -> UIImageView{
+        let marker = UIImage(named: "map_marker")!.withRenderingMode(.alwaysTemplate)
+        let markerView = UIImageView(image: marker)
+        markerView.tintColor = color
+        return markerView
+    }
+    
+    @IBAction func makeQuickMenu(){
+        let screenSize = UIScreen.main.bounds
+        let screenWidth = screenSize.width
+        let screenHeight = screenSize.height
+        let viewHeight = screenHeight/3;
         
+        let testFrame: CGRect = CGRect(x: 0, y: screenHeight-viewHeight, width: screenWidth, height: viewHeight)
+        currentMenuView = UIView(frame: testFrame)
+        
+        let closeButton = UIButton()
+        closeButton.frame = CGRect(x: 0, y: 0, width: 100, height: 50)
+        closeButton.setTitle("Close", for: UIControlState.normal)
+        closeButton.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
+        currentMenuView?.addSubview(closeButton)
+    
+        currentMenuView?.backgroundColor = UIColor(red: 0.5, green: 0.5, blue: 0.5, alpha: 1.0)
+        self.view.addSubview((currentMenuView)!)
+        self.view.bringSubview(toFront: (currentMenuView)!)
+        
+    }
+    
+    @objc func buttonAction(sender: UIButton!) {
+        currentMenuView?.removeFromSuperview()
     }
     
     func addAllStepElements(routeSteps:[RouteStep]){
         polylineArray = []
+        let currentRadius = Double(UserDefaults.standard.integer(forKey:"radius"))*0.3048;
         for step in routeSteps{
-            let curPoly = GMSPolyline(path: GMSPath(fromEncodedPath: step.polylinePath))
-            curPoly.strokeWidth = 5
-            //TODO: DON'T Make Random
-            curPoly.strokeColor = UIColor(rgb:ROUTE_COLOR[Int(arc4random_uniform(UInt32(ROUTE_COLOR.count)))])
+            let currentPath = GMSPath(fromEncodedPath: step.polylinePath)
+            let curPoly = GMSPolyline(path: currentPath)
+            curPoly.strokeWidth = 8
+            let currentRouteDangerLevel = calculateDangerForPath(path: currentPath!, radius: currentRadius)
+            curPoly.strokeColor = calculateDangerColorRoute(length: (currentPath?.length(of: .rhumb))!, radius: currentRadius, dangerLevel: currentRouteDangerLevel)
             curPoly.map = mapView
             polylineArray.append(curPoly)
         }
 
+    }
+    
+    func calculateDangerForPath(path:GMSPath, radius:Double) -> Double{
+        var dangerLevel:Double = 0;
+        let currentDate = Date()
+        var currentPathCrimeCount:Double = 0;
+        for crime in storedCrimes{
+            if(GMSGeometryIsLocationOnPathTolerance(crime.location, path, false, radius)){
+                let userDefinedDanger = UserDefaults.standard.double(forKey: crime.type)
+                dangerLevel += crime.calculateSingleThreatScore(userLocation: crime.location, currentDate: currentDate, userValue: userDefinedDanger)
+                currentPathCrimeCount += 1.0
+                
+            }
+        }
+        return dangerLevel/currentPathCrimeCount
+        
+    }
+    
+    func calculateDangerColorRoute(length:Double,radius:Double, dangerLevel:Double) -> UIColor{
+        let dangerPerSquareMeter = dangerLevel/(radius*length)
+        if(dangerPerSquareMeter <= ROUTE_RANGES[0]){
+            return UIColor(rgb: ROUTE_COLOR[0])
+        }
+        else if(dangerPerSquareMeter <= ROUTE_RANGES[1]){
+            return UIColor(rgb: ROUTE_COLOR[1])
+        }
+        else{
+            return UIColor(rgb: ROUTE_COLOR[2])
+        }
+        
     }
     
     func removeAllPolylineElements(polySteps:[GMSPolyline]){
@@ -446,7 +627,7 @@ extension MapViewController: CLLocationManagerDelegate {
                 lastLocation = location
                 mapView.camera = GMSCameraPosition(target: location.coordinate, zoom: 15, bearing: 0, viewingAngle: 0)
                 locationManager.stopUpdatingLocation()
-                pullCrimes(userLocation: location.coordinate)
+                pullCrimesOnPoint(userLocation: location.coordinate)
             }
         }
     }
