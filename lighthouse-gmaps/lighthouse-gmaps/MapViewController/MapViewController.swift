@@ -54,13 +54,15 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
     // MARK: - Routing
     var currentRoute:Route?
     let ROUTE_COLOR:[Int] = [0x28BF00,0xE6E600,0xE01100]
-    let ROUTE_RANGES:[Double] = [0.000001,0.00001]
-    var routeBounds:GMSCoordinateBounds = GMSCoordinateBounds()
-    var startMarker:GMSMarker = GMSMarker()
+    let ROUTE_DANGER_RANGES:[Double] = [0.00001,0.0005]
+    let ROUTE_WIDTH:CGFloat = 5
+
+    let UNDER_ROUTE_COLOR:Int = 0x000000
+    let UNDER_ROUTE_WIDTH:CGFloat = 9
+    
+    let END_MARKER_COLOR:Int = 0xFF6600
     var endMarker:GMSMarker = GMSMarker()
     var polylineArray:[GMSPolyline] = []
-    var startMarkerView:UIImageView?
-    var endMarkerView:UIImageView?
     
     // MARK: - Terms and Conditions
     var comingFromTerms:Bool = false;
@@ -411,23 +413,19 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
     }
 
     func changeMapForRoute(route:Route){
-        startMarker.map = nil
         endMarker.map = nil
         removeAllPolylineElements(polySteps: polylineArray)
         
-        routeBounds = GMSCoordinateBounds(coordinate: route.startLocation, coordinate: route.endLocation)
-        startMarker = GMSMarker(position: route.startLocation)
-        startMarker.iconView = changeLocationMarkerColor(color: .blue)
-        endMarker = GMSMarker(position: route.endLocation)
-        endMarker.iconView = changeLocationMarkerColor(color: .green)
+        // Camera update
+        let update = GMSCameraUpdate.fit(route.bounds, with: UIEdgeInsets(top: 150, left: 40, bottom: 100, right: 40))
+        mapView.moveCamera(update)
         
-        startMarker.map = mapView
+        
+        endMarker = GMSMarker(position: route.endLocation)
+        endMarker.iconView = changeLocationMarkerColor(color: UIColor(rgb:END_MARKER_COLOR))
         endMarker.map = mapView
         addAllStepElements(routeSteps: route.steps)
         
-        // Camera update
-        let update = GMSCameraUpdate.fit(routeBounds, with: UIEdgeInsets(top: 150, left: 40, bottom: 100, right: 40))
-        mapView.moveCamera(update)
         
     }
     
@@ -467,13 +465,22 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
         polylineArray = []
         let currentRadius = Double(UserDefaults.standard.integer(forKey:"radius"))*0.3048;
         for step in routeSteps{
+            
             let currentPath = GMSPath(fromEncodedPath: step.polylinePath)
             let curPoly = GMSPolyline(path: currentPath)
-            curPoly.strokeWidth = 8
-            let currentRouteDangerLevel = calculateDangerForPath(path: currentPath!, radius: currentRadius)
-            curPoly.strokeColor = calculateDangerColorRoute(length: (currentPath?.length(of: .rhumb))!, radius: currentRadius, dangerLevel: currentRouteDangerLevel)
+            curPoly.strokeWidth = ROUTE_WIDTH
+            curPoly.strokeColor = calculateDangerColorRoute(length: (currentPath?.length(of: .rhumb))!, radius: currentRadius, dangerLevel: calculateDangerForPath(path: currentPath!, radius: currentRadius))
             curPoly.map = mapView
+            curPoly.zIndex = 2
             polylineArray.append(curPoly)
+            
+            let underPoly = GMSPolyline(path: currentPath)
+            underPoly.strokeWidth = UNDER_ROUTE_WIDTH
+            underPoly.strokeColor = UIColor(rgb: UNDER_ROUTE_COLOR)
+            underPoly.map = mapView
+            underPoly.zIndex = 1
+            polylineArray.append(underPoly)
+            
         }
 
     }
@@ -490,16 +497,16 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
                 
             }
         }
-        return dangerLevel/currentPathCrimeCount
+        return dangerLevel
         
     }
     
     func calculateDangerColorRoute(length:Double,radius:Double, dangerLevel:Double) -> UIColor{
         let dangerPerSquareMeter = dangerLevel/(radius*length)
-        if(dangerPerSquareMeter <= ROUTE_RANGES[0]){
+        if(dangerPerSquareMeter <= ROUTE_DANGER_RANGES[0]){
             return UIColor(rgb: ROUTE_COLOR[0])
         }
-        else if(dangerPerSquareMeter <= ROUTE_RANGES[1]){
+        else if(dangerPerSquareMeter <= ROUTE_DANGER_RANGES[1]){
             return UIColor(rgb: ROUTE_COLOR[1])
         }
         else{

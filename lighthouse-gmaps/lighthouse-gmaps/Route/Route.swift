@@ -14,6 +14,7 @@ struct Route{
     let startAddress:String
     let endLocation:CLLocationCoordinate2D
     let endAddress:String
+    let bounds:GMSCoordinateBounds
     let totalDuration:String
     let totalDistance:String
     let totalPolylinePath:String
@@ -85,6 +86,7 @@ extension Route {
         // Assignment
         startLocation = CLLocationCoordinate2D(latitude: startLat, longitude: startLng)
         endLocation = CLLocationCoordinate2D(latitude: endLat, longitude: endLng)
+        bounds = GMSCoordinateBounds(coordinate: startLocation, coordinate: endLocation)
         startAddress = _startAddress
         endAddress = _endAddress
         totalDuration = _totalDuration

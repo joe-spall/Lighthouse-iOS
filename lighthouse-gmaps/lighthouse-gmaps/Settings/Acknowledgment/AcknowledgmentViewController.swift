@@ -1,5 +1,5 @@
 //
-//  AcknowledgmentViewController2.swift
+//  AcknowledgmentViewController.swift
 //  lighthouse-gmaps
 //
 //  Created by Joseph Spall on 12/1/17.
