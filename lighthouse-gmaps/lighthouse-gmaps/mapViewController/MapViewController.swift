@@ -165,6 +165,10 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
     }
     
     func drawSearchCircle(userLocation: CLLocationCoordinate2D){
+        if(searchCicle != nil)
+        {
+            searchCicle!.map = nil
+        }
         let radius = Double(UserDefaults.standard.integer(forKey:"radius"))*0.3048
         searchCicle = GMSCircle(position: userLocation, radius: radius)
         let color = calculateDangerColorPoint(radius: radius, dangerLevel: localDanger)
@@ -301,20 +305,23 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
                     self.addCrimesToMap(crimeArray: self.storedCrimes)
                     self.changeMapForRoute(route: route)
                     MBProgressHUD.hide(for: self.view, animated: true)
+
                 }
                 else{
+                    MBProgressHUD.hide(for: self.view, animated: true)
                     //TODO: Make error more effective
+
                     print(mightError.string!)
                     self.createErrorAlert(description: mightError.string!)
-                    MBProgressHUD.hide(for: self.view, animated: true)
                 }
                 
             }
             else {
+                MBProgressHUD.hide(for: self.view, animated: true)
+
                 //TODO: Make error more effective
                 print(error!)
                 self.createErrorAlert(description: error!)
-                MBProgressHUD.hide(for: self.view, animated: true)
             }
         }
         
@@ -667,17 +674,6 @@ extension MapViewController: GMSAutocompleteResultsViewControllerDelegate {
 
 
 
-// MARK: - CrimeClusterItem
-
-class CrimeClusterItem: NSObject, GMUClusterItem {
-    var position: CLLocationCoordinate2D
-    var crime: Crime!
-    
-    init(crime: Crime) {
-        self.position = crime.location
-        self.crime = crime
-    }
-}
 
 // MARK: - UIColor
 extension UIColor {

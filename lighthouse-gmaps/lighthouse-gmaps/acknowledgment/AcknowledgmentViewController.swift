@@ -1,44 +1,35 @@
 //
-//  AttributionViewController.swift
-//  Lighthouse
+//  AcknowledgmentViewController2.swift
+//  lighthouse-gmaps
 //
-//  Created by Joseph Spall on 7/6/17.
-//  Copyright © 2017 Lighthouse. All rights reserved.
+//  Created by Joseph Spall on 12/1/17.
+//  Copyright © 2017 LightHouse. All rights reserved.
 //
 
 import UIKit
+import SwiftyJSON
 
-class AttributionViewController: UITableViewController,XMLParserDelegate {
+class AcknowledgmentViewController: UITableViewController {
     
-    var attributions:[Attribution] = []
-    var eName: String = String()
-    var atrLibrary = String()
-    var atrLicense = String()
-    
+    var totalJSON:JSON = JSON.null
+    var acknowledgeArray:[Acknowledge] = []
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        initAcknowledgment()
         
-        // Do any additional setup after loading the view.
-        if let path = Bundle.main.url(forResource: "ack_storage", withExtension: "xml") {
-            if let parser = XMLParser(contentsOf: path) {
-                parser.delegate = self
-                parser.parse()
-            }
-            //TODO Error if acknowledgments not found
-        }
-        tableView.estimatedRowHeight = 43.0;
+        tableView.estimatedRowHeight = 43.0
         tableView.rowHeight = UITableViewAutomaticDimension
     }
-    
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-    //TableView
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return attributions.count
+        return acknowledgeArray.count
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -46,64 +37,62 @@ class AttributionViewController: UITableViewController,XMLParserDelegate {
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return attributions[section].library
+        return acknowledgeArray[section].library
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "AckCell", for: indexPath)
-        
-        let attribution = attributions[indexPath.section]
-        cell.textLabel?.text = attribution.license
-        cell.textLabel?.sizeToFit()
-        cell.textLabel?.lineBreakMode = NSLineBreakMode.byWordWrapping
-        cell.textLabel?.numberOfLines = 0
-        
+        if(totalJSON != JSON.null)
+        {
+            let individualAcknowledge = acknowledgeArray[indexPath.section]
+            cell.textLabel?.text = individualAcknowledge.license
+            cell.textLabel?.lineBreakMode = .byWordWrapping
+            cell.textLabel?.numberOfLines = 0
+            cell.textLabel?.sizeToFit()
+            
+            
+        }
+        else{
+            //TODO: Fix with more meaningful error
+            print("Something went wrong")
+        }
         return cell
     }
     
-    //Parser
-    func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String]) {
-        eName = elementName
-        if elementName == "entry" {
-            atrLibrary = String()
-            atrLicense = String()
-        }
-    }
-    
-    func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
-        if elementName == "entry" {
-            
-            let entry = Attribution(library: atrLibrary,license: atrLicense)
-            attributions.append(entry)
-        }
-    }
-    
-    func parser(_ parser: XMLParser, foundCharacters string: String) {
-        let data = string.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
-        
-        if (!data.isEmpty) {
-            if eName == "library" {
-                atrLibrary += data
-            } else if eName == "license" {
-                atrLicense += data
+    func initAcknowledgment(){
+        let url = Bundle.main.url(forResource: "acknowledge", withExtension: "json")
+        do{
+            let data = try Data(contentsOf: url!)
+            totalJSON = JSON(data:data)
+            let valueArray = totalJSON["acknowledge"].array
+            for entry in valueArray!{
+                let libraryName = entry["library"].string;
+                let licenseText = entry["license"].string;
+                acknowledgeArray.append(Acknowledge(library:libraryName!,license:licenseText!))
             }
         }
+        catch{
+            //TODO: Fix with more meaningful error
+            print(error)
+        }
+        
     }
     
-    
+
+
     /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destinationViewController.
-     // Pass the selected object to the new view controller.
-     }
-     */
-    
+    // MARK: - Navigation
+
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destinationViewController.
+        // Pass the selected object to the new view controller.
+    }
+    */
+
 }
 
-struct Attribution {
+struct Acknowledge{
     let library:String
     let license:String
 }
