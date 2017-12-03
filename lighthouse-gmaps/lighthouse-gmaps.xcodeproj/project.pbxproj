@@ -236,14 +236,14 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
-		CF2FBB8C1F8976B30010603F /* resources */ = {
+		CF2FBB8C1F8976B30010603F /* Resources */ = {
 			isa = PBXGroup;
 			children = (
 				CFEC27D61FB9F12400A527F3 /* legal.json */,
 				CFCA77411FD1CAA6005E15B3 /* acknowledge.json */,
 				CF0E6B021FB222380040F286 /* danger_file.json */,
 			);
-			path = resources;
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		CF33A8E91F8C2A7900D9B48E /* Google-Maps-iOS-Utils */ = {
@@ -372,12 +372,12 @@
 			path = View;
 			sourceTree = "<group>";
 		};
-		CF6BEDA71FB4E2A1003A95B8 /* initialLoadController */ = {
+		CF6BEDA71FB4E2A1003A95B8 /* InitialLoadController */ = {
 			isa = PBXGroup;
 			children = (
 				CF6BEDA81FB4E331003A95B8 /* InitialLoadViewController.swift */,
 			);
-			path = initialLoadController;
+			path = InitialLoadController;
 			sourceTree = "<group>";
 		};
 		CF9D928A1F895BF8000E9224 = {
@@ -408,14 +408,13 @@
 			children = (
 				CF9D92A51F895BF9000E9224 /* Info.plist */,
 				CFC0CFA81F8C1EC800B92795 /* lighthouse-gmaps-Bridging-Header.h */,
-				CFFFB2FC1F966B3100A55F20 /* crimeInfo */,
-				CF2FBB8C1F8976B30010603F /* resources */,
-				CFDCD91C1F89649F006DEDE4 /* settings */,
-				CFDCD9251F896876006DEDE4 /* acknowledgment */,
-				CFC4F1851FB0BCAF0074C4B3 /* route */,
-				CF6BEDA71FB4E2A1003A95B8 /* initialLoadController */,
-				CFC803721FC9A79B007590D6 /* network */,
-				CFCA773B1FD1C61F005E15B3 /* mapViewController */,
+				CFFFB2FC1F966B3100A55F20 /* CrimeInfo */,
+				CF2FBB8C1F8976B30010603F /* Resources */,
+				CFDCD91C1F89649F006DEDE4 /* Settings */,
+				CFC4F1851FB0BCAF0074C4B3 /* Route */,
+				CF6BEDA71FB4E2A1003A95B8 /* InitialLoadController */,
+				CFC803721FC9A79B007590D6 /* Network */,
+				CFCA773B1FD1C61F005E15B3 /* MapViewController */,
 				CF9D92961F895BF9000E9224 /* AppDelegate.swift */,
 				CFCA773C1FD1C868005E15B3 /* Clustering */,
 				CFCD85171F89871500EBDAD7 /* Crime.swift */,
@@ -445,29 +444,29 @@
 			path = "lighthouse-gmapsUITests";
 			sourceTree = "<group>";
 		};
-		CFC4F1851FB0BCAF0074C4B3 /* route */ = {
+		CFC4F1851FB0BCAF0074C4B3 /* Route */ = {
 			isa = PBXGroup;
 			children = (
 				CF4F09801FAF9FE500A472BF /* Route.swift */,
 				CF4F09821FAFA19300A472BF /* RouteStep.swift */,
 			);
-			path = route;
+			path = Route;
 			sourceTree = "<group>";
 		};
-		CFC803721FC9A79B007590D6 /* network */ = {
+		CFC803721FC9A79B007590D6 /* Network */ = {
 			isa = PBXGroup;
 			children = (
 				CFC803731FC9A7CF007590D6 /* Connectivity.swift */,
 			);
-			path = network;
+			path = Network;
 			sourceTree = "<group>";
 		};
-		CFCA773B1FD1C61F005E15B3 /* mapViewController */ = {
+		CFCA773B1FD1C61F005E15B3 /* MapViewController */ = {
 			isa = PBXGroup;
 			children = (
 				CF9D92981F895BF9000E9224 /* MapViewController.swift */,
 			);
-			path = mapViewController;
+			path = MapViewController;
 			sourceTree = "<group>";
 		};
 		CFCA773C1FD1C868005E15B3 /* Clustering */ = {
@@ -479,40 +478,41 @@
 			path = Clustering;
 			sourceTree = "<group>";
 		};
-		CFDCD91C1F89649F006DEDE4 /* settings */ = {
+		CFDCD91C1F89649F006DEDE4 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				CFDCD9251F896876006DEDE4 /* Acknowledgment */,
 				CFDCD91D1F8964D1006DEDE4 /* SettingsViewController.swift */,
-				CFDCD91F1F89655E006DEDE4 /* crimeWeight */,
+				CFDCD91F1F89655E006DEDE4 /* CrimeWeight */,
 			);
-			path = settings;
+			path = Settings;
 			sourceTree = "<group>";
 		};
-		CFDCD91F1F89655E006DEDE4 /* crimeWeight */ = {
+		CFDCD91F1F89655E006DEDE4 /* CrimeWeight */ = {
 			isa = PBXGroup;
 			children = (
 				CFDCD9201F896601006DEDE4 /* CrimeWeightViewController.swift */,
 				CFDCD9221F896652006DEDE4 /* CrimeWeightTableViewCell.swift */,
 			);
-			path = crimeWeight;
+			path = CrimeWeight;
 			sourceTree = "<group>";
 		};
-		CFDCD9251F896876006DEDE4 /* acknowledgment */ = {
+		CFDCD9251F896876006DEDE4 /* Acknowledgment */ = {
 			isa = PBXGroup;
 			children = (
 				CFCA773F1FD1C9C0005E15B3 /* AcknowledgmentViewController.swift */,
 			);
-			path = acknowledgment;
+			path = Acknowledgment;
 			sourceTree = "<group>";
 		};
-		CFFFB2FC1F966B3100A55F20 /* crimeInfo */ = {
+		CFFFB2FC1F966B3100A55F20 /* CrimeInfo */ = {
 			isa = PBXGroup;
 			children = (
 				CFFFB2FD1F966B9900A55F20 /* CrimeInfoEntryView.swift */,
 				CFFFB2FE1F966BA300A55F20 /* CrimeInfoEntryView.xib */,
 				CF60519A1FA0D882002B6C0B /* CrimeInfoSummaryView.swift */,
 			);
-			path = crimeInfo;
+			path = CrimeInfo;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
