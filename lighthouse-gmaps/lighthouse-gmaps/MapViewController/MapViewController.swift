@@ -178,6 +178,8 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
         searchCicle?.strokeWidth = 4
         searchCicle?.fillColor = color.withAlphaComponent(0.50)
         searchCicle!.map = mapView
+        let cameraUpdate = GMSCameraUpdate.setTarget(userLocation, zoom: 18)
+        mapView.animate(with: cameraUpdate)
     }
     
     func calculateDangerColorPoint(radius:Double, dangerLevel:Double) -> UIColor{
@@ -197,7 +199,14 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
     func pullCrimesOnPoint(userLocation: CLLocationCoordinate2D){
         let loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
         loadingNotification.mode = MBProgressHUDMode.indeterminate
+        loadingNotification.bezelView.color = UIColor.clear
+        loadingNotification.bezelView.style = MBProgressHUDBackgroundStyle.solidColor
+        //loadingNotification.backgroundView.color = UIColor.clear
+        loadingNotification.backgroundView.style = MBProgressHUDBackgroundStyle.blur
         loadingNotification.label.text = "Loading"
+       
+        
+        clearRoute(polySteps: polylineArray)
         
         let currentLat:Double = ((userLocation.latitude)*1000000).rounded()/1000000
         let currentLong:Double = ((userLocation.longitude)*1000000).rounded()/1000000
@@ -231,7 +240,7 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
                             self.createErrorAlert(description: error.localizedDescription)
                         }
                     }
-                    
+                 
                     self.addCrimesToMap(crimeArray: self.storedCrimes)
                     self.calculateLocalDanger(crimes: self.storedCrimes,userLoc: userLocation)
                     MBProgressHUD.hide(for: self.view, animated: true)
@@ -257,8 +266,12 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
     func pullCrimesRoute(route: Route){
         let loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
         loadingNotification.mode = MBProgressHUDMode.indeterminate
+        loadingNotification.bezelView.color = UIColor.clear
+        loadingNotification.bezelView.style = MBProgressHUDBackgroundStyle.solidColor
+        loadingNotification.backgroundView.style = MBProgressHUDBackgroundStyle.blur
         loadingNotification.label.text = "Loading"
         
+        clearRoute(polySteps: polylineArray)
         
         var points:[Double] = []
         let steps = route.steps
@@ -329,6 +342,38 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
         
     }
     
+    func calcCrimeBounds(crimeArray:[Crime]) -> GMSCoordinateBounds{
+        var minLat:Double = 0
+        var maxLat:Double = 0
+        var minLng:Double = 0
+        var maxLng:Double = 0
+        for crime in crimeArray{
+            let currentLat = crime.location.latitude
+            let currentLng = crime.location.longitude
+            if(minLat == 0 || currentLat < minLat){
+                minLat = currentLat
+            }
+            
+            if(maxLat == 0 || currentLat > maxLat){
+                maxLat = currentLat
+            }
+            
+            if(minLng == 0 || currentLng < minLng){
+                minLng = currentLng
+            }
+            
+            if(maxLng == 0 || currentLng > maxLng){
+                maxLng = currentLng
+            }
+            
+        }
+        let point1 = CLLocationCoordinate2D(latitude: maxLat, longitude: maxLng)
+        let point2 = CLLocationCoordinate2D(latitude: minLat, longitude: minLng)
+        print(point1)
+        print(point2)
+        return GMSCoordinateBounds(coordinate: point1, coordinate: point2)
+
+    }
     
     func addCrimesToMap(crimeArray: [Crime]){
         clusterManager.clearItems()
@@ -357,22 +402,6 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
                 self.crimeInfoSummary = nil
             }
         }
-    }
-    
-    func placeAutocomplete() {
-        let filter = GMSAutocompleteFilter()
-        filter.type = .noFilter
-        placesClient.autocompleteQuery("Sydney Oper", bounds: nil, filter: filter, callback: {(results, error) -> Void in
-            if let error = error {
-                print("Autocomplete error \(error)")
-                return
-            }
-            if let results = results {
-                for result in results {
-                    print("Result \(result.attributedFullText) with placeID \(String(describing: result.placeID))")
-                }
-            }
-        })
     }
     
     
@@ -414,7 +443,7 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
 
     func changeMapForRoute(route:Route){
         endMarker.map = nil
-        removeAllPolylineElements(polySteps: polylineArray)
+        clearRoute(polySteps: polylineArray)
         
         // Camera update
         let update = GMSCameraUpdate.fit(route.bounds, with: UIEdgeInsets(top: 150, left: 40, bottom: 100, right: 40))
@@ -515,7 +544,8 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
         
     }
     
-    func removeAllPolylineElements(polySteps:[GMSPolyline]){
+    func clearRoute(polySteps:[GMSPolyline]){
+        endMarker.map = nil
         for step in polySteps{
             step.map = nil
         }
@@ -555,9 +585,7 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
         }
         let currentZoom = mapView.camera.zoom
         if(currentZoom <= 20){
-            let newCamera = GMSCameraPosition.camera(withTarget: cluster.position, zoom: mapView.camera.zoom + 1)
-            let update = GMSCameraUpdate.setCamera(newCamera)
-            mapView.moveCamera(update)
+            mapView.animate(toZoom: mapView.camera.zoom + 1)
         }
         else{
             if crimeInfoSummary == nil{
@@ -575,14 +603,13 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
         {
             showPopup(false, animated: false)
         }
-        if crimeInfoSummary == nil{
+        if(crimeInfoSummary == nil){
             crimeInfoSummary = CrimeInfoSummaryView()
         }
         
         crimeInfoSummary?.makeViewForSingle(crimeItem: clusterItem as! CrimeClusterItem)
         mapView.addSubview(crimeInfoSummary!)
 
-        
         return false
     }
     
