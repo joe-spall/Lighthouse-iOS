@@ -115,25 +115,19 @@
                             <constraint firstItem="OpB-kG-4h2" firstAttribute="bottom" secondItem="lnl-ve-hnB" secondAttribute="bottom" id="3s5-6z-D9Y"/>
                             <constraint firstItem="OpB-kG-4h2" firstAttribute="top" secondItem="62F-EJ-ybX" secondAttribute="top" id="9FB-VM-9hk"/>
                             <constraint firstItem="OpB-kG-4h2" firstAttribute="trailing" secondItem="lnl-ve-hnB" secondAttribute="trailing" id="B9S-sV-vnC"/>
-                            <constraint firstItem="lnl-ve-hnB" firstAttribute="bottom" secondItem="Tk1-OP-3zf" secondAttribute="bottom" constant="2" id="brD-kb-oC9"/>
+                            <constraint firstItem="lnl-ve-hnB" firstAttribute="bottom" secondItem="Tk1-OP-3zf" secondAttribute="bottom" constant="2" id="BfE-2J-m4W"/>
                             <constraint firstItem="OpB-kG-4h2" firstAttribute="leading" secondItem="lnl-ve-hnB" secondAttribute="leading" id="y6d-OW-l3g"/>
                             <constraint firstItem="Tk1-OP-3zf" firstAttribute="centerX" secondItem="62F-EJ-ybX" secondAttribute="centerX" id="zHI-H9-dF0"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="lnl-ve-hnB"/>
                     </view>
-                    <navigationItem key="navigationItem" id="7kg-ac-TCp">
-                        <barButtonItem key="rightBarButtonItem" image="settings" id="avg-qK-lVY">
-                            <inset key="largeContentSizeImageInsets" minX="1" minY="1" maxX="0.0" maxY="0.0"/>
-                            <color key="tintColor" red="0.20235460669999999" green="0.45179578990000002" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                            <connections>
-                                <segue destination="wWS-pi-OsG" kind="show" id="kwN-bf-aQs"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="7kg-ac-TCp"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
+                        <outlet property="bottomContraint" destination="BfE-2J-m4W" id="wOb-aC-Ztc"/>
                         <outlet property="lighthouseButton" destination="Tk1-OP-3zf" id="lSZ-ay-jGb"/>
                         <outlet property="mapView" destination="OpB-kG-4h2" id="CqL-Wg-b9H"/>
+                        <segue destination="wWS-pi-OsG" kind="show" identifier="toSettingsSegue" id="JrK-zo-xIS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -573,6 +567,5 @@
     </scenes>
     <resources>
         <image name="lighthouse_icon" width="116" height="116"/>
-        <image name="settings" width="42" height="42"/>
     </resources>
 </document>

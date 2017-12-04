@@ -67,9 +67,11 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
     // MARK: - Terms and Conditions
     var comingFromTerms:Bool = false;
     
-    // MARK: - Lighthouse Button
+    // MARK: - Drawer
     @IBOutlet var lighthouseButton:UIButton!
-    var currentMenuView:UIView?
+    @IBOutlet weak var bottomContraint:NSLayoutConstraint!
+    var currentDrawerView:UIView?
+    var drawerOpen:Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -466,29 +468,42 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
     }
     
     @IBAction func makeQuickMenu(){
-        let screenSize = UIScreen.main.bounds
-        let screenWidth = screenSize.width
-        let screenHeight = screenSize.height
-        let viewHeight = screenHeight/3;
-        
-        let testFrame: CGRect = CGRect(x: 0, y: screenHeight-viewHeight, width: screenWidth, height: viewHeight)
-        currentMenuView = UIView(frame: testFrame)
-        
-        let closeButton = UIButton()
-        closeButton.frame = CGRect(x: 0, y: 0, width: 100, height: 50)
-        closeButton.setTitle("Close", for: UIControlState.normal)
-        closeButton.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
-        currentMenuView?.addSubview(closeButton)
-    
-        currentMenuView?.backgroundColor = UIColor(red: 0.5, green: 0.5, blue: 0.5, alpha: 1.0)
-        self.view.addSubview((currentMenuView)!)
-        self.view.bringSubview(toFront: (currentMenuView)!)
-        
+        if(!drawerOpen){
+            let screenSize = UIScreen.main.bounds
+            let screenWidth = screenSize.width
+            let screenHeight = screenSize.height
+            let viewHeight = screenHeight/3;
+            
+            let testFrame: CGRect = CGRect(x: 0, y: screenHeight-viewHeight, width: screenWidth, height: viewHeight)
+            currentDrawerView = UIView(frame: testFrame)
+            
+            bottomContraint.constant = viewHeight-lighthouseButton.frame.height/2
+            
+            let settingsButton = UIButton()
+            settingsButton.frame = CGRect(x: 0, y: 0, width: 100, height: 50)
+            settingsButton.setTitle("Settings", for: UIControlState.normal)
+            settingsButton.addTarget(self, action: #selector(settingsButtonAction), for: .touchUpInside)
+            currentDrawerView?.addSubview(settingsButton)
+            
+            
+            currentDrawerView?.backgroundColor = UIColor(red: 0.5, green: 0.5, blue: 0.5, alpha: 1.0)
+            self.view.addSubview((currentDrawerView)!)
+            self.view.bringSubview(toFront: (currentDrawerView)!)
+            self.view.bringSubview(toFront: lighthouseButton)
+
+            drawerOpen = true
+        }else{
+            bottomContraint.constant = 2
+            currentDrawerView?.removeFromSuperview()
+            drawerOpen = false
+        }
     }
     
-    @objc func buttonAction(sender: UIButton!) {
-        currentMenuView?.removeFromSuperview()
+   @objc func settingsButtonAction(sender: UIButton!) {
+        performSegue(withIdentifier: "toSettingsSegue", sender: nil)
     }
+    
+   
     
     func addAllStepElements(routeSteps:[RouteStep]){
         polylineArray = []
