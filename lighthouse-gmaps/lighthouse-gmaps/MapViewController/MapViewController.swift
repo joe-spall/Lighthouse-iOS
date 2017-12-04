@@ -149,10 +149,8 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
         // Dispose of any resources that can be recreated.
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.navigationController?.setNavigationBarHidden(false, animated: animated)
-
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         if(settingsChanged){
             mapView.mapType = MAP_STYLE_TYPE_OPTIONS[MAP_STYLE_NAME_OPTIONS.index(of: UserDefaults.standard.string(forKey: "map_style")!)!]
             if(lastLocation != CLLocation()){
@@ -164,12 +162,6 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
             initMapViewController()
             comingFromTerms = false
         }
-        
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        // Show the navigation bar on other view controllers
         
     }
     
@@ -220,7 +212,6 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
         loadingNotification.mode = MBProgressHUDMode.indeterminate
         loadingNotification.bezelView.color = UIColor.clear
         loadingNotification.bezelView.style = MBProgressHUDBackgroundStyle.solidColor
-        //loadingNotification.backgroundView.color = UIColor.clear
         loadingNotification.backgroundView.style = MBProgressHUDBackgroundStyle.blur
         loadingNotification.label.text = "Loading"
        
@@ -535,8 +526,9 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
             bottomContraint.constant = viewHeight-lighthouseButton.frame.height/2
             
             let settingsButton = UIButton()
-            settingsButton.frame = CGRect(x: 0, y: 0, width: 100, height: 50)
-            settingsButton.setTitle("Settings", for: UIControlState.normal)
+            let settingsButtonSize = screenWidth/6
+            settingsButton.frame = CGRect(x: screenWidth-settingsButtonSize, y: 0, width: settingsButtonSize, height: settingsButtonSize)
+            settingsButton.setImage(UIImage(named:"settings"), for: .normal)
             settingsButton.addTarget(self, action: #selector(settingsButtonAction), for: .touchUpInside)
             currentDrawerView?.addSubview(settingsButton)
             

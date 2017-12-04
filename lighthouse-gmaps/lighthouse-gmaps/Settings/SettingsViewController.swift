@@ -394,7 +394,8 @@ class SettingsViewController: UITableViewController, UIPickerViewDelegate, UIPic
 extension SettingsViewController: UINavigationControllerDelegate {
     func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
         if let controller = viewController as? MapViewController {
-            controller.settingsChanged = settingsChanged
+            controller.settingsChanged = self.settingsChanged
+            print(controller.settingsChanged)
         }
     }
 }
