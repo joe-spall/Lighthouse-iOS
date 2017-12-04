@@ -48,6 +48,8 @@
 		CF9D92A41F895BF9000E9224 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF9D92A21F895BF9000E9224 /* LaunchScreen.storyboard */; };
 		CF9D92AF1F895BF9000E9224 /* lighthouse_gmapsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9D92AE1F895BF9000E9224 /* lighthouse_gmapsTests.swift */; };
 		CF9D92BA1F895BF9000E9224 /* lighthouse_gmapsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9D92B91F895BF9000E9224 /* lighthouse_gmapsUITests.swift */; };
+		CFABD5C11FD5F99E004EAA62 /* SafetyKeyView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFABD5C01FD5F99E004EAA62 /* SafetyKeyView.xib */; };
+		CFABD5C31FD5FB52004EAA62 /* SafetyKeyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFABD5C21FD5FB52004EAA62 /* SafetyKeyView.swift */; };
 		CFB8CE6B1FD5BF8800D6F2BD /* TermsOfServiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB8CE6A1FD5BF8800D6F2BD /* TermsOfServiceViewController.swift */; };
 		CFC803741FC9A7CF007590D6 /* Connectivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFC803731FC9A7CF007590D6 /* Connectivity.swift */; };
 		CFCA773E1FD1C897005E15B3 /* CrimeClusterItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFCA773D1FD1C897005E15B3 /* CrimeClusterItem.swift */; };
@@ -170,6 +172,8 @@
 		CF9D92B51F895BF9000E9224 /* lighthouse-gmapsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "lighthouse-gmapsUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF9D92B91F895BF9000E9224 /* lighthouse_gmapsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = lighthouse_gmapsUITests.swift; sourceTree = "<group>"; };
 		CF9D92BB1F895BF9000E9224 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CFABD5C01FD5F99E004EAA62 /* SafetyKeyView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SafetyKeyView.xib; sourceTree = "<group>"; };
+		CFABD5C21FD5FB52004EAA62 /* SafetyKeyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafetyKeyView.swift; sourceTree = "<group>"; };
 		CFB8CE6A1FD5BF8800D6F2BD /* TermsOfServiceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsOfServiceViewController.swift; sourceTree = "<group>"; };
 		CFC0CFA81F8C1EC800B92795 /* lighthouse-gmaps-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "lighthouse-gmaps-Bridging-Header.h"; sourceTree = "<group>"; };
 		CFC803731FC9A7CF007590D6 /* Connectivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Connectivity.swift; sourceTree = "<group>"; };
@@ -418,6 +422,7 @@
 				CFC803721FC9A79B007590D6 /* Network */,
 				CFCA773B1FD1C61F005E15B3 /* MapViewController */,
 				CF9D92961F895BF9000E9224 /* AppDelegate.swift */,
+				CFABD5BF1FD5F97C004EAA62 /* SafetyKey */,
 				CFCA773C1FD1C868005E15B3 /* Clustering */,
 				CFCD85171F89871500EBDAD7 /* Crime.swift */,
 				CF9D92A01F895BF9000E9224 /* Assets.xcassets */,
@@ -444,6 +449,15 @@
 				CF9D92BB1F895BF9000E9224 /* Info.plist */,
 			);
 			path = "lighthouse-gmapsUITests";
+			sourceTree = "<group>";
+		};
+		CFABD5BF1FD5F97C004EAA62 /* SafetyKey */ = {
+			isa = PBXGroup;
+			children = (
+				CFABD5C01FD5F99E004EAA62 /* SafetyKeyView.xib */,
+				CFABD5C21FD5FB52004EAA62 /* SafetyKeyView.swift */,
+			);
+			path = SafetyKey;
 			sourceTree = "<group>";
 		};
 		CFB8CE691FD5BF6300D6F2BD /* TermsOfService */ = {
@@ -648,6 +662,7 @@
 				CFFFB3001F966BAE00A55F20 /* CrimeInfoEntryView.xib in Resources */,
 				CF9D92A41F895BF9000E9224 /* LaunchScreen.storyboard in Resources */,
 				CFEC27D71FB9F12400A527F3 /* legal.json in Resources */,
+				CFABD5C11FD5F99E004EAA62 /* SafetyKeyView.xib in Resources */,
 				CF9D92A11F895BF9000E9224 /* Assets.xcassets in Resources */,
 				CF9D929C1F895BF9000E9224 /* Main.storyboard in Resources */,
 			);
@@ -857,6 +872,7 @@
 				CF60519B1FA0D882002B6C0B /* CrimeInfoSummaryView.swift in Sources */,
 				CF33A9671F8C2CF000D9B48E /* GQTPointQuadTreeChild.m in Sources */,
 				CF33A96B1F8C2CF000D9B48E /* GMUGridBasedClusterAlgorithm.m in Sources */,
+				CFABD5C31FD5FB52004EAA62 /* SafetyKeyView.swift in Sources */,
 				CFC803741FC9A7CF007590D6 /* Connectivity.swift in Sources */,
 				CF33A95C1F8C2CF000D9B48E /* GMUGeometryRenderer.m in Sources */,
 				CFDCD91E1F8964D1006DEDE4 /* SettingsViewController.swift in Sources */,

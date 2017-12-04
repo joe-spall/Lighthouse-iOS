@@ -81,6 +81,7 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
     var currentDrawerView:UIView?
     var drawerOpen:Bool = false
     
+    
     // MARK: - Safety View
     var safetyView:UILabel?
     
@@ -557,6 +558,12 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
             
             
             currentDrawerView?.backgroundColor = UIColor(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.8)
+            
+        
+            
+            let safetyKeyView = SafetyKeyView.instanceFromNib()
+            safetyKeyView.frame.origin = CGPoint(x: viewHeight/10, y: viewHeight/4)
+            currentDrawerView?.addSubview(safetyKeyView)
             self.view.addSubview((currentDrawerView)!)
             self.view.bringSubview(toFront: (currentDrawerView)!)
             self.view.bringSubview(toFront: lighthouseButton)
@@ -585,6 +592,49 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
         clusterStates[sender.tag] = newState
         sender.isSelected = newState
         addCrimesToMap(crimeArray: storedCrimes)
+    }
+    
+    func makeSafetyKey()->UIView{
+        let safetyViewHeight = screenWidth/6
+        let safetyViewWidth = 3*screenWidth/4
+        let safetyKeyFrame: CGRect = CGRect(x: 20, y: 20, width: safetyViewWidth, height: safetyViewHeight)
+        let safetyKeyView = UIView(frame: safetyKeyFrame)
+        
+        let colorSize = safetyViewWidth/12
+        let colorXPos:CGFloat = colorSize/2
+        let colorYPos:CGFloat = safetyViewHeight/2 - colorSize/2
+        
+        let safeColor = UIView(frame:CGRect(x: colorXPos, y: colorYPos, width: colorSize, height: colorSize))
+        safeColor.backgroundColor = UIColor(rgb: ROUTE_COLOR[0])
+        safetyKeyView.addSubview(safeColor)
+        
+        let cautionColor = UIView(frame:CGRect(x: colorXPos*8, y: colorYPos, width: colorSize, height: colorSize))
+        cautionColor.backgroundColor = UIColor(rgb: ROUTE_COLOR[1])
+        safetyKeyView.addSubview(cautionColor)
+        
+        let warningColor = UIView(frame:CGRect(x: colorXPos*14, y: colorYPos, width: colorSize, height: colorSize))
+        warningColor.backgroundColor = UIColor(rgb: ROUTE_COLOR[2])
+        safetyKeyView.addSubview(warningColor)
+        
+        
+        
+        let safeLabel = UILabel(frame: CGRect(x: safetyViewHeight/3, y: safetyViewHeight/6, width: (2*safetyViewHeight)/3, height: 40))
+        safeLabel.text = "Safe"
+        safeLabel.textAlignment = .center
+        safetyKeyView.addSubview(safeLabel)
+        
+        let cautionLabel = UILabel(frame: CGRect(x: safetyViewHeight/3, y: 2, width: (2*safetyViewHeight)/3, height: 40))
+        cautionLabel.text = "Caution"
+        cautionLabel.textAlignment = .center
+        safetyKeyView.addSubview(cautionLabel)
+        
+        let warningLabel = UILabel(frame: CGRect(x: safetyViewHeight/3, y: 2, width: (2*safetyViewHeight)/3, height: 40))
+        warningLabel.text = "Warning"
+        warningLabel.textAlignment = .center
+        safetyKeyView.addSubview(warningLabel)
+        
+        safetyKeyView.backgroundColor = UIColor.white
+        return safetyKeyView
     }
     
    
