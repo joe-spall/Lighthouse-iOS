@@ -436,6 +436,30 @@
                                             <segue destination="hUS-KL-9Mc" kind="show" id="Wkx-Oc-FB5"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="doS-Em-Ur8">
+                                        <rect key="frame" x="0.0" y="1160" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="doS-Em-Ur8" id="R6V-Sb-4yJ">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Terms of Service" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sy4-ex-mtR">
+                                                    <rect key="frame" x="25" y="16" width="179" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="sy4-ex-mtR" firstAttribute="top" secondItem="R6V-Sb-4yJ" secondAttribute="topMargin" constant="5" id="0zV-gm-2ns"/>
+                                                <constraint firstItem="sy4-ex-mtR" firstAttribute="top" secondItem="R6V-Sb-4yJ" secondAttribute="topMargin" constant="5" id="Lre-Ym-u9X"/>
+                                                <constraint firstItem="sy4-ex-mtR" firstAttribute="leading" secondItem="R6V-Sb-4yJ" secondAttribute="leadingMargin" constant="15" id="kyy-z7-GYH"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="1vU-IM-k6z" kind="show" id="cKL-Z0-MoD"/>
+                                        </connections>
+                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                         </sections>
@@ -460,7 +484,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sbi-LW-fi5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1342" y="113"/>
+            <point key="canvasLocation" x="1341.5999999999999" y="112.89355322338831"/>
         </scene>
         <!--Acknowledgments-->
         <scene sceneID="n8a-Av-6kb">
@@ -563,6 +587,38 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="L6J-be-Rw4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2285.5999999999999" y="361.16941529235385"/>
+        </scene>
+        <!--Terms of Service-->
+        <scene sceneID="NzO-1I-LEq">
+            <objects>
+                <viewController title="Terms of Service" id="1vU-IM-k6z" customClass="TermsOfServiceViewController" customModule="lighthouse_gmaps" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="97i-E0-LqC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2a6-np-Pvy">
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="2a6-np-Pvy" firstAttribute="leading" secondItem="669-JT-N40" secondAttribute="leading" id="8RZ-7r-cS1"/>
+                            <constraint firstItem="2a6-np-Pvy" firstAttribute="bottom" secondItem="669-JT-N40" secondAttribute="bottom" id="ZI2-Zo-e3k"/>
+                            <constraint firstItem="2a6-np-Pvy" firstAttribute="trailing" secondItem="669-JT-N40" secondAttribute="trailing" id="ghH-xE-Odt"/>
+                            <constraint firstItem="2a6-np-Pvy" firstAttribute="top" secondItem="669-JT-N40" secondAttribute="top" id="sVI-LD-9pB"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="669-JT-N40"/>
+                    </view>
+                    <connections>
+                        <outlet property="termsTextView" destination="2a6-np-Pvy" id="tk0-Sr-i1k"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="PFP-5k-M3g" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2316" y="1186.9565217391305"/>
         </scene>
     </scenes>
     <resources>

@@ -48,6 +48,7 @@
 		CF9D92A41F895BF9000E9224 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF9D92A21F895BF9000E9224 /* LaunchScreen.storyboard */; };
 		CF9D92AF1F895BF9000E9224 /* lighthouse_gmapsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9D92AE1F895BF9000E9224 /* lighthouse_gmapsTests.swift */; };
 		CF9D92BA1F895BF9000E9224 /* lighthouse_gmapsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9D92B91F895BF9000E9224 /* lighthouse_gmapsUITests.swift */; };
+		CFB8CE6B1FD5BF8800D6F2BD /* TermsOfServiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB8CE6A1FD5BF8800D6F2BD /* TermsOfServiceViewController.swift */; };
 		CFC803741FC9A7CF007590D6 /* Connectivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFC803731FC9A7CF007590D6 /* Connectivity.swift */; };
 		CFCA773E1FD1C897005E15B3 /* CrimeClusterItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFCA773D1FD1C897005E15B3 /* CrimeClusterItem.swift */; };
 		CFCA77401FD1C9C0005E15B3 /* AcknowledgmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFCA773F1FD1C9C0005E15B3 /* AcknowledgmentViewController.swift */; };
@@ -169,6 +170,7 @@
 		CF9D92B51F895BF9000E9224 /* lighthouse-gmapsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "lighthouse-gmapsUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF9D92B91F895BF9000E9224 /* lighthouse_gmapsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = lighthouse_gmapsUITests.swift; sourceTree = "<group>"; };
 		CF9D92BB1F895BF9000E9224 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CFB8CE6A1FD5BF8800D6F2BD /* TermsOfServiceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsOfServiceViewController.swift; sourceTree = "<group>"; };
 		CFC0CFA81F8C1EC800B92795 /* lighthouse-gmaps-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "lighthouse-gmaps-Bridging-Header.h"; sourceTree = "<group>"; };
 		CFC803731FC9A7CF007590D6 /* Connectivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Connectivity.swift; sourceTree = "<group>"; };
 		CFCA773D1FD1C897005E15B3 /* CrimeClusterItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrimeClusterItem.swift; sourceTree = "<group>"; };
@@ -444,6 +446,14 @@
 			path = "lighthouse-gmapsUITests";
 			sourceTree = "<group>";
 		};
+		CFB8CE691FD5BF6300D6F2BD /* TermsOfService */ = {
+			isa = PBXGroup;
+			children = (
+				CFB8CE6A1FD5BF8800D6F2BD /* TermsOfServiceViewController.swift */,
+			);
+			path = TermsOfService;
+			sourceTree = "<group>";
+		};
 		CFC4F1851FB0BCAF0074C4B3 /* Route */ = {
 			isa = PBXGroup;
 			children = (
@@ -481,6 +491,7 @@
 		CFDCD91C1F89649F006DEDE4 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				CFB8CE691FD5BF6300D6F2BD /* TermsOfService */,
 				CFDCD9251F896876006DEDE4 /* Acknowledgment */,
 				CFDCD91D1F8964D1006DEDE4 /* SettingsViewController.swift */,
 				CFDCD91F1F89655E006DEDE4 /* CrimeWeight */,
@@ -857,6 +868,7 @@
 				CF33A9681F8C2CF000D9B48E /* GMUGradient.m in Sources */,
 				CFCD85181F89871500EBDAD7 /* Crime.swift in Sources */,
 				CF8BA0271FB39326009897E8 /* MapClusterRender.swift in Sources */,
+				CFB8CE6B1FD5BF8800D6F2BD /* TermsOfServiceViewController.swift in Sources */,
 				CF4F09831FAFA19300A472BF /* RouteStep.swift in Sources */,
 				CFDCD9231F896652006DEDE4 /* CrimeWeightTableViewCell.swift in Sources */,
 				CF33A95B1F8C2CF000D9B48E /* GMUGeoJSONParser.m in Sources */,
