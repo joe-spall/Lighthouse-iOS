@@ -21,6 +21,7 @@ let TIME_OF_DAY_CONST:Double = -2*pow(5,2)
 struct Crime{
     let id:String
     let date:Date
+    let tag:String
     let type:String
     let location:CLLocationCoordinate2D
     
@@ -64,6 +65,26 @@ extension Crime {
             throw SerializationError.missing("Coordinates")
             
         }
+        
+        var possibleTag = ""
+
+        if(type == "HOMICIDE"){
+            possibleTag = "homicide"
+        }
+        else if(type == "AGGRAVATED ASSAULT"){
+            possibleTag = "assault"
+        }
+        else if(type == "RAPE"){
+            possibleTag = "rape"
+        }
+        else if(type == "AUTO THEFT" || type == "BURGLARY FROM VEHICLE" || type == "LARCENY FROM VEHICLE"){
+            possibleTag = "car_theft"
+        }
+        else{
+            possibleTag = "ped_theft"
+        }
+        
+        self.tag = possibleTag
         
         self.id = id
         let dateFormatHandle:DateFormatter = DateFormatter()

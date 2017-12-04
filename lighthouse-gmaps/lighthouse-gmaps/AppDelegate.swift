@@ -20,8 +20,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     let GOOGLE_MAP_API:String = "AIzaSyAoQH-GwOO8okM0krrHyP1hLv6VVl5U2to"
     
-    let SETTING_KEYS:[String] = ["load_before","units","year","date_format","num_format","map_style","danger_loaded"]
-    let DEFAULT_VALUES_STRINGS:[Any] = [true,"feet","2015","MM/dd/yyyy","1,000.00","Normal",true]
+    let SETTING_KEYS:[String] = ["load_before","units","year","date_format","num_format","map_style","danger_loaded","rape_state","assault_state","homicide_state","car_theft_state","ped_theft_state"]
+    let DEFAULT_VALUES_STRINGS:[Any] = [true,"feet","2015","MM/dd/yyyy","1,000.00","Normal",true,true,true,true,true,true]
     let SETTING_KEYS_INT:[String] = ["radius"]
     let DEFAULT_VALUES_INT:[Int] = [100]
 

@@ -70,6 +70,10 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
     // MARK: - Drawer
     @IBOutlet var lighthouseButton:UIButton!
     @IBOutlet weak var bottomContraint:NSLayoutConstraint!
+    var clusterStates:[Bool] = [true,true,true,true,true]
+    let CLUSTER_GROUP_NAMES:[String] = ["assault","car_theft","homicide","ped_theft","rape"]
+    let STATE_BUTTON_NO_SELECT:Int = 0xCCCCCC
+    let STATE_BUTTON_SELECT:Int = 0xFF751A
     var currentDrawerView:UIView?
     var drawerOpen:Bool = false
     
@@ -125,9 +129,10 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
         // Prevent the navigation bar from being hidden when searching.
         destSearchController?.hidesNavigationBarDuringPresentation = false
 
-        // Places stuff
-        placesClient = GMSPlacesClient.shared()
-       // placeAutocomplete()
+        // MARK: - Drawer
+        for group in CLUSTER_GROUP_NAMES{
+            clusterStates[CLUSTER_GROUP_NAMES.index(of: group)!] = UserDefaults.standard.bool(forKey: group+"_state")
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -371,20 +376,23 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
         }
         let point1 = CLLocationCoordinate2D(latitude: maxLat, longitude: maxLng)
         let point2 = CLLocationCoordinate2D(latitude: minLat, longitude: minLng)
-        print(point1)
-        print(point2)
         return GMSCoordinateBounds(coordinate: point1, coordinate: point2)
-
     }
     
     func addCrimesToMap(crimeArray: [Crime]){
         clusterManager.clearItems()
         for crime in crimeArray{
-            let item = CrimeClusterItem(crime: crime)
-            clusterManager.add(item)
+            if let i = CLUSTER_GROUP_NAMES.index(where: { $0.hasPrefix(crime.tag[0]) }) {
+                if(clusterStates[i]){
+                    let item = CrimeClusterItem(crime: crime)
+                    clusterManager.add(item)
+                }
+
+            }
         }
         clusterManager.cluster()
     }
+    
     
     func showPopup(_ shouldShow: Bool, animated: Bool) {
         let alpha: CGFloat = (shouldShow ? 1 : 0)
@@ -485,8 +493,31 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
             settingsButton.addTarget(self, action: #selector(settingsButtonAction), for: .touchUpInside)
             currentDrawerView?.addSubview(settingsButton)
             
+            var count:CGFloat = 0
+            for buttonNames in CLUSTER_GROUP_NAMES{
+                let stateButton = UIButton()
+                let iconWidth = screenWidth/6
+                let iconSpacing = iconWidth/6
+                stateButton.frame = CGRect(x:  count*iconWidth + (count+1)*iconSpacing, y: viewHeight - iconWidth - 10, width: iconWidth, height: iconWidth)
+                let currentlySelected:Bool = UserDefaults.standard.bool(forKey: CLUSTER_GROUP_NAMES[Int(count)]+"_state")
+                stateButton.isSelected = currentlySelected
+                stateButton.tag = Int(count)
+                let stateButtonImage = UIImage(named: buttonNames+"_icon")?.withRenderingMode(.alwaysTemplate)
+                stateButton.setImage(stateButtonImage, for: .selected)
+                stateButton.setImage(stateButtonImage, for: .normal)
+                if(currentlySelected){
+                    stateButton.tintColor = UIColor(rgb: STATE_BUTTON_SELECT)
+                }
+                else{
+                    stateButton.tintColor = UIColor(rgb: STATE_BUTTON_NO_SELECT)
+                }
+                stateButton.addTarget(self, action: #selector(clusterStateButtonAction), for: .touchUpInside)
+                currentDrawerView?.addSubview(stateButton)
+                count+=1
+            }
             
-            currentDrawerView?.backgroundColor = UIColor(red: 0.5, green: 0.5, blue: 0.5, alpha: 1.0)
+            
+            currentDrawerView?.backgroundColor = UIColor(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.8)
             self.view.addSubview((currentDrawerView)!)
             self.view.bringSubview(toFront: (currentDrawerView)!)
             self.view.bringSubview(toFront: lighthouseButton)
@@ -501,6 +532,20 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
     
    @objc func settingsButtonAction(sender: UIButton!) {
         performSegue(withIdentifier: "toSettingsSegue", sender: nil)
+    }
+    
+    @objc func clusterStateButtonAction(sender: UIButton!) {
+        let newState = !sender.isSelected
+        if(newState){
+            sender.tintColor = UIColor(rgb: STATE_BUTTON_SELECT)
+        }
+        else{
+            sender.tintColor =  UIColor(rgb: STATE_BUTTON_NO_SELECT)
+        }
+        UserDefaults.standard.set(newState, forKey: CLUSTER_GROUP_NAMES[sender.tag]+"_state")
+        clusterStates[sender.tag] = newState
+        sender.isSelected = newState
+        addCrimesToMap(crimeArray: storedCrimes)
     }
     
    
@@ -670,6 +715,7 @@ extension MapViewController: CLLocationManagerDelegate {
             locationManager.startUpdatingLocation()
             mapView.isMyLocationEnabled = true
             mapView.settings.myLocationButton = true
+
         }
         if status == .denied{
             //TODO: Implement if access denied, question whether to use the app without location access
@@ -743,3 +789,32 @@ extension UIColor {
     }
 }
 
+// MARK: - String
+
+extension String {
+    
+    var length: Int {
+        return self.characters.count
+    }
+    
+    subscript (i: Int) -> String {
+        return self[i ..< i + 1]
+    }
+    
+    func substring(fromIndex: Int) -> String {
+        return self[min(fromIndex, length) ..< length]
+    }
+    
+    func substring(toIndex: Int) -> String {
+        return self[0 ..< max(0, toIndex)]
+    }
+    
+    subscript (r: Range<Int>) -> String {
+        let range = Range(uncheckedBounds: (lower: max(0, min(length, r.lowerBound)),
+                                            upper: min(length, max(0, r.upperBound))))
+        let start = index(startIndex, offsetBy: range.lowerBound)
+        let end = index(start, offsetBy: range.upperBound - range.lowerBound)
+        return String(self[start ..< end])
+    }
+    
+}
