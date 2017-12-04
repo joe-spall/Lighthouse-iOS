@@ -521,7 +521,7 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
         if(!drawerOpen){
             let viewHeight = screenHeight/3;
             
-            let testFrame: CGRect = CGRect(x: 0, y: screenHeight-viewHeight, width: screenWidth, height: viewHeight)
+            let testFrame: CGRect = CGRect(x: 0, y: screenHeight, width: screenWidth, height: viewHeight)
             currentDrawerView = UIView(frame: testFrame)
             
             bottomContraint.constant = viewHeight-lighthouseButton.frame.height/2
@@ -564,15 +564,40 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
             let safetyKeyView = SafetyKeyView.instanceFromNib()
             safetyKeyView.frame.origin = CGPoint(x: viewHeight/10, y: viewHeight/4)
             currentDrawerView?.addSubview(safetyKeyView)
+            
+            
             self.view.addSubview((currentDrawerView)!)
             self.view.bringSubview(toFront: (currentDrawerView)!)
             self.view.bringSubview(toFront: lighthouseButton)
-
-            drawerOpen = true
+            
+            
+            UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseOut, animations: {
+                self.view.layoutIfNeeded()
+                var drawerFrame = self.currentDrawerView?.frame
+                let drawerHeight = drawerFrame?.size.height
+                drawerFrame?.origin.y -= (drawerHeight)!
+                self.currentDrawerView?.frame = drawerFrame!
+                
+            }, completion: { finished in
+                self.drawerOpen = true
+            })
+            
+            
+            
         }else{
             bottomContraint.constant = 2
-            currentDrawerView?.removeFromSuperview()
-            drawerOpen = false
+            UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseOut, animations: {
+                self.view.layoutIfNeeded()
+                var drawerFrame = self.currentDrawerView?.frame
+                let drawerHeight = drawerFrame?.size.height
+                drawerFrame?.origin.y += (drawerHeight)!
+                self.currentDrawerView?.frame = drawerFrame!
+                
+            }, completion: { finished in
+                self.currentDrawerView?.removeFromSuperview()
+                self.drawerOpen = false
+            })
+            
         }
     }
     
@@ -594,50 +619,6 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
         addCrimesToMap(crimeArray: storedCrimes)
     }
     
-    func makeSafetyKey()->UIView{
-        let safetyViewHeight = screenWidth/6
-        let safetyViewWidth = 3*screenWidth/4
-        let safetyKeyFrame: CGRect = CGRect(x: 20, y: 20, width: safetyViewWidth, height: safetyViewHeight)
-        let safetyKeyView = UIView(frame: safetyKeyFrame)
-        
-        let colorSize = safetyViewWidth/12
-        let colorXPos:CGFloat = colorSize/2
-        let colorYPos:CGFloat = safetyViewHeight/2 - colorSize/2
-        
-        let safeColor = UIView(frame:CGRect(x: colorXPos, y: colorYPos, width: colorSize, height: colorSize))
-        safeColor.backgroundColor = UIColor(rgb: ROUTE_COLOR[0])
-        safetyKeyView.addSubview(safeColor)
-        
-        let cautionColor = UIView(frame:CGRect(x: colorXPos*8, y: colorYPos, width: colorSize, height: colorSize))
-        cautionColor.backgroundColor = UIColor(rgb: ROUTE_COLOR[1])
-        safetyKeyView.addSubview(cautionColor)
-        
-        let warningColor = UIView(frame:CGRect(x: colorXPos*14, y: colorYPos, width: colorSize, height: colorSize))
-        warningColor.backgroundColor = UIColor(rgb: ROUTE_COLOR[2])
-        safetyKeyView.addSubview(warningColor)
-        
-        
-        
-        let safeLabel = UILabel(frame: CGRect(x: safetyViewHeight/3, y: safetyViewHeight/6, width: (2*safetyViewHeight)/3, height: 40))
-        safeLabel.text = "Safe"
-        safeLabel.textAlignment = .center
-        safetyKeyView.addSubview(safeLabel)
-        
-        let cautionLabel = UILabel(frame: CGRect(x: safetyViewHeight/3, y: 2, width: (2*safetyViewHeight)/3, height: 40))
-        cautionLabel.text = "Caution"
-        cautionLabel.textAlignment = .center
-        safetyKeyView.addSubview(cautionLabel)
-        
-        let warningLabel = UILabel(frame: CGRect(x: safetyViewHeight/3, y: 2, width: (2*safetyViewHeight)/3, height: 40))
-        warningLabel.text = "Warning"
-        warningLabel.textAlignment = .center
-        safetyKeyView.addSubview(warningLabel)
-        
-        safetyKeyView.backgroundColor = UIColor.white
-        return safetyKeyView
-    }
-    
-   
     
     func addAllStepElements(routeSteps:[RouteStep]){
         polylineArray = []
@@ -676,7 +657,6 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
             }
         }
         return dangerLevel
-        
     }
     
     func calculateDangerColorRoute(length:Double,radius:Double, dangerLevel:Double) -> UIColor{
