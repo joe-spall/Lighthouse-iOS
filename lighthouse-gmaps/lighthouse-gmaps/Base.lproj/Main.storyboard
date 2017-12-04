@@ -102,7 +102,7 @@
                                 </constraints>
                                 <state key="normal" title="Button" image="lighthouse_icon"/>
                                 <connections>
-                                    <action selector="makeQuickMenu" destination="BYZ-38-t0r" eventType="touchUpInside" id="lan-dY-ED9"/>
+                                    <action selector="makeDrawer" destination="BYZ-38-t0r" eventType="touchUpInside" id="Mjz-md-XQK"/>
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OpB-kG-4h2" customClass="GMSMapView">

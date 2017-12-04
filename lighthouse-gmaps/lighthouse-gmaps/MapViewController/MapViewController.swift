@@ -15,6 +15,10 @@ import MBProgressHUD
 
 class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapViewDelegate, GMUClusterRendererDelegate,UISearchControllerDelegate{
     
+    // MARK: - Screen Sizing
+    let screenWidth = UIScreen.main.bounds.width
+    let screenHeight = UIScreen.main.bounds.height
+    
     // MARK: - Settings Changed
     var settingsChanged: Bool = false
     
@@ -77,6 +81,9 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
     var currentDrawerView:UIView?
     var drawerOpen:Bool = false
     
+    // MARK: - Safety View
+    var safetyView:UILabel?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -133,6 +140,8 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
         for group in CLUSTER_GROUP_NAMES{
             clusterStates[CLUSTER_GROUP_NAMES.index(of: group)!] = UserDefaults.standard.bool(forKey: group+"_state")
         }
+        
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -166,10 +175,12 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
     
     func calculateLocalDanger(crimes: [Crime], userLoc: CLLocationCoordinate2D){
         let currentDate = Date()
+        var tempDanger:Double = 0
         for crime in crimes{
             let userDefinedDanger = UserDefaults.standard.double(forKey: crime.type)
-            localDanger += crime.calculateSingleThreatScore(userLocation: userLoc, currentDate: currentDate, userValue: userDefinedDanger)
+            tempDanger += crime.calculateSingleThreatScore(userLocation: userLoc, currentDate: currentDate, userValue: userDefinedDanger)
         }
+        localDanger = tempDanger
         drawSearchCircle(userLocation: userLoc)
     }
     
@@ -185,6 +196,7 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
         searchCicle?.strokeWidth = 4
         searchCicle?.fillColor = color.withAlphaComponent(0.50)
         searchCicle!.map = mapView
+        makeSafetyView(radius: radius)
         let cameraUpdate = GMSCameraUpdate.setTarget(userLocation, zoom: 18)
         mapView.animate(with: cameraUpdate)
     }
@@ -475,11 +487,46 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
         return markerView
     }
     
-    @IBAction func makeQuickMenu(){
+    func makeSafetyView(radius:Double){
+        safetyView?.removeFromSuperview()
+        
+        let viewHeight = screenHeight/12;
+        let navigationBarHeight: CGFloat = self.navigationController!.navigationBar.frame.height
+        safetyView = UILabel(frame: CGRect(x: screenWidth-viewHeight-20, y: navigationBarHeight+viewHeight/2,width: viewHeight, height:  viewHeight))
+        safetyView?.font = UIFont.systemFont(ofSize: 20.0)
+        
+        let dangerPerSquareMeter = localDanger/(Double.pi*pow(radius,2.0))
+        var fractionDanger = (dangerPerSquareMeter/POINT_RANGES.last!)*10
+        var colorNumber = 0
+        if(fractionDanger > 10){
+            fractionDanger = 10
+        }
+        safetyView?.text = String(format: "%.1f", fractionDanger)
+        
+        if(fractionDanger < 2){
+            colorNumber = ROUTE_COLOR[0]
+        }
+        else if(fractionDanger >= 2 && fractionDanger < 7){
+            colorNumber = ROUTE_COLOR[1]
+        }
+        else{
+            colorNumber = ROUTE_COLOR[2]
+        }
+        let color:UIColor = UIColor(rgb: colorNumber)
+        safetyView?.textColor = color
+        safetyView?.layer.borderColor = color.cgColor
+        
+        safetyView?.layer.borderWidth = 3.0
+        safetyView?.textAlignment = .center
+        safetyView?.layer.masksToBounds = true
+        safetyView?.layer.cornerRadius = viewHeight/2
+        safetyView?.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.8)
+        self.view.addSubview((safetyView)!)
+        self.view.bringSubview(toFront: (safetyView)!)
+    }
+    
+    @IBAction func makeDrawer(){
         if(!drawerOpen){
-            let screenSize = UIScreen.main.bounds
-            let screenWidth = screenSize.width
-            let screenHeight = screenSize.height
             let viewHeight = screenHeight/3;
             
             let testFrame: CGRect = CGRect(x: 0, y: screenHeight-viewHeight, width: screenWidth, height: viewHeight)
