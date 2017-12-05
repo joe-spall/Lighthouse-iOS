@@ -76,8 +76,10 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
     @IBOutlet weak var bottomContraint:NSLayoutConstraint!
     var clusterStates:[Bool] = [true,true,true,true,true]
     let CLUSTER_GROUP_NAMES:[String] = ["assault","car_theft","homicide","ped_theft","rape"]
+    let DRAWER_COLOR:Int = 0x7f7f7f
     let STATE_BUTTON_NO_SELECT:Int = 0xCCCCCC
     let STATE_BUTTON_SELECT:Int = 0xFF751A
+    let SETTINGS_COLOR:Int = 0x333333
     var currentDrawerView:UIView?
     var drawerOpen:Bool = false
     
@@ -526,12 +528,19 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
             
             bottomContraint.constant = viewHeight-lighthouseButton.frame.height/2
             
+            let safetyKeyView = SafetyKeyView.instanceFromNib()
+            safetyKeyView.frame.origin = CGPoint(x: viewHeight/10, y: viewHeight/4)
+            currentDrawerView?.addSubview(safetyKeyView)
+            
             let settingsButton = UIButton()
             let settingsButtonSize = screenWidth/6
-            settingsButton.frame = CGRect(x: screenWidth-settingsButtonSize, y: 0, width: settingsButtonSize, height: settingsButtonSize)
+            settingsButton.frame = CGRect(x: screenWidth-(screenWidth/4)-settingsButtonSize/2, y: 3*settingsButtonSize/4, width: settingsButtonSize, height: settingsButtonSize)
             settingsButton.setImage(UIImage(named:"settings"), for: .normal)
+            settingsButton.tintColor = UIColor(rgb: SETTINGS_COLOR)
             settingsButton.addTarget(self, action: #selector(settingsButtonAction), for: .touchUpInside)
             currentDrawerView?.addSubview(settingsButton)
+            
+            
             
             var count:CGFloat = 0
             for buttonNames in CLUSTER_GROUP_NAMES{
@@ -545,25 +554,28 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
                 let stateButtonImage = UIImage(named: buttonNames+"_icon")?.withRenderingMode(.alwaysTemplate)
                 stateButton.setImage(stateButtonImage, for: .selected)
                 stateButton.setImage(stateButtonImage, for: .normal)
+                stateButton.layer.borderWidth = 4
+                stateButton.layer.cornerRadius = iconWidth/4
                 if(currentlySelected){
                     stateButton.tintColor = UIColor(rgb: STATE_BUTTON_SELECT)
+                    stateButton.layer.borderColor = UIColor(rgb: STATE_BUTTON_SELECT).cgColor
                 }
                 else{
                     stateButton.tintColor = UIColor(rgb: STATE_BUTTON_NO_SELECT)
+                    stateButton.layer.borderColor = UIColor(rgb: STATE_BUTTON_NO_SELECT).cgColor
                 }
                 stateButton.addTarget(self, action: #selector(clusterStateButtonAction), for: .touchUpInside)
+
                 currentDrawerView?.addSubview(stateButton)
                 count+=1
             }
             
             
-            currentDrawerView?.backgroundColor = UIColor(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.8)
+            currentDrawerView?.backgroundColor = UIColor(rgb:DRAWER_COLOR).withAlphaComponent(0.8)
             
         
             
-            let safetyKeyView = SafetyKeyView.instanceFromNib()
-            safetyKeyView.frame.origin = CGPoint(x: viewHeight/10, y: viewHeight/4)
-            currentDrawerView?.addSubview(safetyKeyView)
+            
             
             
             self.view.addSubview((currentDrawerView)!)
@@ -607,12 +619,21 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
     
     @objc func clusterStateButtonAction(sender: UIButton!) {
         let newState = !sender.isSelected
-        if(newState){
-            sender.tintColor = UIColor(rgb: STATE_BUTTON_SELECT)
-        }
-        else{
-            sender.tintColor =  UIColor(rgb: STATE_BUTTON_NO_SELECT)
-        }
+        
+        UIView.animate(withDuration: 0.25, delay: 0.0, options: .curveEaseOut, animations: {
+            if(newState){
+                sender.tintColor = UIColor(rgb: self.STATE_BUTTON_SELECT)
+                sender.layer.borderColor = UIColor(rgb: self.STATE_BUTTON_SELECT).cgColor
+            }
+            else{
+                sender.tintColor = UIColor(rgb: self.STATE_BUTTON_NO_SELECT)
+                sender.layer.borderColor = UIColor(rgb: self.STATE_BUTTON_NO_SELECT).cgColor
+            }
+            
+        }, completion: { finished in
+            
+        })
+        
         UserDefaults.standard.set(newState, forKey: CLUSTER_GROUP_NAMES[sender.tag]+"_state")
         clusterStates[sender.tag] = newState
         sender.isSelected = newState
