@@ -529,7 +529,7 @@ class MapViewController: UIViewController, GMUClusterManagerDelegate, GMSMapView
             bottomContraint.constant = viewHeight-lighthouseButton.frame.height/2
             
             let safetyKeyView = SafetyKeyView.instanceFromNib()
-            safetyKeyView.frame.origin = CGPoint(x: viewHeight/10, y: viewHeight/4)
+            safetyKeyView.frame.origin = CGPoint(x: 0, y: viewHeight/4)
             currentDrawerView?.addSubview(safetyKeyView)
             
             let settingsButton = UIButton()
