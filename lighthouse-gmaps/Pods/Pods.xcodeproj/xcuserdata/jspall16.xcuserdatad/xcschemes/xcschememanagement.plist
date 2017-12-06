@@ -25,21 +25,21 @@
 			<key>orderHint</key>
 			<integer>2</integer>
 		</dict>
-		<key>Pods-lighthouse-gmaps.xcscheme</key>
+		<key>Pods-Lighthouse.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
 			<integer>3</integer>
 		</dict>
-		<key>Pods-lighthouse-gmapsTests.xcscheme</key>
+		<key>Pods-LighthouseTests.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
 			<integer>4</integer>
 		</dict>
-		<key>Pods-lighthouse-gmapsUITests.xcscheme</key>
+		<key>Pods-LighthouseUITests.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>

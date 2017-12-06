@@ -1,6 +1,0 @@
-framework module Pods_lighthouse_gmaps {
-  umbrella header "Pods-lighthouse-gmaps-umbrella.h"
-
-  export *
-  module * { export * }
-}
