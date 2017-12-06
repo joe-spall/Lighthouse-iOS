@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 48;
+	objectVersion = 46;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -99,8 +99,8 @@
 		06242FF65511A85F4373F8573BAE9B99 /* Alamofire.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Alamofire.xcconfig; sourceTree = "<group>"; };
 		08E878CA0AAAE1499774A141F569FAB3 /* GoogleMaps.bundle */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "wrapper.plug-in"; name = GoogleMaps.bundle; path = Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle; sourceTree = "<group>"; };
 		0E0A04FD7211A409C1BD5DFB0137DE87 /* Pods-lighthouse-gmapsUITests-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-lighthouse-gmapsUITests-resources.sh"; sourceTree = "<group>"; };
-		146F1271A7D61115E0165AEB84BFF751 /* MBProgressHUD.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = MBProgressHUD.framework; path = MBProgressHUD.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		17D55C5295AC8028FE2B278F8E9EC12B /* Pods_lighthouse_gmaps.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_lighthouse_gmaps.framework; path = "Pods-lighthouse-gmaps.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		146F1271A7D61115E0165AEB84BFF751 /* MBProgressHUD.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MBProgressHUD.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		17D55C5295AC8028FE2B278F8E9EC12B /* Pods_lighthouse_gmaps.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_lighthouse_gmaps.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1AA3AF22F4F8BC7F6E41278DFFF7F88E /* AlamofireNetworkActivityIndicator-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "AlamofireNetworkActivityIndicator-prefix.pch"; sourceTree = "<group>"; };
 		1F7CA9D7F65134CD65F00CD6948C3D2C /* Pods-lighthouse-gmapsTests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-lighthouse-gmapsTests-acknowledgements.markdown"; sourceTree = "<group>"; };
 		1F85394E46D399142AA7A669979AAA01 /* Alamofire-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Alamofire-prefix.pch"; sourceTree = "<group>"; };
@@ -121,12 +121,12 @@
 		4CCDBCDF70405BF95487D28CB8B020A8 /* Pods-lighthouse-gmapsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-lighthouse-gmapsTests.debug.xcconfig"; sourceTree = "<group>"; };
 		4EFCF5C7C166F7DB60B6774247C4175A /* Pods-lighthouse-gmapsUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-lighthouse-gmapsUITests.release.xcconfig"; sourceTree = "<group>"; };
 		55269F11F7B5DBCA43854C610E68D786 /* Request.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Request.swift; path = Source/Request.swift; sourceTree = "<group>"; };
-		55F4580B6219C57E24E872FBE79DA744 /* Alamofire.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = Alamofire.modulemap; sourceTree = "<group>"; };
+		55F4580B6219C57E24E872FBE79DA744 /* Alamofire.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = Alamofire.modulemap; sourceTree = "<group>"; };
 		5D83F2ED167DB1B9DF5B9AFA2C4BE034 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5EA668506E2A91E5EEA596F0B79E05C2 /* AlamofireNetworkActivityIndicator-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "AlamofireNetworkActivityIndicator-dummy.m"; sourceTree = "<group>"; };
-		5F2B816F018975F9628B339456F4249A /* SwiftyJSON.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = SwiftyJSON.framework; path = SwiftyJSON.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5F2B816F018975F9628B339456F4249A /* SwiftyJSON.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftyJSON.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FCAC55CF72AC0C051BF9AB791366ED0 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		6692B65C5449FAB24BF6D65402D67A46 /* Pods-lighthouse-gmaps.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = "Pods-lighthouse-gmaps.modulemap"; sourceTree = "<group>"; };
+		6692B65C5449FAB24BF6D65402D67A46 /* Pods-lighthouse-gmaps.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "Pods-lighthouse-gmaps.modulemap"; sourceTree = "<group>"; };
 		68E5B0B6AB164B1B95855918233A8CC7 /* Alamofire-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Alamofire-dummy.m"; sourceTree = "<group>"; };
 		6B78F2FC6957455B18B6A63EB195C7E9 /* ParameterEncoding.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ParameterEncoding.swift; path = Source/ParameterEncoding.swift; sourceTree = "<group>"; };
 		6D82F3CC1D9BA8C75C5260E8066F7E70 /* NetworkActivityIndicatorManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = NetworkActivityIndicatorManager.swift; path = Source/NetworkActivityIndicatorManager.swift; sourceTree = "<group>"; };
@@ -137,28 +137,28 @@
 		76E4ACB4EC7D5FD0F4B6CEE7FF9BE21E /* Pods-lighthouse-gmapsUITests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-lighthouse-gmapsUITests-umbrella.h"; sourceTree = "<group>"; };
 		784037ED4656CF596C748E8DBBF4D85E /* Pods-lighthouse-gmaps.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-lighthouse-gmaps.debug.xcconfig"; sourceTree = "<group>"; };
 		790F83FF74CDD93EF1DCFDAEA1EE8B20 /* GoogleMaps.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleMaps.framework; path = Maps/Frameworks/GoogleMaps.framework; sourceTree = "<group>"; };
-		7DBD9585BDD63AF3D9EA439794113050 /* SwiftyJSON.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = SwiftyJSON.modulemap; sourceTree = "<group>"; };
+		7DBD9585BDD63AF3D9EA439794113050 /* SwiftyJSON.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = SwiftyJSON.modulemap; sourceTree = "<group>"; };
 		800A7ADCB264FF5A8E97C60D9641A3A1 /* Validation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Validation.swift; path = Source/Validation.swift; sourceTree = "<group>"; };
 		87025A44BDD34A78B0BE3E6CC7959E5E /* Result.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Result.swift; path = Source/Result.swift; sourceTree = "<group>"; };
 		8913CA00E0AD0BE39FCCD58F95C16340 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8C443873A87EA48231A79482C19B5E3B /* SwiftyJSON.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SwiftyJSON.swift; path = Source/SwiftyJSON.swift; sourceTree = "<group>"; };
 		8E8C2DEA185C63BDBBFCE313DB9794A2 /* Pods-lighthouse-gmapsTests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-lighthouse-gmapsTests-dummy.m"; sourceTree = "<group>"; };
 		8F86D00B15D2C71A72B2E9E590A885AE /* Pods-lighthouse-gmaps.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-lighthouse-gmaps.release.xcconfig"; sourceTree = "<group>"; };
-		91F6057F09ECDE5DA02E8004251F2E97 /* MBProgressHUD.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = MBProgressHUD.modulemap; sourceTree = "<group>"; };
-		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		91F6057F09ECDE5DA02E8004251F2E97 /* MBProgressHUD.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = MBProgressHUD.modulemap; sourceTree = "<group>"; };
+		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		958A12DD26565581DB6A35C2DBB63A37 /* SwiftyJSON-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "SwiftyJSON-dummy.m"; sourceTree = "<group>"; };
 		9AEEA05B62189E581DDFC464C5F95EA7 /* DispatchQueue+Alamofire.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "DispatchQueue+Alamofire.swift"; path = "Source/DispatchQueue+Alamofire.swift"; sourceTree = "<group>"; };
-		9C0D43980E83E881B6F8065FD0430EC7 /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Alamofire.framework; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9C0D43980E83E881B6F8065FD0430EC7 /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C32B527848DAE7AD85B5F59FE465F4D /* Pods-lighthouse-gmapsUITests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-lighthouse-gmapsUITests-acknowledgements.markdown"; sourceTree = "<group>"; };
 		9CD6C6569DFD7A284054936D4620D1B6 /* Notifications.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Notifications.swift; path = Source/Notifications.swift; sourceTree = "<group>"; };
 		9DA1ACB30013134819E383EA495E2996 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A079A0F5235BB9F63BF6EF4D115CFDB1 /* Pods_lighthouse_gmapsTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_lighthouse_gmapsTests.framework; path = "Pods-lighthouse-gmapsTests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A079A0F5235BB9F63BF6EF4D115CFDB1 /* Pods_lighthouse_gmapsTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_lighthouse_gmapsTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A2F807E653CCB77A616454DF8BD24CE7 /* Pods-lighthouse-gmapsUITests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-lighthouse-gmapsUITests-frameworks.sh"; sourceTree = "<group>"; };
 		A3A5ADF77D3C1290B5B985A9EB65DEA4 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A431B3AFCB0240596BB4464ADEBDAC7D /* Pods-lighthouse-gmaps-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-lighthouse-gmaps-acknowledgements.markdown"; sourceTree = "<group>"; };
 		AAB32A373DEAA7F624B8538484D92217 /* MBProgressHUD-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "MBProgressHUD-umbrella.h"; sourceTree = "<group>"; };
 		AD713963303287A9AD148E81372BD736 /* GooglePlaces.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GooglePlaces.framework; path = Frameworks/GooglePlaces.framework; sourceTree = "<group>"; };
-		B151B31B1B876D71B2F12436EF029FA3 /* AlamofireNetworkActivityIndicator.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = AlamofireNetworkActivityIndicator.framework; path = AlamofireNetworkActivityIndicator.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B151B31B1B876D71B2F12436EF029FA3 /* AlamofireNetworkActivityIndicator.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AlamofireNetworkActivityIndicator.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B164EB49DE9943077847F9B97588949C /* AlamofireNetworkActivityIndicator.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = AlamofireNetworkActivityIndicator.xcconfig; sourceTree = "<group>"; };
 		B2438DCC528D9E687A614F28D490AE2F /* GooglePlaces.bundle */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "wrapper.plug-in"; name = GooglePlaces.bundle; path = Frameworks/GooglePlaces.framework/Resources/GooglePlaces.bundle; sourceTree = "<group>"; };
 		B418E5522FC3B2B40A276ED7F3ECD9F1 /* TaskDelegate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TaskDelegate.swift; path = Source/TaskDelegate.swift; sourceTree = "<group>"; };
@@ -167,24 +167,24 @@
 		B9C84A5D39361181F7D4FFB2D23DF589 /* Pods-lighthouse-gmaps-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-lighthouse-gmaps-acknowledgements.plist"; sourceTree = "<group>"; };
 		BEE87D3458014EFB8ABB8437B238897A /* Pods-lighthouse-gmapsTests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-lighthouse-gmapsTests-acknowledgements.plist"; sourceTree = "<group>"; };
 		C0A92792BCC842AB0788767D8C2914C7 /* MBProgressHUD.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
-		CE721293695570AB0C177C07A2DB6F58 /* Pods-lighthouse-gmapsTests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = "Pods-lighthouse-gmapsTests.modulemap"; sourceTree = "<group>"; };
+		CE721293695570AB0C177C07A2DB6F58 /* Pods-lighthouse-gmapsTests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "Pods-lighthouse-gmapsTests.modulemap"; sourceTree = "<group>"; };
 		CFB28194E441724B551D2C7838EB66C5 /* ServerTrustPolicy.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ServerTrustPolicy.swift; path = Source/ServerTrustPolicy.swift; sourceTree = "<group>"; };
 		D2AAEB87B179EC03F1C75C4C95AC474E /* Alamofire.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Alamofire.swift; path = Source/Alamofire.swift; sourceTree = "<group>"; };
 		D483559FC080189C31DBC604C586B60F /* SwiftyJSON-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SwiftyJSON-prefix.pch"; sourceTree = "<group>"; };
 		D5364F901083E5C0C0223CCF95E4A496 /* SwiftyJSON.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SwiftyJSON.xcconfig; sourceTree = "<group>"; };
 		D7AC17F790A8C1A09A93204F570C7DAC /* Pods-lighthouse-gmapsTests-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-lighthouse-gmapsTests-resources.sh"; sourceTree = "<group>"; };
 		DC76B6146F742D589D7CC12779B3C7D0 /* Pods-lighthouse-gmapsUITests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-lighthouse-gmapsUITests-acknowledgements.plist"; sourceTree = "<group>"; };
-		DCD10B692D4F26820F8A329BEBDC95D3 /* AlamofireNetworkActivityIndicator.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = AlamofireNetworkActivityIndicator.modulemap; sourceTree = "<group>"; };
+		DCD10B692D4F26820F8A329BEBDC95D3 /* AlamofireNetworkActivityIndicator.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = AlamofireNetworkActivityIndicator.modulemap; sourceTree = "<group>"; };
 		E305E2B5F7AC8957AC6E2CFC429C5968 /* Pods-lighthouse-gmaps-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-lighthouse-gmaps-resources.sh"; sourceTree = "<group>"; };
 		E33E9DA09C482FDEB7AB8B470F4DECD3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		E7CC506FB42352944922AE88AAF69546 /* MBProgressHUD.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = MBProgressHUD.xcconfig; sourceTree = "<group>"; };
 		EB27B4C26BB89CECA5E51AF3E5C882CF /* MBProgressHUD.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
-		EBF0C59BE89E20B6F645159C0404C4D7 /* Pods-lighthouse-gmapsUITests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = "Pods-lighthouse-gmapsUITests.modulemap"; sourceTree = "<group>"; };
+		EBF0C59BE89E20B6F645159C0404C4D7 /* Pods-lighthouse-gmapsUITests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "Pods-lighthouse-gmapsUITests.modulemap"; sourceTree = "<group>"; };
 		EF88C7DFBAFD8B879D5EA4D1724FE876 /* Pods-lighthouse-gmaps-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-lighthouse-gmaps-dummy.m"; sourceTree = "<group>"; };
 		F0CB6A39498B4585738C317B88964C4F /* Pods-lighthouse-gmapsUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-lighthouse-gmapsUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		F2C4704014F7DD9470134114D0E9C9F9 /* Pods-lighthouse-gmaps-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-lighthouse-gmaps-umbrella.h"; sourceTree = "<group>"; };
 		F4818033FF952FEA134F428FB2F492D9 /* SessionManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SessionManager.swift; path = Source/SessionManager.swift; sourceTree = "<group>"; };
-		F6B44C4D46B3D0F58C2B744646619733 /* Pods_lighthouse_gmapsUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_lighthouse_gmapsUITests.framework; path = "Pods-lighthouse-gmapsUITests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F6B44C4D46B3D0F58C2B744646619733 /* Pods_lighthouse_gmapsUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_lighthouse_gmapsUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FFBB8DE7957202804B832A2B09454008 /* Pods-lighthouse-gmapsTests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-lighthouse-gmapsTests-frameworks.sh"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -329,7 +329,6 @@
 				6D82F3CC1D9BA8C75C5260E8066F7E70 /* NetworkActivityIndicatorManager.swift */,
 				49437736AFEB767F58264DC3360D723E /* Support Files */,
 			);
-			name = AlamofireNetworkActivityIndicator;
 			path = AlamofireNetworkActivityIndicator;
 			sourceTree = "<group>";
 		};
@@ -339,7 +338,6 @@
 				6DD3620D568E8AD89DDCF4A7B67FE7B7 /* Base */,
 				8ABEAA5996A5EE21AC48255191521F50 /* Maps */,
 			);
-			name = GoogleMaps;
 			path = GoogleMaps;
 			sourceTree = "<group>";
 		};
@@ -371,7 +369,6 @@
 				49F73E65FA203C13B8EFF3E1CEAC8532 /* Frameworks */,
 				C553030E1E74D796703B3BB30D1CAA17 /* Resources */,
 			);
-			name = GooglePlaces;
 			path = GooglePlaces;
 			sourceTree = "<group>";
 		};
@@ -389,7 +386,6 @@
 				8C443873A87EA48231A79482C19B5E3B /* SwiftyJSON.swift */,
 				2CCABBDF062F91395B30E7495061AB7C /* Support Files */,
 			);
-			name = SwiftyJSON;
 			path = SwiftyJSON;
 			sourceTree = "<group>";
 		};
@@ -531,7 +527,6 @@
 				800A7ADCB264FF5A8E97C60D9641A3A1 /* Validation.swift */,
 				062592E0A8A94A665A66BAAD24891BDC /* Support Files */,
 			);
-			name = Alamofire;
 			path = Alamofire;
 			sourceTree = "<group>";
 		};
@@ -559,7 +554,6 @@
 				EB27B4C26BB89CECA5E51AF3E5C882CF /* MBProgressHUD.m */,
 				BD63797A1F9B37ED429ED7310580FA6B /* Support Files */,
 			);
-			name = MBProgressHUD;
 			path = MBProgressHUD;
 			sourceTree = "<group>";
 		};
@@ -757,7 +751,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0830;
-				LastUpgradeCheck = 0700;
+				LastUpgradeCheck = 0910;
 			};
 			buildConfigurationList = 2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -1107,6 +1101,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = NO_SIGNING/;
 				STRIP_INSTALLED_PRODUCT = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SYMROOT = "${SRCROOT}/../build";
 			};
 			name = Release;

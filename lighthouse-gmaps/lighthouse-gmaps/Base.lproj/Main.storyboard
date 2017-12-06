@@ -142,6 +142,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="5OU-xZ-2vZ">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" red="1" green="0.40000000000000002" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -182,6 +183,7 @@
                                                         <segment title="Feet"/>
                                                         <segment title="Meters"/>
                                                     </segments>
+                                                    <color key="tintColor" red="1" green="0.40000000000000002" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <connections>
                                                         <action selector="unitSegmentedControlActionWithSender:" destination="wWS-pi-OsG" eventType="valueChanged" id="Sxf-0B-ydq"/>
                                                     </connections>
@@ -215,6 +217,7 @@
                                                         <segment title="1,000.00"/>
                                                         <segment title="1.000,00"/>
                                                     </segments>
+                                                    <color key="tintColor" red="1" green="0.40000000000000002" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <connections>
                                                         <action selector="numberSegmentedControlActionWithSender:" destination="wWS-pi-OsG" eventType="valueChanged" id="1ZO-3T-yct"/>
                                                     </connections>
@@ -542,6 +545,7 @@
                                     <subviews>
                                         <slider opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="4hq-F1-5wU">
                                             <rect key="frame" x="23" y="34" width="305" height="31"/>
+                                            <color key="tintColor" red="1" green="0.40000000000000002" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <connections>
                                                 <action selector="dangerValueChangedWithSender:" destination="hud-BR-TaS" eventType="valueChanged" id="UQz-PK-3nB"/>
                                                 <action selector="dangerValueEndWithSender:" destination="hud-BR-TaS" eventType="touchUpInside" id="ujw-MT-VMb"/>
