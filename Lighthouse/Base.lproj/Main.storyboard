@@ -14,7 +14,7 @@
         <!--Initial Load View Controller-->
         <scene sceneID="tuR-az-7bI">
             <objects>
-                <viewController restorationIdentifier="InitialLoadViewController" storyboardIdentifier="InitialLoadViewController" id="cZB-fd-ILA" customClass="InitialLoadViewController" customModule="lighthouse_gmaps" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController restorationIdentifier="InitialLoadViewController" storyboardIdentifier="InitialLoadViewController" id="cZB-fd-ILA" customClass="InitialLoadViewController" customModule="Lighthouse" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Ksw-Ws-ozf">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -89,7 +89,7 @@
         <!--Map View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController restorationIdentifier="MapViewController" storyboardIdentifier="MapViewController" id="BYZ-38-t0r" customClass="MapViewController" customModule="lighthouse_gmaps" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController restorationIdentifier="MapViewController" storyboardIdentifier="MapViewController" id="BYZ-38-t0r" customClass="MapViewController" customModule="Lighthouse" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="62F-EJ-ybX">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -156,7 +156,7 @@
         <!--Settings-->
         <scene sceneID="Ij7-cr-2W2">
             <objects>
-                <tableViewController title="Settings" id="wWS-pi-OsG" customClass="SettingsViewController" customModule="lighthouse_gmaps" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController title="Settings" id="wWS-pi-OsG" customClass="SettingsViewController" customModule="Lighthouse" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="Lkw-13-7d9">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -355,6 +355,7 @@
                                                 </label>
                                                 <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="mVi-uK-Xn8">
                                                     <rect key="frame" x="25" y="62" width="325" height="31"/>
+                                                    <color key="tintColor" red="1" green="0.40000000000000002" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <connections>
                                                         <action selector="radiusSliderEndChangeWithSender:" destination="wWS-pi-OsG" eventType="touchUpInside" id="emd-w2-6mZ"/>
                                                         <action selector="radiusSliderValueChangedWithSender:" destination="wWS-pi-OsG" eventType="valueChanged" id="klB-Q2-qdc"/>
@@ -492,7 +493,7 @@
         <!--Acknowledgments-->
         <scene sceneID="n8a-Av-6kb">
             <objects>
-                <tableViewController title="Acknowledgments" id="hUS-KL-9Mc" customClass="AcknowledgmentViewController" customModule="lighthouse_gmaps" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController title="Acknowledgments" id="hUS-KL-9Mc" customClass="AcknowledgmentViewController" customModule="Lighthouse" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="Bah-02-eiR">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -530,13 +531,13 @@
         <!--Crime Preferences-->
         <scene sceneID="Nd5-qA-oU7">
             <objects>
-                <tableViewController title="Crime Preferences" id="EWK-EE-yPt" customClass="CrimeWeightViewController" customModule="lighthouse_gmaps" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController title="Crime Preferences" id="EWK-EE-yPt" customClass="CrimeWeightViewController" customModule="Lighthouse" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="73" sectionHeaderHeight="28" sectionFooterHeight="28" id="R6t-r5-0ok">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="Cell" rowHeight="73" id="hud-BR-TaS" customClass="CrimeWeightTableViewCell" customModule="lighthouse_gmaps" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="Cell" rowHeight="73" id="hud-BR-TaS" customClass="CrimeWeightTableViewCell" customModule="Lighthouse" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="375" height="73"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hud-BR-TaS" id="OcN-Bq-xkf">
@@ -595,7 +596,7 @@
         <!--Terms of Service-->
         <scene sceneID="NzO-1I-LEq">
             <objects>
-                <viewController title="Terms of Service" id="1vU-IM-k6z" customClass="TermsOfServiceViewController" customModule="lighthouse_gmaps" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Terms of Service" id="1vU-IM-k6z" customClass="TermsOfServiceViewController" customModule="Lighthouse" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="97i-E0-LqC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

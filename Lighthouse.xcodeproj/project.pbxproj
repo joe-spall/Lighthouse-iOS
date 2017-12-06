@@ -350,8 +350,8 @@
 		CF46B4EA1FD7926F00740304 /* Lighthouse */ = {
 			isa = PBXGroup;
 			children = (
-				CF46B4EB1FD7926F00740304 /* Settings */,
 				CF46B4F41FD7926F00740304 /* Lighthouse-Bridging-Header.h */,
+				CF46B4EB1FD7926F00740304 /* Settings */,
 				CF46B4F51FD7926F00740304 /* CrimeInfo */,
 				CF46B4F71FD7926F00740304 /* Route */,
 				CF46B4FA1FD7926F00740304 /* Lighthouse.xcdatamodeld */,
